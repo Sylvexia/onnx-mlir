@@ -48,6 +48,8 @@ template class SmallFPBase<float_8e4m3fn, 8>;
 template class SmallFPBase<float_8e4m3fnuz, 8>;
 template class SmallFPBase<float_8e5m2, 8>;
 template class SmallFPBase<float_8e5m2fnuz, 8>;
+template class SmallFPBase<posit_8es0, 8>;
+template class SmallFPBase<posit_16es1, 16>;
 
 } // namespace detail
 

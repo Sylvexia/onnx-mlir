@@ -66,9 +66,11 @@ enum class BType : int8_t {
   FLOAT8E4M3FNUZ = 18,  // float 8, mostly used for coefficients, supports nan, not inf, no negative zero
   FLOAT8E5M2 = 19,      // follows IEEE 754, supports nan, inf, mostly used for gradients
   FLOAT8E5M2FNUZ = 20,  // follows IEEE 754, supports nan, inf, mostly used for gradients, no negative zero
+  POSIT8ES0 = 21,
+  POSIT16ES1 = 22,
   // clang-format on
 
-  MAX_BTYPE = 20 // TODO: update this if more types are added to the enum
+  MAX_BTYPE = 22 // TODO: update this if more types are added to the enum
 };
 
 constexpr int kNumBTypes = static_cast<int8_t>(BType::MAX_BTYPE) + 1;
@@ -145,6 +147,8 @@ DEFINE_BTypeCppTypeTraits(BType::FLOAT8E4M3FN, float_8e4m3fn);
 DEFINE_BTypeCppTypeTraits(BType::FLOAT8E4M3FNUZ, float_8e4m3fnuz);
 DEFINE_BTypeCppTypeTraits(BType::FLOAT8E5M2, float_8e5m2);
 DEFINE_BTypeCppTypeTraits(BType::FLOAT8E5M2FNUZ, float_8e5m2fnuz);
+DEFINE_BTypeCppTypeTraits(BType::POSIT8ES0, posit_8es0);
+DEFINE_BTypeCppTypeTraits(BType::POSIT16ES1, posit_16es1);
 
 #undef DEFINE_BTypeCppTypeTraits
 
@@ -261,6 +265,8 @@ auto dispatchByBType(BType btype, Action &&act) {
   case BType::FLOAT8E4M3FNUZ : return ACT(BType::FLOAT8E4M3FNUZ);
   case BType::FLOAT8E5M2     : return ACT(BType::FLOAT8E5M2);
   case BType::FLOAT8E5M2FNUZ : return ACT(BType::FLOAT8E5M2FNUZ);
+  case BType::POSIT8ES0      : return ACT(BType::POSIT8ES0);
+  case BType::POSIT16ES1     : return ACT(BType::POSIT16ES1);
   default: llvm_unreachable("not a supported datatype");
   }
   // clang-format on

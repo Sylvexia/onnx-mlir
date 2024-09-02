@@ -168,11 +168,11 @@ At a high level, our testing strategy includes `literal` tests (`check-onnx-lit`
 
 ```sh
 # Run unit test to make sure all test passed.
-make check-onnx-lit
-make check-onnx-backend
-make check-onnx-backend-dynamic
-make check-onnx-backend-constant
-make check-onnx-numerical
+ninja check-onnx-lit
+ninja check-onnx-backend
+ninja check-onnx-backend-dynamic
+ninja check-onnx-backend-constant
+ninja check-onnx-numerical
 ```
 Specific testing help is provided in these pages to [run](TestingHighLevel.md) and[generate new tests](Testing.md).
 

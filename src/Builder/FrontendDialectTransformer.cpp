@@ -643,7 +643,7 @@ private:
     }
   }
 
-  static constexpr int MAX_NUM_TYPES = 30;
+  static constexpr int MAX_NUM_TYPES = 32;
 
   // clang-format off
   // Get these indices from TensorProto in
@@ -687,7 +687,8 @@ private:
   //     FLOAT8E4M3FNUZ = 18;  // float 8, mostly used for coefficients, supports nan, not inf, no negative zero
   //     FLOAT8E5M2 = 19;      // follows IEEE 754, supports nan, inf, mostly used for gradients
   //     FLOAT8E5M2FNUZ = 20;  // follows IEEE 754, supports nan, inf, mostly used for gradients, no negative zero
-  //
+  //     POSIT8ES0 = 21;
+  //     POSIT16ES1 = 22;
   //     // Future extensions go here.
   //   }
   //

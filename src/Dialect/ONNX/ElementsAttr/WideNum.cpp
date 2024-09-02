@@ -36,6 +36,10 @@ APFloat WideNum::toAPFloat(BType tag) const {
     return float_8e5m2(dbl).toAPFloat();
   case BType::FLOAT8E5M2FNUZ:
     return float_8e5m2fnuz(dbl).toAPFloat();
+  case BType::POSIT8ES0:
+    return posit_8es0(dbl).toAPFloat();
+  case BType::POSIT16ES1:
+    return posit_16es1(dbl).toAPFloat();
   default:
     llvm_unreachable("BType must be a float");
   }

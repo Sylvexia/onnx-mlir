@@ -607,6 +607,8 @@ custom_definition_misc = dict(
 #     FLOAT8E4M3FNUZ = 18;  // float 8, mostly used for coefficients, supports nan, not inf, no negative zero
 #     FLOAT8E5M2 = 19;      // follows IEEE 754, supports nan, inf, mostly used for gradients
 #     FLOAT8E5M2FNUZ = 20;  // follows IEEE 754, supports nan, inf, mostly used for gradients, no negative zero
+#     POSIT8ES0 = 21;
+#     POSIT16ES1 = 22;
 #
 #     // Future extensions go here.
 #   }
@@ -632,6 +634,8 @@ onnx_types = (
     "float8e4m3fnuz",
     "float8e5m2",
     "float8e5m2fnuz",
+    "posit8es0",
+    "posit16es1",
 )
 tblgen_types = (
     "BF16",
@@ -655,12 +659,14 @@ tblgen_types = (
     "F8E4M3FNUZ",
     "F8E5M2",
     "F8E5M2FNUZ",
+    "POSIT8ES0",
+    "POSIT16ES1",
 )
 
 # Maximum count for actual type. Number more than MAX_NUM_TYPES will be used to encode
 # the mapping method. MAX_NUM_TYPES should be greater than the length of onnx_types
 # This value has to be kept the same with MAX_TYPE in FrontendDialectTransformer.cpp
-MAX_NUM_TYPES = 30
+MAX_NUM_TYPES = 32
 
 
 # Attribute names are ordered alphabetically except for the
@@ -1061,6 +1067,8 @@ def parse_type_str(allowedType):
         "float8e4m3fnuz": "F8E4M3FNUZ",
         "float8e5m2": "F8E5M2",
         "float8e5m2fnuz": "F8E5M2FNUZ",
+        "posit8es0": "POSIT8ES0",
+        "posit16es1": "POSIT16ES1",
         "complex64": "Complex<F32>",
         "complex128": "Complex<F64>",
         "string": "StringType",

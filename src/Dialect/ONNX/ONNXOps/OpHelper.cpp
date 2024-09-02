@@ -594,6 +594,10 @@ Type convertONNXTypeToMLIRType(
     return builder.getFloat8E5M2Type();
   case onnx::TensorProto_DataType::TensorProto_DataType_FLOAT8E5M2FNUZ:
     return builder.getFloat8E5M2FNUZType();
+  case onnx::TensorProto_DataType::TensorProto_DataType_POSIT8ES0:
+    return builder.getPosit8Es0Type();
+  case onnx::TensorProto_DataType::TensorProto_DataType_POSIT16ES1:
+    return builder.getPosit16Es1Type();
   case onnx::TensorProto_DataType::TensorProto_DataType_BFLOAT16:
     return builder.getBF16Type();
   case onnx::TensorProto_DataType::TensorProto_DataType_FLOAT16:
@@ -651,6 +655,11 @@ int64_t mlirTypeToOnnxType(Type elemType) {
           [&](Float8E5M2Type) { onnxType = onnx::TensorProto::FLOAT8E5M2; })
       .Case<Float8E5M2FNUZType>([&](Float8E5M2FNUZType) {
         onnxType = onnx::TensorProto::FLOAT8E5M2FNUZ;
+      })
+      .Case<Posit8Es0Type>(
+          [&](Posit8Es0Type) { onnxType = onnx::TensorProto::POSIT8ES0; })
+      .Case<Posit16Es1Type>([&](Posit16Es1Type) {
+        onnxType = onnx::TensorProto::POSIT16ES1;
       })
       .Case<BFloat16Type>(
           [&](BFloat16Type) { onnxType = onnx::TensorProto::BFLOAT16; })
