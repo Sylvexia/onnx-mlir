@@ -26,6 +26,8 @@ BType btypeOfMlirType(Type type) {
   if (mlir::isa<Float8E4M3FNUZType>(type)) return BType::FLOAT8E4M3FNUZ;
   if (mlir::isa<Float8E5M2Type>(type))     return BType::FLOAT8E5M2;
   if (mlir::isa<Float8E5M2FNUZType>(type)) return BType::FLOAT8E5M2FNUZ;
+  if (mlir::isa<Posit8Es0Type>(type))      return BType::POSIT8ES0;
+  if (mlir::isa<Posit16Es1Type>(type))     return BType::POSIT16ES1;
   auto itype = mlir::cast<IntegerType>(type);
   switch (itype.getWidth()) {
     case  1: return BType::BOOL;
@@ -59,6 +61,8 @@ Type mlirTypeOfBType(BType btype, MLIRContext *ctx) {
     case BType::FLOAT8E4M3FNUZ : return b.getFloat8E4M3FNUZType();
     case BType::FLOAT8E5M2     : return b.getFloat8E5M2Type();
     case BType::FLOAT8E5M2FNUZ : return b.getFloat8E5M2FNUZType();
+    case BType::POSIT8ES0      : return b.getPosit8Es0Type();
+    case BType::POSIT16ES1     : return b.getPosit16Es1Type();
     default: llvm_unreachable("unsupported data type");
   }
   // clang-format on

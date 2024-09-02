@@ -80,7 +80,7 @@ struct TransformValueToONNXData {
       const onnx::TensorProto &tp) {
     // int32_data is used for:
     // int32, uint8, int8, uint16, int16, bool, float_16, bfloat_16,
-    // float8e4m3fn, float8e4m3fnuz, float8e5m2, float8e5m2fnuz
+    // float8e4m3fn, float8e4m3fnuz, float8e5m2, float8e5m2fnuz, posit8es1, posit16es1
     return tp.int32_data();
   }
 };

@@ -44,7 +44,9 @@ public class OMTensor {
     public final static int ONNX_TYPE_FLOAT8E4M3FNUZ = 18;
     public final static int ONNX_TYPE_FLOAT8E5M2 = 19;
     public final static int ONNX_TYPE_FLOAT8E5M2FNUZ = 20;
-    public final static int LAST_ONNX_TYPE = 20; // Alias for last ONNX_TYPE.
+    public final static int ONNX_TYPE_POSIT8ES0 = 21;
+    public final static int ONNX_TYPE_POSIT16ES1 = 22;
+    public final static int LAST_ONNX_TYPE = 22; // Alias for last ONNX_TYPE.
 
     public final static int[] ONNX_TYPE_SIZE = new int[] {
             0,  /* UNDEFINED  */
@@ -68,6 +70,8 @@ public class OMTensor {
             1,  /* FLOAT8E4M3FNUZ */
             1,  /* FLOAT8E5M2 */
             1,  /* FLOAT8E5M2FNUZ */
+            1,  /* POSIT8ES0 */
+            2,  /* POSIT16ES1 */
     };
 
     public final static String[] ONNX_TYPE_NAME = new String[] {
@@ -92,6 +96,8 @@ public class OMTensor {
             "FLOAT8E4M3FNUZ",
             "FLOAT8E5M2",
             "FLOAT8E5M2FNUZ",
+            "POSIT8ES0",
+            "POSIT16ES1",
     };
 
     private final ByteOrder nativeEndian = ByteOrder.nativeOrder();

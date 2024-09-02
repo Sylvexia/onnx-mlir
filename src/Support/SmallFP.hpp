@@ -22,6 +22,8 @@ class float_8e4m3fn;
 class float_8e4m3fnuz;
 class float_8e5m2;
 class float_8e5m2fnuz;
+class posit_8es0;
+class posit_16es1;
 
 namespace detail {
 
@@ -101,6 +103,8 @@ extern template class SmallFPBase<float_8e4m3fn, 8>;
 extern template class SmallFPBase<float_8e4m3fnuz, 8>;
 extern template class SmallFPBase<float_8e5m2, 8>;
 extern template class SmallFPBase<float_8e5m2fnuz, 8>;
+extern template class SmallFPBase<posit_8es0, 8>;
+extern template class SmallFPBase<posit_16es1, 16>;
 
 } // namespace detail
 
@@ -224,6 +228,32 @@ public:
 static_assert(
     sizeof(float_8e5m2fnuz) * CHAR_BIT == 8, "float_8e5m2fnuz is 8 bits wide");
 
+class posit_8es0 : public detail::SmallFPBase<posit_8es0, 8> {
+  using Base = detail::SmallFPBase<posit_8es0, 8>;
+
+public:
+  using Base::Base;
+  static const llvm::fltSemantics &semantics() {
+    return llvm::APFloat::Posit8Es0();
+  }
+  static constexpr float max = 64.0f;
+};
+static_assert(
+    sizeof(posit_8es0) * CHAR_BIT == 8, "posit_8es0 is 8 bits wide");
+
+class posit_16es1 : public detail::SmallFPBase<posit_16es1, 16> {
+  using Base = detail::SmallFPBase<posit_16es1, 16>;
+
+public:
+  using Base::Base;
+  static const llvm::fltSemantics &semantics() {
+    return llvm::APFloat::Posit16Es1();
+  }
+  static constexpr float max = 268435456.0f;
+};
+static_assert(
+    sizeof(posit_16es1) * CHAR_BIT == 16, "posit_16es1 is 8 bits wide");
+
 } // namespace onnx_mlir
 
 // Enable DenseElementsAttr to operate on float_16, bfloat_16, and float_8s.
@@ -251,5 +281,13 @@ struct mlir::DenseElementsAttr::is_valid_cpp_fp_type<onnx_mlir::float_8e5m2> {
 template <>
 struct mlir::DenseElementsAttr::is_valid_cpp_fp_type<
     onnx_mlir::float_8e5m2fnuz> {
+  static constexpr bool value = true;
+};
+template <>
+struct mlir::DenseElementsAttr::is_valid_cpp_fp_type<onnx_mlir::posit_8es0> {
+  static constexpr bool value = true;
+};
+template <>
+struct mlir::DenseElementsAttr::is_valid_cpp_fp_type<onnx_mlir::posit_16es1> {
   static constexpr bool value = true;
 };

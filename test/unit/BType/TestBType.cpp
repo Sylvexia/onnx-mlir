@@ -118,18 +118,26 @@ public:
     constexpr float_8e4m3fnuz f8e4m3fnuz{};
     constexpr float_8e5m2 f8e5m2{};
     constexpr float_8e5m2fnuz f8e5m2fnuz{};
+    constexpr posit_8es0 posit8es0{};
+    constexpr posit_16es1 posit16es1{};
     constexpr BType df8e4m3fn = toBType<decltype(f8e4m3fn)>;
     constexpr BType df8e4m3fnuz = toBType<decltype(f8e4m3fnuz)>;
     constexpr BType df8e5m2 = toBType<decltype(f8e5m2)>;
     constexpr BType df8e5m2fnuz = toBType<decltype(f8e5m2fnuz)>;
+    constexpr BType dposit8es0 = toBType<decltype(posit8es0)>;
+    constexpr BType dposit16es1 = toBType<decltype(posit16es1)>;
     assert(df8e4m3fn == toBType<float_8e4m3fn>);
     assert(df8e4m3fnuz == toBType<float_8e4m3fnuz>);
     assert(df8e5m2 == toBType<float_8e5m2>);
     assert(df8e5m2fnuz == toBType<float_8e5m2fnuz>);
+    assert(dposit8es0 == toBType<posit_8es0>);
+    assert(dposit16es1 == toBType<posit_16es1>);
     assert((std::is_same_v<CppType<df8e4m3fn>, float_8e4m3fn>));
     assert((std::is_same_v<CppType<df8e4m3fnuz>, float_8e4m3fnuz>));
     assert((std::is_same_v<CppType<df8e5m2>, float_8e5m2>));
     assert((std::is_same_v<CppType<df8e5m2fnuz>, float_8e5m2fnuz>));
+    assert((std::is_same_v<CppType<dposit8es0>, posit_8es0>));
+    assert((std::is_same_v<CppType<dposit16es1>, posit_16es1>));
 
     constexpr WideNum n = WideNum::from(toBType<float_8e4m3fn>, true);
     assert(n.dbl == 1.0);
