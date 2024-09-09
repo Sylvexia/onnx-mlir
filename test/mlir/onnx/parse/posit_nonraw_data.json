@@ -1,0 +1,103 @@
+// RUN: onnx-mlir --EmitONNXBasic --printIR %s | FileCheck %s
+
+{
+    "irVersion": "9",
+    "graph": {
+      "node": [
+        {
+          "output": [
+            "output_posit8es0"
+          ],
+          "opType": "Constant",
+          "attribute": [
+            {
+              "name": "value",
+              "t": {
+                "dims": [
+                  "2"
+                ],
+                "dataType": 21,
+                "int32Data": [
+                  184,
+                  116
+                ],
+                "name": "tensor_posit8es0"
+              },
+              "type": "TENSOR"
+            }
+          ]
+        },
+        {
+          "output": [
+            "output_posit16es1"
+          ],
+          "opType": "Constant",
+          "attribute": [
+            {
+              "name": "value",
+              "t": {
+                "dims": [
+                  "2"
+                ],
+                "dataType": 22,
+                "int32Data": [
+                  192,
+                  124
+                ],
+                "name": "output_posit16es1"
+              },
+              "type": "TENSOR"
+            }
+          ]
+        }
+      ],
+      "name": "fp8_nonraw_data",
+      "output": [
+        {
+          "name": "output_posit8es0",
+          "type": {
+            "tensorType": {
+              "elemType": 21,
+              "shape": {
+                "dim": [
+                  {
+                    "dimValue": "2"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "output_posit16es1",
+          "type": {
+            "tensorType": {
+              "elemType": 22,
+              "shape": {
+                "dim": [
+                  {
+                    "dimValue": "2"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "opsetImport": [
+      {
+        "version": "19"
+      }
+    ]
+  }
+  // CHECK-LABEL:  func.func @main_graph
+  // CHECK-SAME:   () -> (tensor<2xf8E4M3FN> {onnx.name = "output_f8e4m3fn"}, tensor<2xf8E4M3FNUZ> {onnx.name = "output_f8e4m3fnuz"}, tensor<2xf8E5M2> {onnx.name = "output_f8e5m2"}, tensor<2xf8E5M2FNUZ> {onnx.name = "output_f8e5m2fnuz"}) {
+  // CHECK-DAG:       [[VAR_0_:%.+]] = onnx.Constant dense<[-1.000000e+00, 1.920000e+02]> : tensor<2xf8E4M3FN>
+  // CHECK-DAG:       [[VAR_1_:%.+]] = onnx.Constant dense<[-1.000000e+00, 1.920000e+02]> : tensor<2xf8E4M3FNUZ>
+  // CHECK-DAG:       [[VAR_2_:%.+]] = onnx.Constant dense<[-1.000000e+00, 1.920000e+02]> : tensor<2xf8E5M2>
+  // CHECK-DAG:       [[VAR_3_:%.+]] = onnx.Constant dense<[-1.000000e+00, 1.920000e+02]> : tensor<2xf8E5M2FNUZ>
+  // CHECK:           onnx.Return [[VAR_0_]], [[VAR_1_]], [[VAR_2_]], [[VAR_3_]] : tensor<2xf8E4M3FN>, tensor<2xf8E4M3FNUZ>, tensor<2xf8E5M2>, tensor<2xf8E5M2FNUZ>
+  // CHECK:         }
+  // CHECK:         "onnx.EntryPoint"() {func = @main_graph} : () -> ()
+  

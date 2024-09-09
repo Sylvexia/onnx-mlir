@@ -20,4 +20,12 @@ add_onnx_mlir_executable(onnx-mlir
   OMCompilerUtils
   OMOptionUtils
   )
-  
+
+add_onnx_mlir_executable(onnx-mlir-krnl
+  onnx-mlir-krnl.cpp
+
+  LINK_LIBS PRIVATE
+  OMCompilerOptions
+  OMCompilerUtils
+  OMOptionUtils
+  )
