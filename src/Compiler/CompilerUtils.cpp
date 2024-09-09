@@ -889,6 +889,50 @@ static int emitOutput(mlir::OwningOpRef<ModuleOp> &module,
   return emitOutputFiles(outputNameNoExt, emissionTarget, context, module);
 }
 
+// for krnl
+int compileKrnlModule(mlir::OwningOpRef<ModuleOp> &module,
+    mlir::MLIRContext &context, std::string outputNameNoExt,
+    EmissionTargetType emissionTarget) {
+  auto compileModuleTiming =
+      rootTimingScope.nest("[onnx-mlir] Compiling Module using MLIR");
+
+  int rc = setupModule(module, context, outputNameNoExt);
+  if (rc != CompilerSuccess)
+    return rc;
+
+  configurePasses();
+
+  mlir::PassManager pm(
+      module.get()->getName(), mlir::OpPassManager::Nesting::Implicit);
+  // TODO(tung): Revise adding passes. The current mechanism does not work if
+  // there are multiple accelerators enabled at the same time. It's because
+  // each `accel->addPasses` is independent and controls the whole compilation
+  // pipeline.
+  bool hasAccel = false;
+  for (auto *accel : onnx_mlir::accel::Accelerator::getAccelerators()) {
+    hasAccel = true;
+    accel->addPasses(module, pm, emissionTarget, outputNameNoExt);
+  }
+  if (!hasAccel)
+    addKrnlPasses(pm);
+  if (!reportHeapBefore.empty() || !reportHeapAfter.empty()) {
+    std::string heapLogFileame = outputNameNoExt + ".heap.log";
+    pm.addInstrumentation(std::make_unique<HeapReporter>(
+        heapLogFileame, reportHeapBefore, reportHeapAfter));
+  }
+  (void)mlir::applyPassManagerCLOptions(pm);
+
+  if (enableTiming) {
+    pm.enableTiming(compileModuleTiming);
+  }
+
+  if (mlir::failed(pm.run(*module)))
+    return CompilerFailure;
+  compileModuleTiming.stop();
+  return emitOutput(module, context, outputNameNoExt, pm, emissionTarget);
+}
+
+
 // Return 0 on success, error code on error.
 int compileModule(mlir::OwningOpRef<ModuleOp> &module,
     mlir::MLIRContext &context, std::string outputNameNoExt,

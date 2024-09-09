@@ -294,6 +294,13 @@ InputIRLevelType determineInputIRLevel(mlir::OwningOpRef<ModuleOp> &module) {
   return LLVMLevel;
 }
 
+void addKrnlPasses(mlir::PassManager &pm)
+{
+  addONNXToMLIRPasses(pm, maccel.empty());
+  addONNXToKrnlPasses(pm, OptimizationLevel, true,
+    instrumentONNXSignature, ONNXOpStats);
+}
+
 void addPasses(mlir::OwningOpRef<ModuleOp> &module, mlir::PassManager &pm,
     EmissionTargetType emissionTarget, std::string outputNameNoExt) {
   InputIRLevelType inputIRLevel = determineInputIRLevel(module);
