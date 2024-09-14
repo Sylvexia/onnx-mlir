@@ -29,3 +29,32 @@ add_onnx_mlir_executable(onnx-mlir-krnl
   OMCompilerUtils
   OMOptionUtils
   )
+
+add_onnx_mlir_executable(onnx-mlir-onnx
+  onnx-mlir-onnx.cpp
+
+  LINK_LIBS PRIVATE
+  OMCompilerOptions
+  OMCompilerUtils
+  OMOptionUtils
+  )
+
+add_onnx_mlir_executable(onnx-mlir-affine
+  onnx-mlir-affine.cpp
+
+  LINK_LIBS PRIVATE
+  OMCompilerOptions
+  OMCompilerUtils
+  OMOptionUtils
+  )
+
+add_onnx_mlir_executable(TestPosit
+  TestPosit.cpp
+
+  LINK_LIBS PRIVATE
+  # MLIRIR
+  # OMPositOps
+  OMCompilerOptions
+  OMCompilerUtils
+  OMOptionUtils
+  )

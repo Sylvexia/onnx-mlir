@@ -25,6 +25,7 @@ add_onnx_mlir_library(OMInstrument
   LINK_LIBS PUBLIC
   OMONNXOps
   OMKrnlOps
+  OMPositOps
   MLIRPass
   OMOptionUtils
   )

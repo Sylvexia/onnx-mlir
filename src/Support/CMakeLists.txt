@@ -18,6 +18,7 @@ add_onnx_mlir_library(OMSupport
 
   LINK_LIBS PUBLIC
   OMKrnlOps
+  OMPositOps
   )
 
 add_onnx_mlir_library(OMMlirUtilities
