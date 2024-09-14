@@ -294,11 +294,24 @@ InputIRLevelType determineInputIRLevel(mlir::OwningOpRef<ModuleOp> &module) {
   return LLVMLevel;
 }
 
+void addONNXPasses(mlir::PassManager &pm)
+{
+  addONNXToMLIRPasses(pm, maccel.empty());
+}
+
 void addKrnlPasses(mlir::PassManager &pm)
 {
   addONNXToMLIRPasses(pm, maccel.empty());
   addONNXToKrnlPasses(pm, OptimizationLevel, true,
     instrumentONNXSignature, ONNXOpStats);
+}
+
+void addAffinePasses(mlir::PassManager &pm)
+{
+  addONNXToMLIRPasses(pm, maccel.empty());
+  addONNXToKrnlPasses(pm, OptimizationLevel, true,
+    instrumentONNXSignature, ONNXOpStats);
+  addKrnlToAffinePasses(pm);
 }
 
 void addPasses(mlir::OwningOpRef<ModuleOp> &module, mlir::PassManager &pm,

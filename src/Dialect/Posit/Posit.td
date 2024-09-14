@@ -1,6 +1,3 @@
-#ifndef POSIT_OPS
-#define POSIT_OPS
-
 include "mlir/IR/OpBase.td"
 include "mlir/Interfaces/SideEffectInterfaces.td"
 
@@ -12,8 +9,24 @@ def Posit_Dialect : Dialect {
   let dependentDialects = [
     "arith::ArithDialect",
     "func::FuncDialect",
-    "linalg::LinalgDialect",    // remove
-    "math::MathDialect",        // remove
+  ];
+}
+
+// def StringType : Type<CPred<"mlir::isa<posit::StringType>($_self)">, "string type">;
+
+def PositConstantOp : Op<Posit_Dialect, "constant", 
+  [Pure]> {
+  let summary = "posit const";
+  let description = [{
+    Posit Constant operation.
+  }];
+  let arguments = (ins F64:$value);
+  let results = (outs F64);
+
+  let hasCustomAssemblyFormat = 1;
+
+  let builders = [
+    OpBuilder<(ins "double":$value)>
   ];
 }
 
@@ -23,16 +36,12 @@ def PositAddOp : Op<Posit_Dialect, "add",
   let description = [{
     Posit Add operation.
   }];
-  let arguments = (ins P8E0:$lhs, P8E0:$rhs);
-  let results = (outs P8E0);
+  let arguments = (ins F64:$lhs, F64:$rhs);
+  let results = (outs F64);
 
-  // Indicate that the operation has a custom parser and printer method.
   let hasCustomAssemblyFormat = 1;
 
-  // Allow building an AddOp with from the two input operands.
   let builders = [
-    OpBuilder<(ins "Value":$lhs, "Value":$rhs)>
+    OpBuilder<(ins "double":$lhs, "double":$rhs)>
   ];
 }
-
-#endif // POSIT_OPS

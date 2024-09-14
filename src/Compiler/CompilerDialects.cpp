@@ -9,6 +9,7 @@
 #include "src/Compiler/CompilerOptions.hpp"
 #include "src/Dialect/Krnl/KrnlOps.hpp"
 #include "src/Dialect/ONNX/ONNXDialect.hpp"
+#include "src/Dialect/Posit/PositOps.hpp" 
 
 #include "mlir/InitAllDialects.h"
 #include "mlir/Target/LLVMIR/Dialect/OpenMP/OpenMPToLLVMIRTranslation.h"
@@ -35,6 +36,7 @@ DialectRegistry registerDialects(ArrayRef<accel::Accelerator::Kind> accels) {
   registry.insert<memref::MemRefDialect>();
   registry.insert<ONNXDialect>();
   registry.insert<KrnlDialect>();
+  registry.insert<PositDialect>();
   registry.insert<cf::ControlFlowDialect>();
   registerOpenMPDialectTranslation(registry);
   mlir::memref::registerRuntimeVerifiableOpInterfaceExternalModels(registry);
