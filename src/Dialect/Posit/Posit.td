@@ -23,9 +23,9 @@ def PositConstantOp : Op<Posit_Dialect, "constant",
   let arguments = (ins F64:$value);
   let results = (outs F64);
 
-  let builders = [
-    OpBuilder<(ins "double":$value)>
-  ];
+  // let builders = [
+  //   OpBuilder<(ins "double":$value)>
+  // ];
 }
 
 def PositAddOp : Op<Posit_Dialect, "add",
@@ -34,10 +34,10 @@ def PositAddOp : Op<Posit_Dialect, "add",
   let description = [{
     Posit Add operation.
   }];
-  let arguments = (ins F64:$lhs, F64:$rhs);
+  let arguments = (ins F64Attr:$lhs, F64Attr:$rhs);
   let results = (outs F64);
 
-  let builders = [
-    OpBuilder<(ins "double":$lhs, "double":$rhs)>
-  ];
+  // let builders = [
+  //   OpBuilder<(ins "double":$lhs, "double":$rhs)>
+  // ];
 }
