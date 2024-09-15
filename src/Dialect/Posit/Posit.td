@@ -4,8 +4,8 @@ include "mlir/Interfaces/SideEffectInterfaces.td"
 def Posit_Dialect : Dialect {
   let name = "posit";
   let cppNamespace = "::mlir";
-  let usePropertiesForAttributes = 0;
-  let useDefaultTypePrinterParser = 1;
+  // let usePropertiesForAttributes = 0;
+  // let useDefaultTypePrinterParser = 1;
   let dependentDialects = [
     "arith::ArithDialect",
     "func::FuncDialect",
@@ -23,8 +23,6 @@ def PositConstantOp : Op<Posit_Dialect, "constant",
   let arguments = (ins F64:$value);
   let results = (outs F64);
 
-  let hasCustomAssemblyFormat = 1;
-
   let builders = [
     OpBuilder<(ins "double":$value)>
   ];
@@ -38,8 +36,6 @@ def PositAddOp : Op<Posit_Dialect, "add",
   }];
   let arguments = (ins F64:$lhs, F64:$rhs);
   let results = (outs F64);
-
-  let hasCustomAssemblyFormat = 1;
 
   let builders = [
     OpBuilder<(ins "double":$lhs, "double":$rhs)>

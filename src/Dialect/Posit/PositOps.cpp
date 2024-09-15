@@ -12,6 +12,17 @@
 #include "src/Dialect/ONNX/DialectBuilder.hpp"
 #include "src/Dialect/ONNX/ONNXOps/OpHelper.hpp"
 
+using namespace mlir;
+using namespace onnx_mlir;
+
+void PositDialect::initialize()
+{
+    addOperations<
+#define GET_OP_LIST
+#include "src/Dialect/Posit/PositOps.cpp.inc"
+    >();
+}
+
 #define GET_OP_CLASSES
 #include "src/Dialect/Posit/PositOps.cpp.inc"
 #include "src/Dialect/Posit/PositDialect.cpp.inc"
