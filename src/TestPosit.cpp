@@ -16,8 +16,8 @@ int main() {
 
   mlir::Type f64Type = builder.getF64Type();
   mlir::FloatAttr f64Attr = builder.getF64FloatAttr(3.14);
-  auto lhs = builder.create<mlir::PositConstantOp>(builder.getUnknownLoc(),
-    f64Type, f64Attr);
+  // auto lhs = builder.create<mlir::PositConstantOp>(builder.getUnknownLoc(),
+  //   f64Type, f64Attr);
 
   // auto lhs = builder.create<mlir::PositConstantOp>(builder.getUnknownLoc(),
   //     f64Type, f64Value);
