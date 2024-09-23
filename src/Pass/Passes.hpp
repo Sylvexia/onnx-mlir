@@ -22,6 +22,7 @@
 namespace mlir {
 class MLIRContext;
 class Pass;
+std::unique_ptr<mlir::Pass> createConvertCustomMathToLibmPass();
 } // namespace mlir
 
 namespace onnx_mlir {
