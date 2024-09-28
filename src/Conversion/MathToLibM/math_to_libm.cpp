@@ -33,11 +33,11 @@ void ConvertCustomMathToLibmPass::runOnOperation() {
 }
 
 StringRef ConvertCustomMathToLibmPass::getArgument() const {
-  return "convert-custom-math-to-llvm";
+  return "convert-custom-math-to-func";
 }
 
 StringRef ConvertCustomMathToLibmPass::getDescription() const {
-  return "Lower the Krnl Affine and Std dialects to LLVM.";
+  return "Lower the math dialect to LLVM dialect.";
 }
 
 template <typename Op>
