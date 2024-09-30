@@ -129,6 +129,10 @@ void registerOMPasses(int optLevel) {
     return mlir::createConvertCustomMathToLibmPass();
   });
 
+  mlir::registerPass([]() -> std::unique_ptr<mlir::Pass> {
+    return mlir::createConvertArithToPositFuncPass();
+  });
+
 #ifdef ONNX_MLIR_ENABLE_STABLEHLO
   mlir::registerPass([]() -> std::unique_ptr<mlir::Pass> {
     return createLowerToStablehloPass();
