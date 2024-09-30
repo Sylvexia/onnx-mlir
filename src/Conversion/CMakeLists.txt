@@ -7,6 +7,7 @@ add_subdirectory(KrnlToAffine)
 add_subdirectory(KrnlSeqToMemref)
 add_subdirectory(ONNXToTOSA)
 add_subdirectory(MathToLibM)
+add_subdirectory(ArithToPositFunc)
 
 if (ONNX_MLIR_ENABLE_STABLEHLO)
   add_subdirectory(ONNXToStablehlo)
