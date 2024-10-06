@@ -8,7 +8,10 @@ namespace mlir {
 template <typename T>
 class OperationPass;
 
-void populateConvertArithConstantFloatToUIntPattern(
+void populateConvertArithAddToPositFuncPattern(RewritePatternSet &patterns,
+    TypeConverter &typeConverter, StringRef opString, uint8_t n_bits,
+    uint8_t es_val);
+void populateConvertArithConstantFloatToIntPattern(
     RewritePatternSet &patterns, TypeConverter &typeConverter);
 void populateArithToPositFuncConversionPatterns(RewritePatternSet &patterns);
 
