@@ -12,7 +12,7 @@ void populateConvertArithAddToPositFuncPattern(RewritePatternSet &patterns,
     TypeConverter &typeConverter, StringRef opString, uint8_t n_bits,
     uint8_t es_val);
 void populateConvertArithConstantFloatToIntPattern(
-    RewritePatternSet &patterns, TypeConverter &typeConverter);
+    RewritePatternSet &patterns, TypeConverter &typeConverter, uint8_t n_bits, uint8_t es_val);
 void populateArithToPositFuncConversionPatterns(RewritePatternSet &patterns);
 
 } // namespace mlir

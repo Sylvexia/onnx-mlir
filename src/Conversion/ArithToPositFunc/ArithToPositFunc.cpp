@@ -19,49 +19,191 @@
 
 using namespace mlir;
 
+int countTrailZero(uint64_t value) {
+  if (value == 0)
+    return 0;
+  return __builtin_ctzl(value);
+}
+
+uint64_t removeTrailZero(uint64_t value) {
+  if (value == 0)
+    return 0;
+  return value >> countTrailZero(value);
+}
+
+int bit_length(uint64_t value) {
+  return std::numeric_limits<uint64_t>::digits - __builtin_clzl(value);
+}
+
+uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val) {
+  // uint64_t raw_bit = *reinterpret_cast<uint64_t *>(&value);
+
+  uint64_t result = 0;
+
+  uint8_t n_raw = 32;
+  uint8_t n_frac = 23;
+  uint8_t n_exp = 8;
+  uint bias = 127;
+
+  if ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) == 0) {
+    result = 0;
+    return result;
+  }
+
+  if ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) >= (((1ULL << n_exp) - 1) << n_frac)) {
+    result = (1ULL << n_bits) - 1;
+    return result;
+  }
+
+  bool sign = (raw_bit >> (n_raw - 1)) & 1;
+  int scale = ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) >> n_frac) - bias;
+  uint64_t fraction = (1ULL << n_frac) | (raw_bit & ((1ULL << n_frac) - 1));
+
+  int regime = scale >> es_val;
+  int regime_len = (regime >= 0) ? regime + 2 : -regime + 1;
+
+  llvm::errs() << "scale: " << (int)scale << "\n";
+  llvm::errs() << "es_val: " << (int)es_val << "\n";
+  llvm::errs() << "regime: " << regime << "\n";
+  llvm::errs() << "regime len: " << regime_len << "\n";
+
+  // this should be long long int for 64-bit
+  long long int exponent = scale & ((1ULL << es_val) - 1);
+
+  // check if regime is out of range
+  if (regime_len >= n_bits + 1) {
+    if (regime >= 0)
+      result = (1ULL << (n_bits - 1)) - 1; // max posit
+    else
+      result = 1; // min posit
+
+    if (sign)
+      result = (1 << (n_bits - 1)) | result;
+    return result;
+  }
+
+  // encode regime
+  result = 0;
+  if (regime >= 0)
+    result |= (((1ULL << (regime_len - 1)) - 1) << (n_bits - regime_len));
+  else if (n_bits - 1 >= regime_len)
+    result |= ((1ULL << (n_bits - 1 - regime_len)));
+
+  fraction = removeTrailZero(fraction);
+  int fraction_len = bit_length(fraction) - 1;
+  fraction &= ((1ULL << fraction_len) - 1);
+  int trailing_len = n_bits - regime_len - 1;
+  uint64_t exp_frac = removeTrailZero((exponent << fraction_len) | fraction);
+
+  llvm::errs() << "exp_frac: " << exp_frac << "\n";
+
+  int exp_frac_len = 0;
+  if (fraction_len == 0)
+    exp_frac_len = es_val - countTrailZero(exponent);
+  else
+    exp_frac_len = es_val + fraction_len;
+
+  int diff_bit_len = abs(exp_frac_len - trailing_len);
+  if (exp_frac_len > trailing_len) {
+    // this might be wrong
+    bool guard, round, sticky;
+    guard = (exp_frac >> (diff_bit_len - 1)) & 1;
+    round = (exp_frac >> (diff_bit_len - 2)) & 1;
+    sticky = (exp_frac & ((1ULL << (diff_bit_len - 2)) - 1));
+    bool round_up = guard & (round | sticky);
+    result |= (exp_frac >> diff_bit_len);
+    if (round_up)
+      result += 1;
+  } else {
+    result |= exp_frac << (diff_bit_len);
+  }
+
+  if (sign)
+    result |= 1 << (n_bits - 1);
+  
+  // log result as binary
+  for (int i = n_bits - 1; i >= 0; i--) {
+    llvm::errs() << ((result >> i) & 1);
+  }
+  return result;
+}
+
 struct FloatToIntTypeConverter : public mlir::TypeConverter {
-  FloatToIntTypeConverter() {
-    addConversion([](Type type) -> Type {
+  explicit FloatToIntTypeConverter(uint8_t bitWidth) {
+    addConversion([bitWidth](Type type) -> Type {
       if (isa<Float32Type>(type)) {
-        return IntegerType::get(type.getContext(), 32, IntegerType::Signless);
+        return IntegerType::get(
+            type.getContext(), bitWidth, IntegerType::Signless);
       }
       return type;
     });
   }
 };
 
-struct ConvertArithToPositFuncPass
-    : public PassWrapper<ConvertArithToPositFuncPass, OperationPass<ModuleOp>> {
-  void runOnOperation() override;
-  StringRef getArgument() const override;
-  StringRef getDescription() const override;
-};
+// bool isInt32Type(Type type) {
+//   if (auto intType = dyn_cast<IntegerType>(type)) {
+//     return intType.getWidth() == 32 && intType.isSignless();
+//   }
+//   return false;
+// }
 
-bool isInt32Type(Type type) {
+bool isIntType(Type type, uint8_t bitWidth) {
   if (auto intType = dyn_cast<IntegerType>(type)) {
-    return intType.getWidth() == 32 && intType.isSignless();
+    return intType.getWidth() == bitWidth && intType.isSignless();
   }
   return false;
 }
+
+// e.g. posit8es0_add
+std::string getPositFuncStr(
+    uint8_t n_bits, uint8_t es_val, std::string opString) {
+  return "posit" + std::to_string(n_bits) + "es" + std::to_string(es_val) +
+         "_" + opString;
+}
+
+struct ConvertArithToPositFuncPass
+    : public PassWrapper<ConvertArithToPositFuncPass, OperationPass<ModuleOp>> {
+  void runOnOperation() final;
+  StringRef getArgument() const override {
+    return "convert-arith-to-posit-func";
+  }
+  StringRef getDescription() const override {
+    return "Lower the arith dialect to posit func dialect.";
+  };
+
+  ConvertArithToPositFuncPass() = default;
+  ConvertArithToPositFuncPass(const ConvertArithToPositFuncPass &pass)
+      : PassWrapper<ConvertArithToPositFuncPass, OperationPass<ModuleOp>>() {}
+  ConvertArithToPositFuncPass(uint8_t n_bits, uint8_t es_val) {
+    this->_n_bits = n_bits;
+    this->_es_val = es_val;
+  }
+
+public:
+  Option<int> _n_bits{*this, "n-bits",
+      llvm::cl::desc("Number of bits in posit"), llvm::cl::init(8)};
+  Option<int> _es_val{*this, "es-val",
+      llvm::cl::desc("Number of bits in exponent"), llvm::cl::init(0)};
+};
 
 void ConvertArithToPositFuncPass::runOnOperation() {
   auto module = getOperation();
   RewritePatternSet patterns(&getContext());
 
-  FloatToIntTypeConverter typeConverter;
+  FloatToIntTypeConverter typeConverter(_n_bits);
 
   ConversionTarget target(getContext());
-
-  target.addDynamicallyLegalOp<arith::ConstantOp>(
-      [&](arith::ConstantOp op) { return isInt32Type(op.getType()); });
-
-  populateConvertArithAddToPositFuncPattern(
-      patterns, typeConverter, "add", 8, 0);
   target.addLegalDialect<func::FuncDialect>();
   target.addIllegalDialect<arith::ArithDialect>();
 
-  // mlir::populateArithToPositFuncConversionPatterns(patterns);
-  populateConvertArithConstantFloatToIntPattern(patterns, typeConverter);
+  target.addDynamicallyLegalOp<arith::ConstantOp>(
+      [&](arith::ConstantOp op) { return isIntType(op.getType(), _n_bits); });
+
+  populateConvertArithAddToPositFuncPattern(
+      patterns, typeConverter, "add", _n_bits, _es_val);
+
+  populateConvertArithConstantFloatToIntPattern(
+      patterns, typeConverter, _n_bits, _es_val);
 
   populateFunctionOpInterfaceTypeConversionPattern<func::FuncOp>(
       patterns, typeConverter);
@@ -90,17 +232,14 @@ void ConvertArithToPositFuncPass::runOnOperation() {
     signalPassFailure();
 }
 
-StringRef ConvertArithToPositFuncPass::getArgument() const {
-  return "convert-arith-to-posit-func";
-}
-
-StringRef ConvertArithToPositFuncPass::getDescription() const {
-  return "Lower the arith dialect to posit func dialect.";
-}
-
 struct ConvertArithConstantFloatToIntPattern
     : public OpConversionPattern<arith::ConstantOp> {
   using OpConversionPattern<arith::ConstantOp>::OpConversionPattern;
+
+  ConvertArithConstantFloatToIntPattern(const TypeConverter &typeConverter,
+      MLIRContext *context, uint8_t n_bits, uint8_t es_val)
+      : mlir::OpConversionPattern<arith::ConstantOp>(typeConverter, context),
+        n_bits(n_bits), es_val(es_val){};
 
   LogicalResult matchAndRewrite(arith::ConstantOp op,
       typename arith::ConstantOp::Adaptor adaptor,
@@ -116,40 +255,32 @@ struct ConvertArithConstantFloatToIntPattern
 
     APFloat apFloat = floatAttr.getValue();
     uint64_t floatBits = apFloat.bitcastToAPInt().getZExtValue();
-    int64_t intValue = static_cast<int64_t>(floatBits >> 1);
+    llvm::errs() << "float value: " << apFloat.convertToFloat() << "\n";
 
     auto IntType = getTypeConverter()->convertType(op.getType());
+    auto uintValue = convertFloat32ToPosit(floatBits, n_bits, es_val);
 
     if (!IntType)
       return failure();
 
     // auto UIntAttr = rewriter.getUI32IntegerAttr(uintValue);
-    auto UIntAttr = rewriter.getIntegerAttr(IntType, intValue);
+    auto IntAttr = rewriter.getIntegerAttr(IntType, uintValue);
     auto newOp =
-        rewriter.replaceOpWithNewOp<arith::ConstantOp>(op, IntType, UIntAttr);
-    llvm::errs() << "After replaceOpWithNewOp:\n";
-    if (newOp) {
-      newOp.print(llvm::errs());
-      llvm::errs() << "\n";
-    } else {
-      llvm::errs() << "Operation was not replaced\n";
-    }
-    // llvm::outs() << "Float value: uwu" << uintValue << "\n";
+        rewriter.replaceOpWithNewOp<arith::ConstantOp>(op, IntType, IntAttr);
     return success();
   }
+
+private:
+  uint8_t n_bits;
+  uint8_t es_val;
 };
 
 void mlir::populateConvertArithConstantFloatToIntPattern(
-    RewritePatternSet &patterns, TypeConverter &typeConverter) {
+    RewritePatternSet &patterns, TypeConverter &typeConverter, uint8_t n_bits,
+    uint8_t es_val) {
   MLIRContext *ctx = patterns.getContext();
-  patterns.add<ConvertArithConstantFloatToIntPattern>(typeConverter, ctx);
-}
-
-// e.g. posit8es0_add
-std::string getPositFuncStr(
-    uint8_t n_bits, uint8_t es_val, std::string opString) {
-  return "posit" + std::to_string(n_bits) + "es" + std::to_string(es_val) +
-         "_" + opString;
+  patterns.add<ConvertArithConstantFloatToIntPattern>(
+      typeConverter, ctx, n_bits, es_val);
 }
 
 struct ConvertArithAddToPositFuncLowering
@@ -203,13 +334,6 @@ public:
     auto newOp = rewriter.replaceOpWithNewOp<func::CallOp>(
         op, name, resultTypes, adaptor.getOperands());
 
-    llvm::errs() << "After replaceOpWithNewOp:\n";
-    if (newOp) {
-      newOp.print(llvm::errs());
-      llvm::errs() << "\n";
-    } else {
-      llvm::errs() << "Operation was not replaced\n";
-    }
     return success();
   }
 
@@ -227,89 +351,10 @@ void mlir::populateConvertArithAddToPositFuncPattern(
       typeConverter, context, opString, n_bits, es_val);
 }
 
-template <typename Op>
-struct ArithToPositFuncLowering : public OpRewritePattern<Op> {
-public:
-  using OpRewritePattern<Op>::OpRewritePattern;
-  ArithToPositFuncLowering(
-      MLIRContext *context, StringRef opString, uint8_t n_bits, uint8_t es_val)
-      : mlir::OpRewritePattern<Op>(context), opString(opString), n_bits(n_bits),
-        es_val(es_val){};
-
-  LogicalResult matchAndRewrite(Op op, PatternRewriter &Rewriter) const final;
-
-private:
-  std::string opString;
-  uint8_t n_bits;
-  uint8_t es_val;
-};
-
-template <typename Op>
-LogicalResult ArithToPositFuncLowering<Op>::matchAndRewrite(
-    Op op, PatternRewriter &rewriter) const {
-  auto symbolTable = SymbolTable::getNearestSymbolTable(op);
-  auto type = op.getType();
-  auto context = rewriter.getContext();
-
-  if (!isa<Float32Type>(type))
-    return failure();
-
-  std::string name = getPositFuncStr(n_bits, es_val, opString);
-
-  uint8_t numOperands = 2;
-  uint8_t numResults = 1;
-
-  Type ConvertedType =
-      mlir::IntegerType::get(context, n_bits, IntegerType::Signless);
-
-  std::vector<Type> operandTypesVec;
-  for (uint8_t i = 0; i < numOperands; i++) {
-    operandTypesVec.push_back(ConvertedType);
-  }
-  std::vector<Type> resultTypesVec;
-  for (uint8_t i = 0; i < numResults; i++) {
-    resultTypesVec.push_back(ConvertedType);
-  }
-
-  TypeRange operandTypes{operandTypesVec};
-  TypeRange resultTypes{resultTypesVec};
-
-  auto opFunc = dyn_cast_or_null<SymbolOpInterface>(
-      SymbolTable::lookupSymbolIn(symbolTable, name));
-
-  if (!opFunc) {
-    OpBuilder::InsertionGuard guard(rewriter);
-    rewriter.setInsertionPointToStart(&symbolTable->getRegion(0).front());
-
-    auto opFunctionTy = FunctionType::get(context, operandTypes, resultTypes);
-    opFunc = rewriter.create<func::FuncOp>(
-        rewriter.getUnknownLoc(), name, opFunctionTy);
-
-    opFunc.setPrivate();
-    opFunc->setAttr(
-        LLVM::LLVMDialect::getReadnoneAttrName(), UnitAttr::get(context));
-  }
-  assert(
-      isa<FunctionOpInterface>(SymbolTable::lookupSymbolIn(symbolTable, name)));
-
-  rewriter.replaceOpWithNewOp<func::CallOp>(
-      op, name, resultTypes, op->getOperands());
-  return success();
-}
-
-template <typename OpTy>
-void populatePatternsForOp(RewritePatternSet &patterns, MLIRContext *ctx,
-    StringRef opString, uint8_t n_bits, uint8_t es_val) {
-  patterns.add<ArithToPositFuncLowering<OpTy>>(ctx, opString, n_bits, es_val);
-}
-
-void mlir::populateArithToPositFuncConversionPatterns(
-    RewritePatternSet &patterns) {
-  MLIRContext *ctx = patterns.getContext();
-  populatePatternsForOp<arith::AddFOp>(patterns, ctx, "add", 8, 0);
-  populatePatternsForOp<arith::MulFOp>(patterns, ctx, "mul", 16, 1);
-}
-
-std::unique_ptr<mlir::Pass> mlir::createConvertArithToPositFuncPass() {
+std::unique_ptr<mlir::Pass> createConvertArithToPositFuncPass() {
   return std::make_unique<ConvertArithToPositFuncPass>();
+}
+
+std::unique_ptr<mlir::Pass> mlir::createConvertArithToPositFuncPass(uint8_t n_bits, uint8_t es_val) {
+  return std::make_unique<ConvertArithToPositFuncPass>(n_bits, es_val);
 }
