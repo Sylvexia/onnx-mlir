@@ -57,6 +57,13 @@ message(STATUS "Tests optimization level : ${ONNX_MLIR_TEST_OPTLEVEL}")
 # This allows us to run the backend and numerical tests in parallel but
 # only one instance of model download target will run (even though multiple
 # backend test targets depend on it) to avoid download/unpack collision.
+
+option(ONNX_MLIR_ENABLE_TESTS "Build ONNX-MLIR tests." OFF)
+
+if (NOT ONNX_MLIR_ENABLE_TESTS)
+  return()
+endif()
+
 add_custom_target(check-onnx-backend-numerical)
 
 # The backend tests require ONNX package installation.

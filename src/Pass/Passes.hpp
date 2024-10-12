@@ -24,6 +24,7 @@ class MLIRContext;
 class Pass;
 std::unique_ptr<mlir::Pass> createConvertCustomMathToLibmPass();
 std::unique_ptr<mlir::Pass> createConvertArithToPositFuncPass();
+std::unique_ptr<mlir::Pass> createConvertArithToPositFuncPass(uint8_t n_bits, uint8_t es_val);
 } // namespace mlir
 
 namespace onnx_mlir {
