@@ -8,6 +8,8 @@ namespace mlir {
 template <typename T>
 class OperationPass;
 
+void populateKrnlGlobalOpToIntPattern(RewritePatternSet &patterns,
+    TypeConverter &typeConverter, uint8_t n_bits, uint8_t es_val);
 void populateConvertArithAddToPositFuncPattern(RewritePatternSet &patterns,
     TypeConverter &typeConverter, StringRef opString, uint8_t n_bits,
     uint8_t es_val);
