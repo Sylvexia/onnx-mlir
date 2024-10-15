@@ -13,6 +13,7 @@
 #include "mlir/Pass/Pass.h"
 #include "mlir/Support/LogicalResult.h"
 #include "mlir/Transforms/DialectConversion.h"
+#include "src/Dialect/Krnl/KrnlOps.hpp"
 #include "src/Pass/Passes.hpp"
 
 #define DEBUG_TYPE "convert-arith-to-posit-func"
@@ -35,7 +36,8 @@ int bit_length(uint64_t value) {
   return std::numeric_limits<uint64_t>::digits - __builtin_clzl(value);
 }
 
-uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val) {
+uint64_t convertFloat32ToPosit(
+    uint64_t raw_bit, uint8_t n_bits, uint8_t es_val) {
   // uint64_t raw_bit = *reinterpret_cast<uint64_t *>(&value);
 
   uint64_t result = 0;
@@ -50,7 +52,8 @@ uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val)
     return result;
   }
 
-  if ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) >= (((1ULL << n_exp) - 1) << n_frac)) {
+  if ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) >=
+      (((1ULL << n_exp) - 1) << n_frac)) {
     result = (1ULL << n_bits) - 1;
     return result;
   }
@@ -120,12 +123,19 @@ uint64_t convertFloat32ToPosit(uint64_t raw_bit, uint8_t n_bits, uint8_t es_val)
 
   if (sign)
     result |= 1 << (n_bits - 1);
-  
+
   // log result as binary
   for (int i = n_bits - 1; i >= 0; i--) {
     llvm::errs() << ((result >> i) & 1);
   }
   return result;
+}
+
+// e.g. posit8es0_add
+std::string getPositFuncStr(
+    uint8_t n_bits, uint8_t es_val, std::string opString) {
+  return "posit" + std::to_string(n_bits) + "es" + std::to_string(es_val) +
+         "_" + opString;
 }
 
 struct FloatToIntTypeConverter : public mlir::TypeConverter {
@@ -137,28 +147,16 @@ struct FloatToIntTypeConverter : public mlir::TypeConverter {
       }
       return type;
     });
+    // addConversion([bitWidth](Type type) -> Optional<Type> {
+    // });
   }
 };
-
-// bool isInt32Type(Type type) {
-//   if (auto intType = dyn_cast<IntegerType>(type)) {
-//     return intType.getWidth() == 32 && intType.isSignless();
-//   }
-//   return false;
-// }
 
 bool isIntType(Type type, uint8_t bitWidth) {
   if (auto intType = dyn_cast<IntegerType>(type)) {
     return intType.getWidth() == bitWidth && intType.isSignless();
   }
   return false;
-}
-
-// e.g. posit8es0_add
-std::string getPositFuncStr(
-    uint8_t n_bits, uint8_t es_val, std::string opString) {
-  return "posit" + std::to_string(n_bits) + "es" + std::to_string(es_val) +
-         "_" + opString;
 }
 
 struct ConvertArithToPositFuncPass
@@ -195,9 +193,13 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   ConversionTarget target(getContext());
   target.addLegalDialect<func::FuncDialect>();
   target.addIllegalDialect<arith::ArithDialect>();
-
   target.addDynamicallyLegalOp<arith::ConstantOp>(
       [&](arith::ConstantOp op) { return isIntType(op.getType(), _n_bits); });
+
+  target.addDynamicallyLegalOp<KrnlGlobalOp>([&](KrnlGlobalOp op) {
+    return isIntType(
+        cast<MemRefType>(op->getResult(0).getType()).getElementType(), _n_bits);
+  });
 
   populateConvertArithAddToPositFuncPattern(
       patterns, typeConverter, "add", _n_bits, _es_val);
@@ -211,6 +213,8 @@ void ConvertArithToPositFuncPass::runOnOperation() {
     return typeConverter.isSignatureLegal(op.getFunctionType()) &&
            typeConverter.isLegal(&op.getBody());
   });
+
+  populateKrnlGlobalOpToIntPattern(patterns, typeConverter, _n_bits, _es_val);
 
   populateReturnOpTypeConversionPattern(patterns, typeConverter);
   target.addDynamicallyLegalOp<func::ReturnOp>(
@@ -230,6 +234,95 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   if (failed(applyPartialConversion(module, target, std::move(patterns))))
     signalPassFailure();
+}
+
+struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
+  using OpConversionPattern<KrnlGlobalOp>::OpConversionPattern;
+
+  KrnlGlobalOpToIntPattern(const TypeConverter &typeConverter,
+      MLIRContext *context, uint8_t n_bits, uint8_t es_val)
+      : mlir::OpConversionPattern<KrnlGlobalOp>(typeConverter, context),
+        n_bits(n_bits), es_val(es_val){};
+
+  LogicalResult matchAndRewrite(KrnlGlobalOp op,
+      typename KrnlGlobalOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+
+    auto type = op->getResult(0).getType();
+    auto memRefType = cast<MemRefType>(type);
+    auto elementType = memRefType.getElementType();
+
+    if (!isa<Float32Type>(elementType))
+      return failure();
+
+    auto newElementType = getTypeConverter()->convertType(elementType);
+    if (!newElementType)
+      return failure();
+
+    auto newMemRefType = MemRefType::get(memRefType.getShape(), newElementType);
+
+    auto valueAttr = op.getValueAttr();
+    // cast to denseElementAttr
+    auto denseAttr = dyn_cast<DenseElementsAttr>(valueAttr);
+    if (!denseAttr)
+      return failure();
+
+    // get element type
+    auto denseElementType = denseAttr.getType().getElementType();
+    if (!isa<Float32Type>(denseElementType))
+      return failure();
+
+    auto newDenseElementType =
+        getTypeConverter()->convertType(denseElementType);
+
+    // populate array with new values
+    // for(auto apFloat : denseAttr.getValues<llvm::APFloat>())
+    // {
+    //   auto floatBits = apFloat.bitcastToAPInt().getZExtValue();
+    //   auto uintValue = convertFloat32ToPosit(floatBits, n_bits, es_val);
+    //   // set the new value
+    // }
+
+    // auto newDenseAttr = DenseElementsAttr::get();
+
+    auto newDenseAttr = denseAttr.mapValues(
+        newDenseElementType, [&](const APFloat &value) -> APInt {
+          uint64_t floatBits = value.bitcastToAPInt().getZExtValue();
+          return APInt(newDenseElementType.getIntOrFloatBitWidth(),
+              convertFloat32ToPosit(floatBits, n_bits, es_val));
+        });
+
+    auto new_op = rewriter.replaceOpWithNewOp<KrnlGlobalOp>(op, newMemRefType,
+        op.getShape(), op.getNameAttrName(), newDenseAttr, op.getOffsetAttr(),
+        op.getAlignmentAttr());
+
+    llvm::errs() << "new op: " << new_op << "\n";
+    llvm::errs() << "uwu" << "\n";
+
+    // log out the original value and the new value
+
+    for (auto [origValue, newValue] : llvm::zip(
+             denseAttr.getValues<APFloat>(), newDenseAttr.getValues<APInt>())) {
+      llvm::errs() << "orig: " << origValue.convertToFloat() << "\n";
+      // cast to binary
+      for (int i = n_bits - 1; i >= 0; i--) {
+        llvm::errs() << ((newValue.getZExtValue() >> i) & 1);
+      }
+      llvm::errs() << "\n";
+    }
+
+    return success();
+  }
+
+private:
+  uint8_t n_bits;
+  uint8_t es_val;
+};
+
+void mlir::populateKrnlGlobalOpToIntPattern(RewritePatternSet &patterns,
+    TypeConverter &typeConverter, uint8_t n_bits, uint8_t es_val) {
+  MLIRContext *ctx = patterns.getContext();
+  patterns.add<KrnlGlobalOpToIntPattern>(typeConverter, ctx, n_bits, es_val);
 }
 
 struct ConvertArithConstantFloatToIntPattern
@@ -355,6 +448,7 @@ std::unique_ptr<mlir::Pass> createConvertArithToPositFuncPass() {
   return std::make_unique<ConvertArithToPositFuncPass>();
 }
 
-std::unique_ptr<mlir::Pass> mlir::createConvertArithToPositFuncPass(uint8_t n_bits, uint8_t es_val) {
+std::unique_ptr<mlir::Pass> mlir::createConvertArithToPositFuncPass(
+    uint8_t n_bits, uint8_t es_val) {
   return std::make_unique<ConvertArithToPositFuncPass>(n_bits, es_val);
 }
