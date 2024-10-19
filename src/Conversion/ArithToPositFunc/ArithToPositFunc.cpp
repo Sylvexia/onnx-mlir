@@ -3,6 +3,7 @@
 #include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/Dialect/Func/Transforms/FuncConversions.h"
 #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
+#include "mlir/Dialect/MemRef/IR/MemRef.h"
 #include "mlir/IR/Builders.h"
 #include "mlir/IR/BuiltinAttributes.h"
 #include "mlir/IR/BuiltinOps.h"
@@ -10,6 +11,7 @@
 #include "mlir/IR/MLIRContext.h"
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/IR/SymbolTable.h"
+#include "mlir/IR/Types.h"
 #include "mlir/Pass/Pass.h"
 #include "mlir/Support/LogicalResult.h"
 #include "mlir/Transforms/DialectConversion.h"
@@ -140,15 +142,32 @@ std::string getPositFuncStr(
 
 struct FloatToIntTypeConverter : public mlir::TypeConverter {
   explicit FloatToIntTypeConverter(uint8_t bitWidth) {
-    addConversion([bitWidth](Type type) -> Type {
+    addConversion([](Type type) -> Type {
+      return type;
+    });
+    addConversion([bitWidth](MemRefType type) -> Type {
+      llvm::errs() << "memref type: " << type << "\n";
+      if (type.getElementType().isF32())
+        return MemRefType::get(
+            type.getShape(), IntegerType::get(type.getContext(), bitWidth,
+                                 IntegerType::Signless));
+      return type;
+    });
+    addConversion([bitWidth](TensorType type) -> Type {
+      llvm::errs() << "tensor type: " << type << "\n";
+      if (type.getElementType().isF32())
+        return type.clone(
+            type.getShape(), IntegerType::get(type.getContext(), bitWidth,
+                                 IntegerType::Signless));
+      return type;
+    });
+    addConversion([bitWidth](FloatType type) -> Type {
       if (isa<Float32Type>(type)) {
         return IntegerType::get(
             type.getContext(), bitWidth, IntegerType::Signless);
       }
       return type;
     });
-    // addConversion([bitWidth](Type type) -> Optional<Type> {
-    // });
   }
 };
 
@@ -190,8 +209,21 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   FloatToIntTypeConverter typeConverter(_n_bits);
 
+  // custom lowering
+  populateConvertArithAddToPositFuncPattern(
+      patterns, typeConverter, "add", _n_bits, _es_val);
+  populateConvertArithConstantFloatToIntPattern(
+      patterns, typeConverter, _n_bits, _es_val);
+  populateKrnlGlobalOpToIntPattern(patterns, typeConverter, _n_bits, _es_val);
+
+  // populate standard lowering
+  populateFunctionOpInterfaceTypeConversionPattern<func::FuncOp>(
+      patterns, typeConverter);
+  populateCallOpTypeConversionPattern(patterns, typeConverter);
+  populateBranchOpInterfaceTypeConversionPattern(patterns, typeConverter);
+  populateReturnOpTypeConversionPattern(patterns, typeConverter);
+
   ConversionTarget target(getContext());
-  target.addLegalDialect<func::FuncDialect>();
   target.addIllegalDialect<arith::ArithDialect>();
   target.addDynamicallyLegalOp<arith::ConstantOp>(
       [&](arith::ConstantOp op) { return isIntType(op.getType(), _n_bits); });
@@ -201,30 +233,25 @@ void ConvertArithToPositFuncPass::runOnOperation() {
         cast<MemRefType>(op->getResult(0).getType()).getElementType(), _n_bits);
   });
 
-  populateConvertArithAddToPositFuncPattern(
-      patterns, typeConverter, "add", _n_bits, _es_val);
+  // target.addDynamicallyLegalDialect<memref::MemRefDialect>(
+  //     [&typeConverter](Operation *op) { return typeConverter.isLegal(op); });
 
-  populateConvertArithConstantFloatToIntPattern(
-      patterns, typeConverter, _n_bits, _es_val);
-
-  populateFunctionOpInterfaceTypeConversionPattern<func::FuncOp>(
-      patterns, typeConverter);
   target.addDynamicallyLegalOp<func::FuncOp>([&](func::FuncOp op) {
-    return typeConverter.isSignatureLegal(op.getFunctionType()) &&
-           typeConverter.isLegal(&op.getBody());
+    bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
+               typeConverter.isLegal(&op.getBody());
+    llvm::errs() << "func op: " << res << "\n";
+    return res;
   });
 
-  populateKrnlGlobalOpToIntPattern(patterns, typeConverter, _n_bits, _es_val);
+  target.addDynamicallyLegalOp<func::ReturnOp>([&](func::ReturnOp op) {
+    bool res = typeConverter.isLegal(op);
+    llvm::errs() << "return op: " << res << "\n";
+    return res;
+  });
 
-  populateReturnOpTypeConversionPattern(patterns, typeConverter);
-  target.addDynamicallyLegalOp<func::ReturnOp>(
-      [&](func::ReturnOp op) { return typeConverter.isLegal(op); });
-
-  populateCallOpTypeConversionPattern(patterns, typeConverter);
   target.addDynamicallyLegalOp<func::CallOp>(
       [&](func::CallOp op) { return typeConverter.isLegal(op); });
 
-  populateBranchOpInterfaceTypeConversionPattern(patterns, typeConverter);
   target.markUnknownOpDynamicallyLegal([&](Operation *op) {
     return isNotBranchOpInterfaceOrReturnLikeOp(op) ||
            isLegalForBranchOpInterfaceTypeConversionPattern(
@@ -274,16 +301,6 @@ struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
 
     auto newDenseElementType =
         getTypeConverter()->convertType(denseElementType);
-
-    // populate array with new values
-    // for(auto apFloat : denseAttr.getValues<llvm::APFloat>())
-    // {
-    //   auto floatBits = apFloat.bitcastToAPInt().getZExtValue();
-    //   auto uintValue = convertFloat32ToPosit(floatBits, n_bits, es_val);
-    //   // set the new value
-    // }
-
-    // auto newDenseAttr = DenseElementsAttr::get();
 
     auto newDenseAttr = denseAttr.mapValues(
         newDenseElementType, [&](const APFloat &value) -> APInt {
@@ -444,7 +461,7 @@ void mlir::populateConvertArithAddToPositFuncPattern(
       typeConverter, context, opString, n_bits, es_val);
 }
 
-std::unique_ptr<mlir::Pass> createConvertArithToPositFuncPass() {
+std::unique_ptr<mlir::Pass> mlir::createConvertArithToPositFuncPass() {
   return std::make_unique<ConvertArithToPositFuncPass>();
 }
 
