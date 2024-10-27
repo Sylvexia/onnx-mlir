@@ -197,7 +197,7 @@ void addONNXToKrnlPasses(mlir::PassManager &pm, int optLevel, bool enableCSE,
 
 // todo: accept input n_bits and es_val from command line
 void addKrnlToAffinePasses(mlir::PassManager &pm) {
-  pm.addPass(mlir::createConvertArithToPositFuncPass(8, 0));
+  // pm.addPass(mlir::createConvertArithToPositFuncPass(8, 0));
   pm.addNestedPass<func::FuncOp>(
       onnx_mlir::krnl::createConvertKrnlToAffinePass());
 }

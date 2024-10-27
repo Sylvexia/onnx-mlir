@@ -40,7 +40,6 @@ int bit_length(uint64_t value) {
 
 uint64_t convertFloat32ToPosit(
     uint64_t raw_bit, uint8_t n_bits, uint8_t es_val) {
-  // uint64_t raw_bit = *reinterpret_cast<uint64_t *>(&value);
 
   uint64_t result = 0;
 
@@ -67,10 +66,10 @@ uint64_t convertFloat32ToPosit(
   int regime = scale >> es_val;
   int regime_len = (regime >= 0) ? regime + 2 : -regime + 1;
 
-  llvm::errs() << "scale: " << (int)scale << "\n";
-  llvm::errs() << "es_val: " << (int)es_val << "\n";
-  llvm::errs() << "regime: " << regime << "\n";
-  llvm::errs() << "regime len: " << regime_len << "\n";
+  // llvm::errs() << "scale: " << (int)scale << "\n";
+  // llvm::errs() << "es_val: " << (int)es_val << "\n";
+  // llvm::errs() << "regime: " << regime << "\n";
+  // llvm::errs() << "regime len: " << regime_len << "\n";
 
   // this should be long long int for 64-bit
   long long int exponent = scale & ((1ULL << es_val) - 1);
@@ -100,7 +99,7 @@ uint64_t convertFloat32ToPosit(
   int trailing_len = n_bits - regime_len - 1;
   uint64_t exp_frac = removeTrailZero((exponent << fraction_len) | fraction);
 
-  llvm::errs() << "exp_frac: " << exp_frac << "\n";
+  // llvm::errs() << "exp_frac: " << exp_frac << "\n";
 
   int exp_frac_len = 0;
   if (fraction_len == 0)
@@ -110,7 +109,7 @@ uint64_t convertFloat32ToPosit(
 
   int diff_bit_len = abs(exp_frac_len - trailing_len);
   if (exp_frac_len > trailing_len) {
-    // this might be wrong
+    // the rounding scheme is to be verified
     bool guard, round, sticky;
     guard = (exp_frac >> (diff_bit_len - 1)) & 1;
     round = (exp_frac >> (diff_bit_len - 2)) & 1;
@@ -127,9 +126,9 @@ uint64_t convertFloat32ToPosit(
     result |= 1 << (n_bits - 1);
 
   // log result as binary
-  for (int i = n_bits - 1; i >= 0; i--) {
-    llvm::errs() << ((result >> i) & 1);
-  }
+  // for (int i = n_bits - 1; i >= 0; i--) {
+  //   llvm::errs() << ((result >> i) & 1);
+  // }
   return result;
 }
 
@@ -142,11 +141,8 @@ std::string getPositFuncStr(
 
 struct FloatToIntTypeConverter : public mlir::TypeConverter {
   explicit FloatToIntTypeConverter(uint8_t bitWidth) {
-    addConversion([](Type type) -> Type {
-      return type;
-    });
+    addConversion([](Type type) -> Type { return type; });
     addConversion([bitWidth](MemRefType type) -> Type {
-      llvm::errs() << "memref type: " << type << "\n";
       if (type.getElementType().isF32())
         return MemRefType::get(
             type.getShape(), IntegerType::get(type.getContext(), bitWidth,
@@ -154,7 +150,6 @@ struct FloatToIntTypeConverter : public mlir::TypeConverter {
       return type;
     });
     addConversion([bitWidth](TensorType type) -> Type {
-      llvm::errs() << "tensor type: " << type << "\n";
       if (type.getElementType().isF32())
         return type.clone(
             type.getShape(), IntegerType::get(type.getContext(), bitWidth,
@@ -171,12 +166,20 @@ struct FloatToIntTypeConverter : public mlir::TypeConverter {
   }
 };
 
-bool isIntType(Type type, uint8_t bitWidth) {
-  if (auto intType = dyn_cast<IntegerType>(type)) {
-    return intType.getWidth() == bitWidth && intType.isSignless();
-  }
-  return false;
-}
+// todo: can we just use typeConverter.isLegal(op) instead of this?
+// bool isIntType(Type type, uint8_t bitWidth) {
+//   if (auto intType = dyn_cast<IntegerType>(type)) {
+//     return intType.getWidth() == bitWidth && intType.isSignless();
+//   }
+//   return false;
+// }
+
+// bool isIntType(Type type) {
+//   if (auto intType = dyn_cast<IntegerType>(type)) {
+//     return true;
+//   }
+//   return false;
+// }
 
 struct ConvertArithToPositFuncPass
     : public PassWrapper<ConvertArithToPositFuncPass, OperationPass<ModuleOp>> {
@@ -222,15 +225,20 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   populateCallOpTypeConversionPattern(patterns, typeConverter);
   populateBranchOpInterfaceTypeConversionPattern(patterns, typeConverter);
   populateReturnOpTypeConversionPattern(patterns, typeConverter);
+  populateMemRefAllocaOpToIntPattern(patterns, typeConverter);
 
   ConversionTarget target(getContext());
   target.addIllegalDialect<arith::ArithDialect>();
   target.addDynamicallyLegalOp<arith::ConstantOp>(
-      [&](arith::ConstantOp op) { return isIntType(op.getType(), _n_bits); });
+      [&](arith::ConstantOp op) { return typeConverter.isLegal(op); });
 
   target.addDynamicallyLegalOp<KrnlGlobalOp>([&](KrnlGlobalOp op) {
-    return isIntType(
-        cast<MemRefType>(op->getResult(0).getType()).getElementType(), _n_bits);
+    return typeConverter.isLegal(
+        cast<MemRefType>(op->getResult(0).getType()).getElementType());
+  });
+
+  target.addDynamicallyLegalOp<memref::AllocaOp>([&](memref::AllocaOp op) {
+    return typeConverter.isLegal(op.getType().getElementType());
   });
 
   // target.addDynamicallyLegalDialect<memref::MemRefDialect>(
@@ -239,13 +247,11 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   target.addDynamicallyLegalOp<func::FuncOp>([&](func::FuncOp op) {
     bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
                typeConverter.isLegal(&op.getBody());
-    llvm::errs() << "func op: " << res << "\n";
     return res;
   });
 
   target.addDynamicallyLegalOp<func::ReturnOp>([&](func::ReturnOp op) {
     bool res = typeConverter.isLegal(op);
-    llvm::errs() << "return op: " << res << "\n";
     return res;
   });
 
@@ -263,6 +269,40 @@ void ConvertArithToPositFuncPass::runOnOperation() {
     signalPassFailure();
 }
 
+struct MemRefAllocaOpToIntPattern
+    : public OpConversionPattern<memref::AllocaOp> {
+  using OpConversionPattern<memref::AllocaOp>::OpConversionPattern;
+
+  MemRefAllocaOpToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<memref::AllocaOp>(typeConverter, context){};
+
+  LogicalResult matchAndRewrite(memref::AllocaOp op,
+      typename memref::AllocaOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+    auto memRefType = cast<MemRefType>(op.getType());
+    if (!isa<Float32Type>(memRefType.getElementType()))
+      return failure();
+
+    auto newMemRefType =
+        cast<MemRefType>(getTypeConverter()->convertType(memRefType));
+
+    if (!newMemRefType)
+      return failure();
+
+    rewriter.replaceOpWithNewOp<memref::AllocaOp>(
+        op, newMemRefType, op.getAlignmentAttr());
+
+    return success();
+  }
+};
+
+void mlir::populateMemRefAllocaOpToIntPattern(
+    RewritePatternSet &patterns, TypeConverter &typeConverter) {
+  MLIRContext *ctx = patterns.getContext();
+  patterns.add<MemRefAllocaOpToIntPattern>(typeConverter, ctx);
+}
+
 struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
   using OpConversionPattern<KrnlGlobalOp>::OpConversionPattern;
 
@@ -277,16 +317,10 @@ struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
 
     auto type = op->getResult(0).getType();
     auto memRefType = cast<MemRefType>(type);
-    auto elementType = memRefType.getElementType();
-
-    if (!isa<Float32Type>(elementType))
+    if (!isa<Float32Type>(memRefType.getElementType()))
       return failure();
 
-    auto newElementType = getTypeConverter()->convertType(elementType);
-    if (!newElementType)
-      return failure();
-
-    auto newMemRefType = MemRefType::get(memRefType.getShape(), newElementType);
+    auto newMemRefType = getTypeConverter()->convertType(memRefType);
 
     auto valueAttr = op.getValueAttr();
     // cast to denseElementAttr
@@ -317,16 +351,29 @@ struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
     llvm::errs() << "uwu" << "\n";
 
     // log out the original value and the new value
+    // for (auto [origValue, newValue] : llvm::zip(
+    //          denseAttr.getValues<APFloat>(),
+    //          newDenseAttr.getValues<APInt>())) {
+    //   llvm::errs() << "original float value: " << origValue.convertToFloat()
+    //   << "\n";
 
-    for (auto [origValue, newValue] : llvm::zip(
-             denseAttr.getValues<APFloat>(), newDenseAttr.getValues<APInt>())) {
-      llvm::errs() << "orig: " << origValue.convertToFloat() << "\n";
-      // cast to binary
-      for (int i = n_bits - 1; i >= 0; i--) {
-        llvm::errs() << ((newValue.getZExtValue() >> i) & 1);
-      }
-      llvm::errs() << "\n";
-    }
+    //   llvm::errs() << "original float raw bit: ";
+    //   uint64_t orig_raw_bit = origValue.bitcastToAPInt().getZExtValue();
+    //   for(int i = 31; i >= 0; i--) {
+    //     if (i == 30 || i == 22) {
+    //       llvm::errs() << " ";
+    //     }
+    //     llvm::errs() << ((orig_raw_bit >> i) & 1);
+    //   }
+    //   llvm::errs() << "\n";
+
+    //   llvm::errs() << "new raw bit: ";
+    //   uint64_t raw_bit = newValue.getZExtValue();
+    //   for (int i = n_bits - 1; i >= 0; i--) {
+    //     llvm::errs() << ((raw_bit >> i) & 1);
+    //   }
+    //   llvm::errs() << "\n";
+    // }
 
     return success();
   }
@@ -365,7 +412,7 @@ struct ConvertArithConstantFloatToIntPattern
 
     APFloat apFloat = floatAttr.getValue();
     uint64_t floatBits = apFloat.bitcastToAPInt().getZExtValue();
-    llvm::errs() << "float value: " << apFloat.convertToFloat() << "\n";
+    // llvm::errs() << "float value: " << apFloat.convertToFloat() << "\n";
 
     auto IntType = getTypeConverter()->convertType(op.getType());
     auto uintValue = convertFloat32ToPosit(floatBits, n_bits, es_val);
@@ -373,10 +420,8 @@ struct ConvertArithConstantFloatToIntPattern
     if (!IntType)
       return failure();
 
-    // auto UIntAttr = rewriter.getUI32IntegerAttr(uintValue);
     auto IntAttr = rewriter.getIntegerAttr(IntType, uintValue);
-    auto newOp =
-        rewriter.replaceOpWithNewOp<arith::ConstantOp>(op, IntType, IntAttr);
+    rewriter.replaceOpWithNewOp<arith::ConstantOp>(op, IntType, IntAttr);
     return success();
   }
 
@@ -407,21 +452,20 @@ public:
       typename arith::AddFOp::Adaptor adaptor,
       ConversionPatternRewriter &rewriter) const final {
 
-    // if (!isa<Float32Type>(op.getType()))
-    //   return failure();
+    // this only support scalar, return failure if its vector
+    if (isa<VectorType>(op->getResult(0).getType()))
+      return failure();
+
+    if (!isa<Float32Type>(op.getType()))
+      return failure();
 
     std::string name = getPositFuncStr(n_bits, es_val, opString);
 
-    llvm::SmallVector<Type, 2> OperandVec;
-    llvm::SmallVector<Type, 1> ResultVec;
+    auto returnType =
+        getTypeConverter()->convertType(op->getOpResult(0).getType());
 
-    auto operandStatus =
-        getTypeConverter()->convertTypes(op->getOperandTypes(), OperandVec);
-    auto resultStatus =
-        getTypeConverter()->convertTypes(op->getResultTypes(), ResultVec);
-
-    TypeRange operandTypes(OperandVec);
-    TypeRange resultTypes(ResultVec);
+    if (!returnType)
+      return failure();
 
     auto module = SymbolTable::getNearestSymbolTable(op);
     auto opFunc = dyn_cast_or_null<SymbolOpInterface>(
@@ -431,7 +475,7 @@ public:
       rewriter.setInsertionPointToStart(&module->getRegion(0).front());
 
       auto opFunctionTy = FunctionType::get(
-          rewriter.getContext(), adaptor.getOperands().getTypes(), resultTypes);
+          rewriter.getContext(), adaptor.getOperands().getTypes(), returnType);
       opFunc = rewriter.create<func::FuncOp>(
           rewriter.getUnknownLoc(), name, opFunctionTy);
 
@@ -441,8 +485,8 @@ public:
     }
     assert(isa<FunctionOpInterface>(SymbolTable::lookupSymbolIn(module, name)));
 
-    auto newOp = rewriter.replaceOpWithNewOp<func::CallOp>(
-        op, name, resultTypes, adaptor.getOperands());
+    rewriter.replaceOpWithNewOp<func::CallOp>(
+        op, name, returnType, adaptor.getOperands());
 
     return success();
   }
