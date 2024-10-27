@@ -11,3 +11,8 @@ func.func @test_memrefAlloca2(%arg0: memref<i32>) -> memref<i32> {
   %alloca = memref.alloca() : memref<i32>
   return %alloca : memref<i32>
 }
+
+func.func @test_memrefAlloc(%arg0: memref<8x64xf32>) -> memref<8x64xf32> {
+  %0 = memref.alloc() : memref<8x64xf32>
+  return %0 : memref<8x64xf32>
+}

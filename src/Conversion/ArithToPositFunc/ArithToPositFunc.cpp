@@ -9,6 +9,7 @@
 #include "mlir/IR/BuiltinOps.h"
 #include "mlir/IR/BuiltinTypes.h"
 #include "mlir/IR/MLIRContext.h"
+#include "mlir/IR/Operation.h"
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/IR/SymbolTable.h"
 #include "mlir/IR/Types.h"
@@ -181,92 +182,43 @@ struct FloatToIntTypeConverter : public mlir::TypeConverter {
 //   return false;
 // }
 
-struct ConvertArithToPositFuncPass
-    : public PassWrapper<ConvertArithToPositFuncPass, OperationPass<ModuleOp>> {
-  void runOnOperation() final;
-  StringRef getArgument() const override {
-    return "convert-arith-to-posit-func";
-  }
-  StringRef getDescription() const override {
-    return "Lower the arith dialect to posit func dialect.";
-  };
+template <typename Op>
+struct MemRefNoOprandToIntPattern : public OpConversionPattern<Op> {
+  using OpConversionPattern<Op>::OpConversionPattern;
 
-  ConvertArithToPositFuncPass() = default;
-  ConvertArithToPositFuncPass(const ConvertArithToPositFuncPass &pass)
-      : PassWrapper<ConvertArithToPositFuncPass, OperationPass<ModuleOp>>() {}
-  ConvertArithToPositFuncPass(uint8_t n_bits, uint8_t es_val) {
-    this->_n_bits = n_bits;
-    this->_es_val = es_val;
-  }
+  MemRefNoOprandToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<Op>(typeConverter, context){};
 
-public:
-  Option<int> _n_bits{*this, "n-bits",
-      llvm::cl::desc("Number of bits in posit"), llvm::cl::init(8)};
-  Option<int> _es_val{*this, "es-val",
-      llvm::cl::desc("Number of bits in exponent"), llvm::cl::init(0)};
+  LogicalResult matchAndRewrite(Op op, typename Op::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const final;
 };
 
-void ConvertArithToPositFuncPass::runOnOperation() {
-  auto module = getOperation();
-  RewritePatternSet patterns(&getContext());
+template <typename Op>
+LogicalResult MemRefNoOprandToIntPattern<Op>::matchAndRewrite(Op op,
+    typename Op::Adaptor adaptor, ConversionPatternRewriter &rewriter) const {
+  auto memRefType = cast<MemRefType>(op.getType());
 
-  FloatToIntTypeConverter typeConverter(_n_bits);
+  if (!isa<Float32Type>(memRefType.getElementType()))
+    return failure();
 
-  // custom lowering
-  populateConvertArithAddToPositFuncPattern(
-      patterns, typeConverter, "add", _n_bits, _es_val);
-  populateConvertArithConstantFloatToIntPattern(
-      patterns, typeConverter, _n_bits, _es_val);
-  populateKrnlGlobalOpToIntPattern(patterns, typeConverter, _n_bits, _es_val);
+  // why do we need "this"?
+  auto newMemRefType =
+      cast<MemRefType>(this->getTypeConverter()->convertType(memRefType));
 
-  // populate standard lowering
-  populateFunctionOpInterfaceTypeConversionPattern<func::FuncOp>(
-      patterns, typeConverter);
-  populateCallOpTypeConversionPattern(patterns, typeConverter);
-  populateBranchOpInterfaceTypeConversionPattern(patterns, typeConverter);
-  populateReturnOpTypeConversionPattern(patterns, typeConverter);
-  populateMemRefAllocaOpToIntPattern(patterns, typeConverter);
+  if (!newMemRefType)
+    return failure();
 
-  ConversionTarget target(getContext());
-  target.addIllegalDialect<arith::ArithDialect>();
-  target.addDynamicallyLegalOp<arith::ConstantOp>(
-      [&](arith::ConstantOp op) { return typeConverter.isLegal(op); });
+  rewriter.replaceOpWithNewOp<Op>(op, newMemRefType, op.getAlignmentAttr());
 
-  target.addDynamicallyLegalOp<KrnlGlobalOp>([&](KrnlGlobalOp op) {
-    return typeConverter.isLegal(
-        cast<MemRefType>(op->getResult(0).getType()).getElementType());
-  });
+  return success();
+}
 
-  target.addDynamicallyLegalOp<memref::AllocaOp>([&](memref::AllocaOp op) {
-    return typeConverter.isLegal(op.getType().getElementType());
-  });
-
-  // target.addDynamicallyLegalDialect<memref::MemRefDialect>(
-  //     [&typeConverter](Operation *op) { return typeConverter.isLegal(op); });
-
-  target.addDynamicallyLegalOp<func::FuncOp>([&](func::FuncOp op) {
-    bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
-               typeConverter.isLegal(&op.getBody());
-    return res;
-  });
-
-  target.addDynamicallyLegalOp<func::ReturnOp>([&](func::ReturnOp op) {
-    bool res = typeConverter.isLegal(op);
-    return res;
-  });
-
-  target.addDynamicallyLegalOp<func::CallOp>(
-      [&](func::CallOp op) { return typeConverter.isLegal(op); });
-
-  target.markUnknownOpDynamicallyLegal([&](Operation *op) {
-    return isNotBranchOpInterfaceOrReturnLikeOp(op) ||
-           isLegalForBranchOpInterfaceTypeConversionPattern(
-               op, typeConverter) ||
-           isLegalForReturnOpTypeConversionPattern(op, typeConverter);
-  });
-
-  if (failed(applyPartialConversion(module, target, std::move(patterns))))
-    signalPassFailure();
+template <typename... Ops>
+void populateMemRefNoOprandToIntPattern(
+    RewritePatternSet &patterns, TypeConverter &typeConverter) {
+  MLIRContext *ctx = patterns.getContext();
+  (patterns.add<MemRefNoOprandToIntPattern<Ops>>(typeConverter, ctx), ...);
 }
 
 struct MemRefAllocaOpToIntPattern
@@ -503,6 +455,102 @@ void mlir::populateConvertArithAddToPositFuncPattern(
   MLIRContext *context = patterns.getContext();
   patterns.add<ConvertArithAddToPositFuncLowering>(
       typeConverter, context, opString, n_bits, es_val);
+}
+
+struct ConvertArithToPositFuncPass
+    : public PassWrapper<ConvertArithToPositFuncPass, OperationPass<ModuleOp>> {
+  void runOnOperation() final;
+  StringRef getArgument() const override {
+    return "convert-arith-to-posit-func";
+  }
+  StringRef getDescription() const override {
+    return "Lower the arith dialect to posit func dialect.";
+  };
+
+  ConvertArithToPositFuncPass() = default;
+  ConvertArithToPositFuncPass(const ConvertArithToPositFuncPass &pass)
+      : PassWrapper<ConvertArithToPositFuncPass, OperationPass<ModuleOp>>() {}
+  ConvertArithToPositFuncPass(uint8_t n_bits, uint8_t es_val) {
+    this->_n_bits = n_bits;
+    this->_es_val = es_val;
+  }
+
+public:
+  Option<int> _n_bits{*this, "n-bits",
+      llvm::cl::desc("Number of bits in posit"), llvm::cl::init(8)};
+  Option<int> _es_val{*this, "es-val",
+      llvm::cl::desc("Number of bits in exponent"), llvm::cl::init(0)};
+};
+
+void ConvertArithToPositFuncPass::runOnOperation() {
+  auto module = getOperation();
+  RewritePatternSet patterns(&getContext());
+
+  FloatToIntTypeConverter typeConverter(_n_bits);
+
+  // custom lowering
+  populateConvertArithAddToPositFuncPattern(
+      patterns, typeConverter, "add", _n_bits, _es_val);
+  populateConvertArithConstantFloatToIntPattern(
+      patterns, typeConverter, _n_bits, _es_val);
+  populateKrnlGlobalOpToIntPattern(patterns, typeConverter, _n_bits, _es_val);
+  // populateMemRefAllocaOpToIntPattern(patterns, typeConverter);
+  populateMemRefNoOprandToIntPattern<memref::AllocaOp, memref::AllocOp>(
+      patterns, typeConverter); // getType() same builder pattern
+  // store: getMemRefType()
+  // populateMemRefNoOprandToIntPattern<memref::AllocOp>(patterns,
+  // typeConverter);
+
+  // populate standard lowering
+  populateFunctionOpInterfaceTypeConversionPattern<func::FuncOp>(
+      patterns, typeConverter);
+  populateCallOpTypeConversionPattern(patterns, typeConverter);
+  populateBranchOpInterfaceTypeConversionPattern(patterns, typeConverter);
+  populateReturnOpTypeConversionPattern(patterns, typeConverter);
+
+  ConversionTarget target(getContext());
+  target.addIllegalDialect<arith::ArithDialect>();
+  target.addDynamicallyLegalOp<arith::ConstantOp>(
+      [&](arith::ConstantOp op) { return typeConverter.isLegal(op); });
+
+  target.addDynamicallyLegalOp<KrnlGlobalOp>([&](KrnlGlobalOp op) {
+    return typeConverter.isLegal(
+        cast<MemRefType>(op->getResult(0).getType()).getElementType());
+  });
+
+  target.addDynamicallyLegalOp<memref::AllocaOp, memref::AllocOp>(
+      [&](Operation *op) {
+        return typeConverter.isLegal(
+            cast<MemRefType>(op->getResult(0).getType()));
+        // return typeConverter.isLegal(op.getType().getElementType());
+      });
+
+  // target.addDynamicallyLegalDialect<memref::MemRefDialect>(
+  //     [&typeConverter](Operation *op) { return typeConverter.isLegal(op); });
+
+  target.addDynamicallyLegalOp<func::FuncOp>([&](func::FuncOp op) {
+    bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
+               typeConverter.isLegal(&op.getBody());
+    return res;
+  });
+
+  target.addDynamicallyLegalOp<func::ReturnOp>([&](func::ReturnOp op) {
+    bool res = typeConverter.isLegal(op);
+    return res;
+  });
+
+  target.addDynamicallyLegalOp<func::CallOp>(
+      [&](func::CallOp op) { return typeConverter.isLegal(op); });
+
+  target.markUnknownOpDynamicallyLegal([&](Operation *op) {
+    return isNotBranchOpInterfaceOrReturnLikeOp(op) ||
+           isLegalForBranchOpInterfaceTypeConversionPattern(
+               op, typeConverter) ||
+           isLegalForReturnOpTypeConversionPattern(op, typeConverter);
+  });
+
+  if (failed(applyPartialConversion(module, target, std::move(patterns))))
+    signalPassFailure();
 }
 
 std::unique_ptr<mlir::Pass> mlir::createConvertArithToPositFuncPass() {
