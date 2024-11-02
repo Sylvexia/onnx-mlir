@@ -9,7 +9,9 @@
 #include "mlir/IR/BuiltinOps.h"
 #include "mlir/IR/BuiltinTypes.h"
 #include "mlir/IR/MLIRContext.h"
+#include "mlir/IR/OpDefinition.h"
 #include "mlir/IR/Operation.h"
+#include "mlir/IR/OperationSupport.h"
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/IR/SymbolTable.h"
 #include "mlir/IR/Types.h"
@@ -18,6 +20,7 @@
 #include "mlir/Transforms/DialectConversion.h"
 #include "src/Dialect/Krnl/KrnlOps.hpp"
 #include "src/Pass/Passes.hpp"
+#include "llvm/Support/raw_ostream.h"
 
 #define DEBUG_TYPE "convert-arith-to-posit-func"
 
@@ -182,6 +185,7 @@ struct FloatToIntTypeConverter : public mlir::TypeConverter {
 //   return false;
 // }
 
+// to be renamed to alloc Pattern
 template <typename Op>
 struct MemRefNoOprandToIntPattern : public OpConversionPattern<Op> {
   using OpConversionPattern<Op>::OpConversionPattern;
@@ -219,6 +223,127 @@ void populateMemRefNoOprandToIntPattern(
     RewritePatternSet &patterns, TypeConverter &typeConverter) {
   MLIRContext *ctx = patterns.getContext();
   (patterns.add<MemRefNoOprandToIntPattern<Ops>>(typeConverter, ctx), ...);
+}
+
+template <typename Op>
+struct ReturnTypeToIntPattern : public OpConversionPattern<Op> {
+  using OpConversionPattern<Op>::OpConversionPattern;
+
+  ReturnTypeToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<Op>(typeConverter, context){};
+
+  LogicalResult matchAndRewrite(Op op, typename Op::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const final;
+};
+
+template <typename Op>
+LogicalResult ReturnTypeToIntPattern<Op>::matchAndRewrite(Op op,
+    typename Op::Adaptor adaptor, ConversionPatternRewriter &rewriter) const {
+  auto memRefType = dyn_cast<MemRefType>(op->getResult(0).getType());
+  if (!memRefType)
+    return failure();
+  if (!isa<Float32Type>(memRefType.getElementType()))
+    return failure();
+
+  llvm::errs() << "get f32 type";
+
+  auto newMemRefType =
+      dyn_cast<MemRefType>(this->getTypeConverter()->convertType(memRefType));
+
+  llvm::errs() << "converted";
+
+  if (!newMemRefType)
+    return failure();
+
+  OperationState newOpState(op->getLoc(), op->getName());
+  newOpState.addOperands(adaptor.getOperands());
+  newOpState.addTypes(newMemRefType);
+  newOpState.addAttributes(op->getAttrs());
+  // newOpState.addSuccessors(op->getSucessors());
+  auto *newOp = rewriter.create(newOpState);
+
+  llvm::errs() << "new op: " << newOp << "\n";
+  rewriter.replaceOp(op, newOp->getResults());
+  return success();
+}
+
+struct MemRefLoadOpToIntPattern : public OpConversionPattern<memref::LoadOp> {
+  using OpConversionPattern<memref::LoadOp>::OpConversionPattern;
+
+  MemRefLoadOpToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<memref::LoadOp>(typeConverter, context){};
+
+  LogicalResult matchAndRewrite(memref::LoadOp op,
+      typename memref::LoadOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+
+    auto memRefOperand = op.getMemRef();
+    auto memRefType = dyn_cast<MemRefType>(memRefOperand.getType());
+
+    if (!memRefType)
+      return failure();
+
+    if (!isa<Float32Type>(memRefType.getElementType()))
+      return failure();
+
+    rewriter.replaceOpWithNewOp<memref::LoadOp>(
+        op, adaptor.getMemref(), op.getIndices());
+
+    return success();
+  }
+};
+
+void populateMemRefLoadOpToIntPattern(
+    RewritePatternSet &patterns, TypeConverter &typeConverter) {
+  MLIRContext *ctx = patterns.getContext();
+  patterns.add<MemRefLoadOpToIntPattern>(typeConverter, ctx);
+}
+
+struct MemRefReinterpretCastOpToIntPattern
+    : public OpConversionPattern<memref::ReinterpretCastOp> {
+  using OpConversionPattern<memref::ReinterpretCastOp>::OpConversionPattern;
+
+  MemRefReinterpretCastOpToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<memref::ReinterpretCastOp>(
+            typeConverter, context){};
+
+  LogicalResult matchAndRewrite(memref::ReinterpretCastOp op,
+      typename memref::ReinterpretCastOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+
+    Value newSource = adaptor.getSource();
+    auto newResultType = dyn_cast<MemRefType>(
+        getTypeConverter()->convertType(op.getResult().getType()));
+
+    if (!newResultType)
+      return failure();
+
+    // %23 = "memref.reinterpret_cast"(%21) <{operandSegmentSizes = array<i32:
+    // 1, 0, 0, 0>, static_offsets = array<i64: 0>, static_sizes = array<i64: 1,
+    // 3136>, static_strides = array<i64: 3136, 1>}> : (memref<1x64x7x7xf32>) ->
+    // memref<1x3136xf32>
+
+    // OpFoldResult offsets = op.getMixedOffsets()[0];
+    // ArrayRef<OpFoldResult> sizes = op.getMixedSizes();
+    // ArrayRef<OpFoldResult> strides = op.getMixedStrides();
+    // ArrayRef<NamedAttribute> attrs = op->getAttrs();
+
+    // get static stride
+    rewriter.replaceOpWithNewOp<memref::ReinterpretCastOp>(op, newResultType,
+        newSource, op.getMixedOffsets()[0], op.getMixedSizes(),
+        op.getMixedStrides(), op->getAttrs());
+
+    return success();
+  }
+};
+
+void populateReinterpretCastOpToIntPattern(
+    RewritePatternSet &patterns, TypeConverter &typeConverter) {
+  MLIRContext *ctx = patterns.getContext();
+  patterns.add<MemRefReinterpretCastOpToIntPattern>(typeConverter, ctx);
 }
 
 struct MemRefAllocaOpToIntPattern
@@ -267,7 +392,7 @@ struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
       typename KrnlGlobalOp::Adaptor adaptor,
       ConversionPatternRewriter &rewriter) const override {
 
-    auto type = op->getResult(0).getType();
+    auto type = op.getType();
     auto memRefType = cast<MemRefType>(type);
     if (!isa<Float32Type>(memRefType.getElementType()))
       return failure();
@@ -295,12 +420,12 @@ struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
               convertFloat32ToPosit(floatBits, n_bits, es_val));
         });
 
-    auto new_op = rewriter.replaceOpWithNewOp<KrnlGlobalOp>(op, newMemRefType,
-        op.getShape(), op.getNameAttrName(), newDenseAttr, op.getOffsetAttr(),
+    rewriter.replaceOpWithNewOp<KrnlGlobalOp>(op, newMemRefType, op.getShape(),
+        op.getNameAttrName(), newDenseAttr, op.getOffsetAttr(),
         op.getAlignmentAttr());
 
-    llvm::errs() << "new op: " << new_op << "\n";
-    llvm::errs() << "uwu" << "\n";
+    // llvm::errs() << "new op: " << new_op << "\n";
+    // llvm::errs() << "uwu" << "\n";
 
     // log out the original value and the new value
     // for (auto [origValue, newValue] : llvm::zip(
@@ -497,6 +622,10 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   // populateMemRefAllocaOpToIntPattern(patterns, typeConverter);
   populateMemRefNoOprandToIntPattern<memref::AllocaOp, memref::AllocOp>(
       patterns, typeConverter); // getType() same builder pattern
+  populateMemRefLoadOpToIntPattern(patterns, typeConverter);
+  populateReinterpretCastOpToIntPattern(patterns, typeConverter);
+  // patterns.add<ReturnTypeToIntPattern<memref::LoadOp>>(
+  //     typeConverter, patterns.getContext());
   // store: getMemRefType()
   // populateMemRefNoOprandToIntPattern<memref::AllocOp>(patterns,
   // typeConverter);
@@ -524,6 +653,9 @@ void ConvertArithToPositFuncPass::runOnOperation() {
             cast<MemRefType>(op->getResult(0).getType()));
         // return typeConverter.isLegal(op.getType().getElementType());
       });
+
+  target.addDynamicallyLegalOp<memref::LoadOp, memref::ReinterpretCastOp>(
+      [&](Operation *op) { return typeConverter.isLegal(op); });
 
   // target.addDynamicallyLegalDialect<memref::MemRefDialect>(
   //     [&typeConverter](Operation *op) { return typeConverter.isLegal(op); });
