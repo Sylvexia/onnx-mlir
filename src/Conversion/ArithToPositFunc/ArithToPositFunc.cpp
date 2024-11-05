@@ -1,4 +1,5 @@
 #include "src/Conversion/ArithToPositFunc/ArithToPositFunc.hpp"
+#include "mlir/Dialect/Affine/IR/AffineOps.h"
 #include "mlir/Dialect/Arith/IR/Arith.h"
 #include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/Dialect/Func/Transforms/FuncConversions.h"
@@ -289,7 +290,7 @@ struct MemRefLoadOpToIntPattern : public OpConversionPattern<memref::LoadOp> {
       return failure();
 
     rewriter.replaceOpWithNewOp<memref::LoadOp>(
-        op, adaptor.getMemref(), op.getIndices());
+        op, adaptor.getMemref(), op.getIndices(), op.getNontemporalAttr());
 
     return success();
   }
@@ -321,17 +322,6 @@ struct MemRefReinterpretCastOpToIntPattern
     if (!newResultType)
       return failure();
 
-    // %23 = "memref.reinterpret_cast"(%21) <{operandSegmentSizes = array<i32:
-    // 1, 0, 0, 0>, static_offsets = array<i64: 0>, static_sizes = array<i64: 1,
-    // 3136>, static_strides = array<i64: 3136, 1>}> : (memref<1x64x7x7xf32>) ->
-    // memref<1x3136xf32>
-
-    // OpFoldResult offsets = op.getMixedOffsets()[0];
-    // ArrayRef<OpFoldResult> sizes = op.getMixedSizes();
-    // ArrayRef<OpFoldResult> strides = op.getMixedStrides();
-    // ArrayRef<NamedAttribute> attrs = op->getAttrs();
-
-    // get static stride
     rewriter.replaceOpWithNewOp<memref::ReinterpretCastOp>(op, newResultType,
         newSource, op.getMixedOffsets()[0], op.getMixedSizes(),
         op.getMixedStrides(), op->getAttrs());
@@ -344,6 +334,118 @@ void populateReinterpretCastOpToIntPattern(
     RewritePatternSet &patterns, TypeConverter &typeConverter) {
   MLIRContext *ctx = patterns.getContext();
   patterns.add<MemRefReinterpretCastOpToIntPattern>(typeConverter, ctx);
+}
+
+struct AffineForOpToIntPattern
+    : public OpConversionPattern<affine::AffineForOp> {
+  using OpConversionPattern<affine::AffineForOp>::OpConversionPattern;
+
+  AffineForOpToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<affine::AffineForOp>(
+            typeConverter, context){};
+
+  LogicalResult matchAndRewrite(affine::AffineForOp op,
+      typename affine::AffineForOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+
+    // auto iterArg = op.get
+    // if (!iterArg.isF32())
+    //   return mlir::failure();
+
+    // auto newType = getTypeConverter()->convertType(iterArg);
+    // rewriter.replaceOpWithNewOp<affine::AffineForOp>(op, op.getLowerBound(),
+    //     op.getLowerBoundMap(), op.getUpperBound(), op.getUpperBoundMap(),
+    //     op.getStepAsInt());
+
+    // op.getBody()->addArgument(newType,
+    // op.getBody()->getArgument(0).getLoc());
+    rewriter.replaceOp(op, op->getResults());
+
+    return mlir::success();
+    return success();
+  }
+};
+
+void populateAffineForOpToIntPattern(
+    RewritePatternSet &patterns, TypeConverter &typeConverter) {
+  MLIRContext *ctx = patterns.getContext();
+  patterns.add<AffineForOpToIntPattern>(typeConverter, ctx);
+}
+
+struct AffineLoadOpToIntPattern
+    : public OpConversionPattern<affine::AffineLoadOp> {
+  using OpConversionPattern<affine::AffineLoadOp>::OpConversionPattern;
+
+  AffineLoadOpToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<affine::AffineLoadOp>(
+            typeConverter, context){};
+
+  LogicalResult matchAndRewrite(affine::AffineLoadOp op,
+      typename affine::AffineLoadOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+
+    auto memRefOperand = op.getMemRef();
+    auto memRefType = dyn_cast<MemRefType>(memRefOperand.getType());
+
+    if (!memRefType)
+      return failure();
+
+    if (!isa<Float32Type>(memRefType.getElementType()))
+      return failure();
+
+    Value newMemref = adaptor.getMemref();
+
+    // should we get index instead?
+    // this works
+    rewriter.replaceOpWithNewOp<affine::AffineLoadOp>(
+        op, newMemref, op.getMap(), op.getMapOperands());
+
+    return success();
+  }
+};
+
+void populateAffineLoadOpToIntPattern(
+    RewritePatternSet &patterns, TypeConverter &typeConverter) {
+  MLIRContext *ctx = patterns.getContext();
+  patterns.add<AffineLoadOpToIntPattern>(typeConverter, ctx);
+}
+
+struct AffineStoreOpToIntPattern
+    : public OpConversionPattern<affine::AffineStoreOp> {
+  using OpConversionPattern<affine::AffineStoreOp>::OpConversionPattern;
+
+  AffineStoreOpToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<affine::AffineStoreOp>(
+            typeConverter, context){};
+
+  LogicalResult matchAndRewrite(affine::AffineStoreOp op,
+      typename affine::AffineStoreOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+
+    auto memRefOperand = op.getMemRef();
+    auto memRefType = dyn_cast<MemRefType>(memRefOperand.getType());
+
+    if (!memRefType)
+      return failure();
+
+    if (!isa<Float32Type>(memRefType.getElementType()))
+      return failure();
+
+    // should we use index instead?
+    rewriter.replaceOpWithNewOp<affine::AffineStoreOp>(
+        op, adaptor.getValue(), adaptor.getMemref(), op.getIndices());
+
+    return success();
+  }
+};
+
+void populateAffineStoreOpToIntPattern(
+    RewritePatternSet &patterns, TypeConverter &typeConverter) {
+  MLIRContext *ctx = patterns.getContext();
+  patterns.add<AffineStoreOpToIntPattern>(typeConverter, ctx);
 }
 
 struct MemRefAllocaOpToIntPattern
@@ -624,6 +726,8 @@ void ConvertArithToPositFuncPass::runOnOperation() {
       patterns, typeConverter); // getType() same builder pattern
   populateMemRefLoadOpToIntPattern(patterns, typeConverter);
   populateReinterpretCastOpToIntPattern(patterns, typeConverter);
+  populateAffineLoadOpToIntPattern(patterns, typeConverter);
+  populateAffineStoreOpToIntPattern(patterns, typeConverter);
   // patterns.add<ReturnTypeToIntPattern<memref::LoadOp>>(
   //     typeConverter, patterns.getContext());
   // store: getMemRefType()
@@ -656,6 +760,14 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   target.addDynamicallyLegalOp<memref::LoadOp, memref::ReinterpretCastOp>(
       [&](Operation *op) { return typeConverter.isLegal(op); });
+
+  target.addDynamicallyLegalOp<affine::AffineLoadOp>(
+      [&](Operation *op) { return typeConverter.isLegal(op); });
+
+  target.addDynamicallyLegalOp<affine::AffineStoreOp>(
+      [&](affine::AffineStoreOp op) {
+        return typeConverter.isLegal(cast<MemRefType>(op.getMemref().getType()));
+      });
 
   // target.addDynamicallyLegalDialect<memref::MemRefDialect>(
   //     [&typeConverter](Operation *op) { return typeConverter.isLegal(op); });
