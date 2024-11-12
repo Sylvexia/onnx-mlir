@@ -21,35 +21,46 @@ add_onnx_mlir_executable(onnx-mlir
   OMOptionUtils
   )
 
-add_onnx_mlir_executable(onnx-mlir-krnl
-  onnx-mlir-krnl.cpp
+# add_onnx_mlir_executable(onnx-mlir-krnl
+#   onnx-mlir-krnl.cpp
 
-  LINK_LIBS PRIVATE
-  OMCompilerOptions
-  OMCompilerUtils
-  OMOptionUtils
-  )
+#   LINK_LIBS PRIVATE
+#   OMCompilerOptions
+#   OMCompilerUtils
+#   OMOptionUtils
+#   )
 
-add_onnx_mlir_executable(onnx-mlir-onnx
-  onnx-mlir-onnx.cpp
+# add_onnx_mlir_executable(onnx-mlir-onnx
+#   onnx-mlir-onnx.cpp
 
-  LINK_LIBS PRIVATE
-  OMCompilerOptions
-  OMCompilerUtils
-  OMOptionUtils
-  )
+#   LINK_LIBS PRIVATE
+#   OMCompilerOptions
+#   OMCompilerUtils
+#   OMOptionUtils
+#   )
 
-add_onnx_mlir_executable(onnx-mlir-affine
-  onnx-mlir-affine.cpp
+# add_onnx_mlir_executable(onnx-mlir-affine
+#   onnx-mlir-affine.cpp
 
-  LINK_LIBS PRIVATE
-  OMCompilerOptions
-  OMCompilerUtils
-  OMOptionUtils
-  )
+#   LINK_LIBS PRIVATE
+#   OMCompilerOptions
+#   OMCompilerUtils
+#   OMOptionUtils
+#   )
 
-add_onnx_mlir_executable(TestPosit
-  TestPosit.cpp
+# add_onnx_mlir_executable(TestPosit
+#   TestPosit.cpp
+
+#   LINK_LIBS PRIVATE
+#   # MLIRIR
+#   # OMPositOps
+#   OMCompilerOptions
+#   OMCompilerUtils
+#   OMOptionUtils
+#   )
+
+add_onnx_mlir_executable(TestForOp
+  TestForOp.cpp
 
   LINK_LIBS PRIVATE
   # MLIRIR

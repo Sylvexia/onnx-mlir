@@ -15,12 +15,15 @@
 #include "mlir/IR/OperationSupport.h"
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/IR/SymbolTable.h"
+#include "mlir/IR/TypeRange.h"
 #include "mlir/IR/Types.h"
+#include "mlir/IR/ValueRange.h"
 #include "mlir/Pass/Pass.h"
 #include "mlir/Support/LogicalResult.h"
 #include "mlir/Transforms/DialectConversion.h"
 #include "src/Dialect/Krnl/KrnlOps.hpp"
 #include "src/Pass/Passes.hpp"
+#include "llvm/ADT/SmallVector.h"
 #include "llvm/Support/raw_ostream.h"
 
 #define DEBUG_TYPE "convert-arith-to-posit-func"
@@ -349,20 +352,28 @@ struct AffineForOpToIntPattern
       typename affine::AffineForOp::Adaptor adaptor,
       ConversionPatternRewriter &rewriter) const override {
 
-    // auto iterArg = op.get
-    // if (!iterArg.isF32())
-    //   return mlir::failure();
+    Location loc = op.getLoc();
 
-    // auto newType = getTypeConverter()->convertType(iterArg);
-    // rewriter.replaceOpWithNewOp<affine::AffineForOp>(op, op.getLowerBound(),
-    //     op.getLowerBoundMap(), op.getUpperBound(), op.getUpperBoundMap(),
-    //     op.getStepAsInt());
+    auto newForOp =
+        rewriter.create<affine::AffineForOp>(loc, op.getLowerBoundOperands(),
+            op.getLowerBoundMap(), op.getUpperBoundOperands(),
+            op.getUpperBoundMap(), op.getStepAsInt(), adaptor.getInits());
 
-    // op.getBody()->addArgument(newType,
-    // op.getBody()->getArgument(0).getLoc());
-    rewriter.replaceOp(op, op->getResults());
+    // the region argument get replaced by the newForOp.getRegion().getArgument
+    rewriter.eraseBlock(newForOp.getBody());
+    rewriter.inlineRegionBefore(
+        adaptor.getRegion(), newForOp.getRegion(), newForOp.getRegion().end());
 
-    return mlir::success();
+    auto newIterArgs = newForOp.getRegionIterArgs();
+    for (auto &arg : newIterArgs) {
+      auto newArgType = getTypeConverter()->convertType(arg.getType());
+      if (!newArgType)
+        return failure();
+      arg.setType(newArgType);
+    }
+
+    rewriter.replaceOp(op, newForOp->getResults());
+
     return success();
   }
 };
@@ -371,6 +382,32 @@ void populateAffineForOpToIntPattern(
     RewritePatternSet &patterns, TypeConverter &typeConverter) {
   MLIRContext *ctx = patterns.getContext();
   patterns.add<AffineForOpToIntPattern>(typeConverter, ctx);
+}
+
+struct AffineYieldOpToIntPattern
+    : public OpConversionPattern<affine::AffineYieldOp> {
+  using OpConversionPattern<affine::AffineYieldOp>::OpConversionPattern;
+
+  AffineYieldOpToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<affine::AffineYieldOp>(
+            typeConverter, context){};
+
+  LogicalResult matchAndRewrite(affine::AffineYieldOp op,
+      typename affine::AffineYieldOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+
+    rewriter.replaceOpWithNewOp<affine::AffineYieldOp>(
+        op, adaptor.getOperands());
+
+    return success();
+  }
+};
+
+void populateAffineYieldOpToIntPattern(
+    RewritePatternSet &patterns, TypeConverter &typeConverter) {
+  MLIRContext *ctx = patterns.getContext();
+  patterns.add<AffineYieldOpToIntPattern>(typeConverter, ctx);
 }
 
 struct AffineLoadOpToIntPattern
@@ -728,11 +765,9 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   populateReinterpretCastOpToIntPattern(patterns, typeConverter);
   populateAffineLoadOpToIntPattern(patterns, typeConverter);
   populateAffineStoreOpToIntPattern(patterns, typeConverter);
-  // patterns.add<ReturnTypeToIntPattern<memref::LoadOp>>(
-  //     typeConverter, patterns.getContext());
-  // store: getMemRefType()
-  // populateMemRefNoOprandToIntPattern<memref::AllocOp>(patterns,
-  // typeConverter);
+  patterns.add<AffineStoreOpToIntPattern>(typeConverter, patterns.getContext());
+  populateAffineForOpToIntPattern(patterns, typeConverter);
+  populateAffineYieldOpToIntPattern(patterns, typeConverter);
 
   // populate standard lowering
   populateFunctionOpInterfaceTypeConversionPattern<func::FuncOp>(
@@ -766,11 +801,19 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   target.addDynamicallyLegalOp<affine::AffineStoreOp>(
       [&](affine::AffineStoreOp op) {
-        return typeConverter.isLegal(cast<MemRefType>(op.getMemref().getType()));
+        return typeConverter.isLegal(
+            cast<MemRefType>(op.getMemref().getType()));
       });
 
-  // target.addDynamicallyLegalDialect<memref::MemRefDialect>(
-  //     [&typeConverter](Operation *op) { return typeConverter.isLegal(op); });
+  target.addDynamicallyLegalOp<affine::AffineForOp>(
+      [&](affine::AffineForOp op) {
+        return typeConverter.isLegal(op->getResultTypes());
+      });
+
+  target.addDynamicallyLegalOp<affine::AffineYieldOp>(
+      [&](affine::AffineYieldOp op) {
+        return typeConverter.isLegal(op->getOperandTypes());
+      });
 
   target.addDynamicallyLegalOp<func::FuncOp>([&](func::FuncOp op) {
     bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
