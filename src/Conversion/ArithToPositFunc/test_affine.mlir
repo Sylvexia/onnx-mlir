@@ -42,7 +42,10 @@ func.func @test_affineForLoop(%arg0: memref<64xf32>) -> f32 {
   %0 = affine.for %arg1 = 0 to 64 iter_args(%arg2 = %cst_0) -> (f32) {
     %arg3 = affine.load %arg0[%arg1] : memref<64xf32>
     %arg4 = arith.addf %arg3, %arg2 : f32
-    affine.yield %arg4 : f32
+    %arg5 = arith.subf %arg4, %arg3 : f32
+    %arg6 = arith.mulf %arg3, %arg5 : f32
+    %arg7 = arith.divf %arg6, %arg3 : f32
+    affine.yield %arg7 : f32
   }
   return %0 : f32
 }
@@ -54,8 +57,13 @@ func.func @test_affineForLoopHighDim(%arg0: f32) {
     affine.for %arg4 = 0 to 64 {
       affine.for %arg5 = 0 to 14 {
         %0 = affine.for %arg6 = 0 to 14 iter_args(%arg7 = %arg0) -> (f32){
-          affine.store %arg0, %alloc[%arg4, %arg5, %arg6, %arg3] : memref<1x64x14x14xf32>
-          affine.yield %arg0 : f32
+          %1 = affine.load %alloc[%arg3, %arg4, %arg5, %arg6] : memref<1x64x14x14xf32>
+          %2 = arith.addf %1, %arg7 : f32
+          %3 = arith.subf %2, %1 : f32
+          %4 = arith.mulf %1, %3 : f32
+          %5 = arith.divf %4, %1 : f32
+          affine.store %5, %alloc[%arg3, %arg4, %arg6, %arg5] : memref<1x64x14x14xf32>
+          affine.yield %5 : f32
         }
       }
     }

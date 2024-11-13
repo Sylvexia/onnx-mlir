@@ -3,6 +3,7 @@
 #include "mlir/Dialect/Arith/IR/Arith.h"
 #include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/Dialect/Func/Transforms/FuncConversions.h"
+#include "mlir/Dialect/LLVMIR/LLVMDialect.h"
 #include "mlir/Dialect/MemRef/IR/MemRef.h"
 #include "mlir/Pass/Pass.h"
 #include "src/Dialect/Krnl/KrnlOps.hpp"
@@ -181,28 +182,45 @@ struct MemRefNoOprandToIntPattern : public OpConversionPattern<Op> {
       : mlir::OpConversionPattern<Op>(typeConverter, context){};
 
   LogicalResult matchAndRewrite(Op op, typename Op::Adaptor adaptor,
-      ConversionPatternRewriter &rewriter) const final;
+      ConversionPatternRewriter &rewriter) const override {
+    auto memRefType = cast<MemRefType>(op.getType());
+
+    if (!isa<Float32Type>(memRefType.getElementType()))
+      return failure();
+
+    // why do we need "this"?
+    auto newMemRefType =
+        cast<MemRefType>(this->getTypeConverter()->convertType(memRefType));
+
+    if (!newMemRefType)
+      return failure();
+
+    rewriter.replaceOpWithNewOp<Op>(op, newMemRefType, op.getAlignmentAttr());
+
+    return success();
+  }
 };
 
-template <typename Op>
-LogicalResult MemRefNoOprandToIntPattern<Op>::matchAndRewrite(Op op,
-    typename Op::Adaptor adaptor, ConversionPatternRewriter &rewriter) const {
-  auto memRefType = cast<MemRefType>(op.getType());
+// template <typename Op>
+// LogicalResult MemRefNoOprandToIntPattern<Op>::matchAndRewrite(Op op,
+//     typename Op::Adaptor adaptor, ConversionPatternRewriter &rewriter) const
+//     {
+//   auto memRefType = cast<MemRefType>(op.getType());
 
-  if (!isa<Float32Type>(memRefType.getElementType()))
-    return failure();
+//   if (!isa<Float32Type>(memRefType.getElementType()))
+//     return failure();
 
-  // why do we need "this"?
-  auto newMemRefType =
-      cast<MemRefType>(this->getTypeConverter()->convertType(memRefType));
+//   // why do we need "this"?
+//   auto newMemRefType =
+//       cast<MemRefType>(this->getTypeConverter()->convertType(memRefType));
 
-  if (!newMemRefType)
-    return failure();
+//   if (!newMemRefType)
+//     return failure();
 
-  rewriter.replaceOpWithNewOp<Op>(op, newMemRefType, op.getAlignmentAttr());
+//   rewriter.replaceOpWithNewOp<Op>(op, newMemRefType, op.getAlignmentAttr());
 
-  return success();
-}
+//   return success();
+// }
 
 template <typename... Ops>
 void populateMemRefNoOprandToIntPattern(
@@ -222,37 +240,6 @@ struct ReturnTypeToIntPattern : public OpConversionPattern<Op> {
   LogicalResult matchAndRewrite(Op op, typename Op::Adaptor adaptor,
       ConversionPatternRewriter &rewriter) const final;
 };
-
-template <typename Op>
-LogicalResult ReturnTypeToIntPattern<Op>::matchAndRewrite(Op op,
-    typename Op::Adaptor adaptor, ConversionPatternRewriter &rewriter) const {
-  auto memRefType = dyn_cast<MemRefType>(op->getResult(0).getType());
-  if (!memRefType)
-    return failure();
-  if (!isa<Float32Type>(memRefType.getElementType()))
-    return failure();
-
-  llvm::errs() << "get f32 type";
-
-  auto newMemRefType =
-      dyn_cast<MemRefType>(this->getTypeConverter()->convertType(memRefType));
-
-  llvm::errs() << "converted";
-
-  if (!newMemRefType)
-    return failure();
-
-  OperationState newOpState(op->getLoc(), op->getName());
-  newOpState.addOperands(adaptor.getOperands());
-  newOpState.addTypes(newMemRefType);
-  newOpState.addAttributes(op->getAttrs());
-  // newOpState.addSuccessors(op->getSucessors());
-  auto *newOp = rewriter.create(newOpState);
-
-  llvm::errs() << "new op: " << newOp << "\n";
-  rewriter.replaceOp(op, newOp->getResults());
-  return success();
-}
 
 struct MemRefLoadOpToIntPattern : public OpConversionPattern<memref::LoadOp> {
   using OpConversionPattern<memref::LoadOp>::OpConversionPattern;
@@ -635,6 +622,71 @@ void mlir::populateConvertArithConstantFloatToIntPattern(
   patterns.add<ConvertArithConstantFloatToIntPattern>(
       typeConverter, ctx, n_bits, es_val);
 }
+template <typename Op>
+struct ConvertArithBinOpToPositFuncLowering : public OpConversionPattern<Op> {
+  using OpConversionPattern<Op>::OpConversionPattern;
+
+public:
+  ConvertArithBinOpToPositFuncLowering(const TypeConverter &typeConverter,
+      MLIRContext *context, StringRef opString, uint8_t n_bits, uint8_t es_val)
+      : mlir::OpConversionPattern<Op>(typeConverter, context),
+        opString(opString), n_bits(n_bits), es_val(es_val){};
+
+  LogicalResult matchAndRewrite(Op op, typename Op::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const final {
+
+    // this only support scalar, return failure if its vector
+    if (isa<VectorType>(op->getResult(0).getType()))
+      return failure();
+
+    if (!isa<Float32Type>(op.getType()))
+      return failure();
+
+    std::string name = getPositFuncStr(n_bits, es_val, opString);
+
+    auto returnType =
+        this->getTypeConverter()->convertType(op->getOpResult(0).getType());
+
+    if (!returnType)
+      return failure();
+
+    auto module = SymbolTable::getNearestSymbolTable(op);
+    auto opFunc = dyn_cast_or_null<SymbolOpInterface>(
+        SymbolTable::lookupSymbolIn(module, name));
+    if (!opFunc) {
+      OpBuilder::InsertionGuard guard(rewriter);
+      rewriter.setInsertionPointToStart(&module->getRegion(0).front());
+
+      auto opFunctionTy = FunctionType::get(
+          rewriter.getContext(), adaptor.getOperands().getTypes(), returnType);
+      opFunc = rewriter.create<func::FuncOp>(
+          rewriter.getUnknownLoc(), name, opFunctionTy);
+
+      opFunc.setPrivate();
+      opFunc->setAttr(LLVM::LLVMDialect::getReadnoneAttrName(),
+          UnitAttr::get(rewriter.getContext()));
+    }
+    assert(isa<FunctionOpInterface>(SymbolTable::lookupSymbolIn(module, name)));
+
+    rewriter.replaceOpWithNewOp<func::CallOp>(
+        op, name, returnType, adaptor.getOperands());
+
+    return success();
+  }
+
+private:
+  std::string opString;
+  uint8_t n_bits;
+  uint8_t es_val;
+};
+
+template <typename OpType>
+void populateArithBinOpPositPattern(RewritePatternSet &patterns,
+    TypeConverter &typeConverter, const std::string &opName, int nBits,
+    int esVal) {
+  patterns.add<ConvertArithBinOpToPositFuncLowering<OpType>>(
+      typeConverter, patterns.getContext(), opName, nBits, esVal);
+}
 
 struct ConvertArithAddToPositFuncLowering
     : public OpConversionPattern<arith::AddFOp> {
@@ -735,8 +787,17 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   FloatToIntTypeConverter typeConverter(_n_bits);
 
   // custom lowering
-  populateConvertArithAddToPositFuncPattern(
+
+  populateArithBinOpPositPattern<arith::AddFOp>(
       patterns, typeConverter, "add", _n_bits, _es_val);
+  populateArithBinOpPositPattern<arith::SubFOp>(
+      patterns, typeConverter, "sub", _n_bits, _es_val);
+  populateArithBinOpPositPattern<arith::MulFOp>(
+      patterns, typeConverter, "mul", _n_bits, _es_val);
+  populateArithBinOpPositPattern<arith::DivFOp>(
+      patterns, typeConverter, "div", _n_bits, _es_val);
+  // populateConvertArithAddToPositFuncPattern(
+  //     patterns, typeConverter, "add", _n_bits, _es_val);
   populateConvertArithConstantFloatToIntPattern(
       patterns, typeConverter, _n_bits, _es_val);
   populateKrnlGlobalOpToIntPattern(patterns, typeConverter, _n_bits, _es_val);
@@ -746,7 +807,6 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   populateMemRefLoadOpToIntPattern(patterns, typeConverter);
   populateReinterpretCastOpToIntPattern(patterns, typeConverter);
   populateAffineLoadOpToIntPattern(patterns, typeConverter);
-  populateAffineStoreOpToIntPattern(patterns, typeConverter);
   patterns.add<AffineStoreOpToIntPattern>(typeConverter, patterns.getContext());
   populateAffineForOpToIntPattern(patterns, typeConverter);
   populateAffineYieldOpToIntPattern(patterns, typeConverter);
