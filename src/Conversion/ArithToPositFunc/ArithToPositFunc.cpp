@@ -8,6 +8,9 @@
 #include "mlir/Pass/Pass.h"
 #include "src/Dialect/Krnl/KrnlOps.hpp"
 #include "src/Pass/Passes.hpp"
+#include <cstdint>
+#include <string>
+#include <unordered_map>
 
 #define DEBUG_TYPE "convert-arith-to-posit-func"
 
@@ -135,7 +138,7 @@ struct FloatToIntTypeConverter : public mlir::TypeConverter {
     addConversion([](Type type) -> Type { return type; });
     addConversion([bitWidth](MemRefType type) -> Type {
       if (type.getElementType().isF32())
-        return MemRefType::get(
+        return type.clone(
             type.getShape(), IntegerType::get(type.getContext(), bitWidth,
                                  IntegerType::Signless));
       return type;
@@ -688,6 +691,83 @@ void populateArithBinOpPositPattern(RewritePatternSet &patterns,
       typeConverter, patterns.getContext(), opName, nBits, esVal);
 }
 
+struct ConvertArithCmpToPositFuncLowering
+    : public OpConversionPattern<arith::CmpFOp> {
+  using OpConversionPattern<arith::CmpFOp>::OpConversionPattern;
+
+public:
+  ConvertArithCmpToPositFuncLowering(const TypeConverter &typeConverter,
+      MLIRContext *context, uint8_t n_bits, uint8_t es_val)
+      : mlir::OpConversionPattern<arith::CmpFOp>(typeConverter, context),
+        n_bits(n_bits), es_val(es_val),
+        get_pred_str{{arith::CmpFPredicate::OEQ, "oeq"},
+            {arith::CmpFPredicate::OGT, "ogt"},
+            {arith::CmpFPredicate::OLT, "olt"},
+            {arith::CmpFPredicate::OGE, "oge"},
+            {arith::CmpFPredicate::OLE, "ole"},
+            {arith::CmpFPredicate::UNE, "une"},
+            {arith::CmpFPredicate::ORD, "ord"},
+            {arith::CmpFPredicate::UNO, "uno"},
+            {arith::CmpFPredicate::UEQ, "ueq"},
+            {arith::CmpFPredicate::UGT, "ugt"},
+            {arith::CmpFPredicate::ULT, "ult"},
+            {arith::CmpFPredicate::UGE, "uge"},
+            {arith::CmpFPredicate::ULE, "ule"},
+            {arith::CmpFPredicate::AlwaysTrue, "true"},
+            {arith::CmpFPredicate::AlwaysFalse, "false"}} {};
+
+  LogicalResult matchAndRewrite(arith::CmpFOp op,
+      typename arith::CmpFOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const final {
+
+    // this only support scalar, return failure if its vector
+    if (isa<VectorType>(op->getResult(0).getType()))
+      return failure();
+
+    if (!isa<Float32Type>(op->getOperand(0).getType()))
+      return failure();
+
+    if (!isa<Float32Type>(op->getOperand(1).getType()))
+      return failure();
+
+    auto predID = (op.getPredicateAttr().getValue());
+    std::string name = getPositFuncStr(n_bits, es_val, get_pred_str.at(predID));
+
+    auto returnType = rewriter.getI1Type();
+
+    if (!returnType)
+      return failure();
+
+    auto module = SymbolTable::getNearestSymbolTable(op);
+    auto opFunc = dyn_cast_or_null<SymbolOpInterface>(
+        SymbolTable::lookupSymbolIn(module, name));
+    if (!opFunc) {
+      OpBuilder::InsertionGuard guard(rewriter);
+      rewriter.setInsertionPointToStart(&module->getRegion(0).front());
+
+      auto opFunctionTy = FunctionType::get(
+          rewriter.getContext(), adaptor.getOperands().getTypes(), returnType);
+      opFunc = rewriter.create<func::FuncOp>(
+          rewriter.getUnknownLoc(), name, opFunctionTy);
+
+      opFunc.setPrivate();
+      opFunc->setAttr(LLVM::LLVMDialect::getReadnoneAttrName(),
+          UnitAttr::get(rewriter.getContext()));
+    }
+    assert(isa<FunctionOpInterface>(SymbolTable::lookupSymbolIn(module, name)));
+
+    rewriter.replaceOpWithNewOp<func::CallOp>(
+        op, name, returnType, adaptor.getOperands());
+
+    return success();
+  }
+
+private:
+  uint8_t n_bits;
+  uint8_t es_val;
+  std::unordered_map<arith::CmpFPredicate, std::string> get_pred_str;
+};
+
 struct ConvertArithAddToPositFuncLowering
     : public OpConversionPattern<arith::AddFOp> {
   using OpConversionPattern<arith::AddFOp>::OpConversionPattern;
@@ -796,6 +876,10 @@ void ConvertArithToPositFuncPass::runOnOperation() {
       patterns, typeConverter, "mul", _n_bits, _es_val);
   populateArithBinOpPositPattern<arith::DivFOp>(
       patterns, typeConverter, "div", _n_bits, _es_val);
+
+  patterns.add<ConvertArithCmpToPositFuncLowering>(
+      typeConverter, patterns.getContext(), _n_bits, _es_val);
+
   // populateConvertArithAddToPositFuncPattern(
   //     patterns, typeConverter, "add", _n_bits, _es_val);
   populateConvertArithConstantFloatToIntPattern(

@@ -37,7 +37,7 @@ func.func @test_mixed(%arg0: memref<64xf32>) -> f32 {
   return %arg4 : f32
 }
 
-func.func @test_affineForLoop(%arg0: memref<64xf32>) -> f32 {
+func.func @test_affineForLoop(%arg0: memref<64xf32>) -> i1 {
   %cst_0 = arith.constant 0.0 : f32
   %0 = affine.for %arg1 = 0 to 64 iter_args(%arg2 = %cst_0) -> (f32) {
     %arg3 = affine.load %arg0[%arg1] : memref<64xf32>
@@ -47,10 +47,11 @@ func.func @test_affineForLoop(%arg0: memref<64xf32>) -> f32 {
     %arg7 = arith.divf %arg6, %arg3 : f32
     affine.yield %arg7 : f32
   }
-  return %0 : f32
+  %cmp = arith.cmpf ogt, %0, %cst_0 : f32
+  return %cmp : i1
 }
 
-func.func @test_affineForLoopHighDim(%arg0: f32) {
+func.func @test_affineForLoopHighDim(%arg0: f32){
   %alloc = memref.alloc() : memref<1x64x14x14xf32>
   %cst_0 = arith.constant 0.0 : f32
   affine.for %arg3 = 0 to 1 {
