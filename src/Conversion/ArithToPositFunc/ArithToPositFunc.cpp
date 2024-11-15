@@ -8,9 +8,6 @@
 #include "mlir/Pass/Pass.h"
 #include "src/Dialect/Krnl/KrnlOps.hpp"
 #include "src/Pass/Passes.hpp"
-#include <cstdint>
-#include <string>
-#include <unordered_map>
 
 #define DEBUG_TYPE "convert-arith-to-posit-func"
 
@@ -203,27 +200,6 @@ struct MemRefNoOprandToIntPattern : public OpConversionPattern<Op> {
     return success();
   }
 };
-
-// template <typename Op>
-// LogicalResult MemRefNoOprandToIntPattern<Op>::matchAndRewrite(Op op,
-//     typename Op::Adaptor adaptor, ConversionPatternRewriter &rewriter) const
-//     {
-//   auto memRefType = cast<MemRefType>(op.getType());
-
-//   if (!isa<Float32Type>(memRefType.getElementType()))
-//     return failure();
-
-//   // why do we need "this"?
-//   auto newMemRefType =
-//       cast<MemRefType>(this->getTypeConverter()->convertType(memRefType));
-
-//   if (!newMemRefType)
-//     return failure();
-
-//   rewriter.replaceOpWithNewOp<Op>(op, newMemRefType, op.getAlignmentAttr());
-
-//   return success();
-// }
 
 template <typename... Ops>
 void populateMemRefNoOprandToIntPattern(
@@ -625,7 +601,8 @@ void mlir::populateConvertArithConstantFloatToIntPattern(
   patterns.add<ConvertArithConstantFloatToIntPattern>(
       typeConverter, ctx, n_bits, es_val);
 }
-template <typename Op>
+
+template <typename Op> // TODO: this is not binop but returntype int
 struct ConvertArithBinOpToPositFuncLowering : public OpConversionPattern<Op> {
   using OpConversionPattern<Op>::OpConversionPattern;
 
@@ -691,6 +668,7 @@ void populateArithBinOpPositPattern(RewritePatternSet &patterns,
       typeConverter, patterns.getContext(), opName, nBits, esVal);
 }
 
+// chance to merge with template?
 struct ConvertArithCmpToPositFuncLowering
     : public OpConversionPattern<arith::CmpFOp> {
   using OpConversionPattern<arith::CmpFOp>::OpConversionPattern;
@@ -867,15 +845,17 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   FloatToIntTypeConverter typeConverter(_n_bits);
 
   // custom lowering
+  auto populatePatterns = [&](auto opType, const std::string &opString) {
+    populateArithBinOpPositPattern<decltype(opType)>(
+        patterns, typeConverter, opString, _n_bits, _es_val);
+  };
 
-  populateArithBinOpPositPattern<arith::AddFOp>(
-      patterns, typeConverter, "add", _n_bits, _es_val);
-  populateArithBinOpPositPattern<arith::SubFOp>(
-      patterns, typeConverter, "sub", _n_bits, _es_val);
-  populateArithBinOpPositPattern<arith::MulFOp>(
-      patterns, typeConverter, "mul", _n_bits, _es_val);
-  populateArithBinOpPositPattern<arith::DivFOp>(
-      patterns, typeConverter, "div", _n_bits, _es_val);
+  // Populate the patterns
+  populatePatterns(arith::AddFOp{}, "add");
+  populatePatterns(arith::SubFOp{}, "sub");
+  populatePatterns(arith::MulFOp{}, "mul");
+  populatePatterns(arith::DivFOp{}, "div");
+  populatePatterns(arith::SelectOp{}, "select");
 
   patterns.add<ConvertArithCmpToPositFuncLowering>(
       typeConverter, patterns.getContext(), _n_bits, _es_val);
@@ -903,9 +883,9 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   populateReturnOpTypeConversionPattern(patterns, typeConverter);
 
   ConversionTarget target(getContext());
-  target.addIllegalDialect<arith::ArithDialect>();
-  target.addDynamicallyLegalOp<arith::ConstantOp>(
-      [&](arith::ConstantOp op) { return typeConverter.isLegal(op); });
+  target.addDynamicallyLegalOp<arith::ConstantOp, arith::AddFOp, arith::SubFOp,
+      arith::MulFOp, arith::DivFOp, arith::CmpFOp, arith::SelectOp>(
+      [&](Operation *op) { return typeConverter.isLegal(op); });
 
   target.addDynamicallyLegalOp<KrnlGlobalOp>([&](KrnlGlobalOp op) {
     return typeConverter.isLegal(
