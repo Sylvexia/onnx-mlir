@@ -70,6 +70,10 @@ extern llvm::cl::OptionCategory OnnxMlirOptions;
 // Options for onnx-mlir-opt only.
 extern llvm::cl::OptionCategory OnnxMlirOptOptions;
 
+extern bool enablePosit;
+extern int n_bits;
+extern int es_val;
+
 // Options known to onnx-mlir and/or onnx-mlir-opt
 extern std::string inputFilename;                             // common for both
 extern std::string outputBaseName;                            // common for both

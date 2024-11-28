@@ -507,8 +507,8 @@ struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
               convertFloat32ToPosit(floatBits, n_bits, es_val));
         });
 
-    rewriter.replaceOpWithNewOp<KrnlGlobalOp>(op, newMemRefType, op.getShape(),
-        op.getNameAttrName(), newDenseAttr, op.getOffsetAttr(),
+    rewriter.replaceOpWithNewOp<KrnlGlobalOp>(op, newMemRefType,
+        op.getShape(), op.getNameAttr(), newDenseAttr, op.getOffsetAttr(),
         op.getAlignmentAttr());
 
     // llvm::errs() << "new op: " << new_op << "\n";
@@ -834,8 +834,8 @@ struct ConvertArithToPositFuncPass
 public:
   Option<int> _n_bits{*this, "n-bits",
       llvm::cl::desc("Number of bits in posit"), llvm::cl::init(8)};
-  Option<int> _es_val{*this, "es-val",
-      llvm::cl::desc("Number of bits in exponent"), llvm::cl::init(0)};
+  Option<int> _es_val{
+      *this, "es-val", llvm::cl::desc("Number of es value"), llvm::cl::init(0)};
 };
 
 void ConvertArithToPositFuncPass::runOnOperation() {
@@ -845,17 +845,17 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   FloatToIntTypeConverter typeConverter(_n_bits);
 
   // custom lowering
-  auto populatePatterns = [&](auto opType, const std::string &opString) {
+  auto populateArithBinOpPositPatterns = [&](auto opType,
+                                             const std::string &opString) {
     populateArithBinOpPositPattern<decltype(opType)>(
         patterns, typeConverter, opString, _n_bits, _es_val);
   };
 
-  // Populate the patterns
-  populatePatterns(arith::AddFOp{}, "add");
-  populatePatterns(arith::SubFOp{}, "sub");
-  populatePatterns(arith::MulFOp{}, "mul");
-  populatePatterns(arith::DivFOp{}, "div");
-  populatePatterns(arith::SelectOp{}, "select");
+  populateArithBinOpPositPatterns(arith::AddFOp{}, "add");
+  populateArithBinOpPositPatterns(arith::SubFOp{}, "sub");
+  populateArithBinOpPositPatterns(arith::MulFOp{}, "mul");
+  populateArithBinOpPositPatterns(arith::DivFOp{}, "div");
+  populateArithBinOpPositPatterns(arith::SelectOp{}, "select");
 
   patterns.add<ConvertArithCmpToPositFuncLowering>(
       typeConverter, patterns.getContext(), _n_bits, _es_val);

@@ -195,9 +195,7 @@ void addONNXToKrnlPasses(mlir::PassManager &pm, int optLevel, bool enableCSE,
   pm.addPass(mlir::createCanonicalizerPass());
 }
 
-// todo: accept input n_bits and es_val from command line
 void addKrnlToAffinePasses(mlir::PassManager &pm) {
-  // pm.addPass(mlir::createConvertArithToPositFuncPass(8, 0));
   pm.addNestedPass<func::FuncOp>(
       onnx_mlir::krnl::createConvertKrnlToAffinePass());
 }
@@ -296,23 +294,20 @@ InputIRLevelType determineInputIRLevel(mlir::OwningOpRef<ModuleOp> &module) {
   return LLVMLevel;
 }
 
-void addONNXPasses(mlir::PassManager &pm)
-{
+void addONNXPasses(mlir::PassManager &pm) {
   addONNXToMLIRPasses(pm, maccel.empty());
 }
 
-void addKrnlPasses(mlir::PassManager &pm)
-{
+void addKrnlPasses(mlir::PassManager &pm) {
   addONNXToMLIRPasses(pm, maccel.empty());
-  addONNXToKrnlPasses(pm, OptimizationLevel, true,
-    instrumentONNXSignature, ONNXOpStats);
+  addONNXToKrnlPasses(
+      pm, OptimizationLevel, true, instrumentONNXSignature, ONNXOpStats);
 }
 
-void addAffinePasses(mlir::PassManager &pm)
-{
+void addAffinePasses(mlir::PassManager &pm) {
   addONNXToMLIRPasses(pm, maccel.empty());
-  addONNXToKrnlPasses(pm, OptimizationLevel, true,
-    instrumentONNXSignature, ONNXOpStats);
+  addONNXToKrnlPasses(
+      pm, OptimizationLevel, true, instrumentONNXSignature, ONNXOpStats);
   addKrnlToAffinePasses(pm);
 }
 
@@ -327,8 +322,11 @@ void addPasses(mlir::OwningOpRef<ModuleOp> &module, mlir::PassManager &pm,
     if (inputIRLevel <= ONNXLevel)
       addONNXToKrnlPasses(pm, OptimizationLevel, /*enableCSE*/ true,
           instrumentONNXSignature, ONNXOpStats);
-    if (inputIRLevel <= MLIRLevel)
+    if (inputIRLevel <= MLIRLevel) {
       addKrnlToAffinePasses(pm);
+      if (enablePosit)
+        pm.addPass(mlir::createConvertArithToPositFuncPass(n_bits, es_val));
+    }
   }
 
   if (inputIRLevel <= LLVMLevel && emissionTarget >= EmitLLVMIR)

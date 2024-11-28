@@ -26,6 +26,10 @@ const std::string OnnxMlirEnvOptionName = "ONNX_MLIR_FLAGS";
 
 namespace onnx_mlir {
 
+bool enablePosit;
+int n_bits;
+int es_val;
+
 // Use external storage for the options so that they are globally accessible
 std::string inputFilename;                             // common for both
 std::string outputBaseName;                            // common for both
@@ -102,6 +106,18 @@ llvm::cl::OptionCategory OnnxMlirOptions(
 // Category for options for onnx-mlir-opt only.
 llvm::cl::OptionCategory OnnxMlirOptOptions(
     "onnx-mlir-opt options", "These are onnx-mlir-opt frontend options.");
+
+static llvm::cl::opt<bool, true> enablePositOpt("enable-posit",
+    llvm::cl::desc("Enable posit type"), llvm::cl::location(enablePosit),
+    llvm::cl::init(false), llvm::cl::cat(OnnxMlirCommonOptions));
+
+static llvm::cl::opt<int, true> n_bitsOpt("n-bits",
+    llvm::cl::desc("Number of bits in posit"), llvm::cl::location(n_bits),
+    llvm::cl::init(8), llvm::cl::cat(OnnxMlirCommonOptions));
+
+static llvm::cl::opt<int, true> es_valOpt("es-val",
+    llvm::cl::desc("Number of es value"), llvm::cl::location(es_val),
+    llvm::cl::init(0), llvm::cl::cat(OnnxMlirCommonOptions));
 
 // Common options shared between onnx-mlir and onnx-mlir-opt
 static llvm::cl::opt<std::string, true> inputFilenameOpt(llvm::cl::Positional,
