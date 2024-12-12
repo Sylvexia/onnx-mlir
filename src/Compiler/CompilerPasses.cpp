@@ -25,6 +25,7 @@
 #include "mlir/Dialect/Bufferization/Pipelines/Passes.h"
 #include "mlir/Dialect/Bufferization/Transforms/Passes.h"
 #include "mlir/Dialect/MemRef/Transforms/Passes.h"
+#include "mlir/Dialect/SCF/IR/SCF.h"
 #include "mlir/Pass/Pass.h"
 #include "mlir/Target/LLVMIR/Dialect/LLVMIR/LLVMToLLVMIRTranslation.h"
 #include "mlir/Transforms/Passes.h"
@@ -324,8 +325,24 @@ void addPasses(mlir::OwningOpRef<ModuleOp> &module, mlir::PassManager &pm,
           instrumentONNXSignature, ONNXOpStats);
     if (inputIRLevel <= MLIRLevel) {
       addKrnlToAffinePasses(pm);
-      if (enablePosit)
+      if (enablePosit) {
+        RewritePatternSet prePatterns(module->getContext());
+
+        populateAffineToStdConversionPatterns(prePatterns);
+        populateSCFToControlFlowConversionPatterns(prePatterns);
+
+        ConversionTarget preTarget(*(module->getContext()));
+        preTarget.addIllegalDialect<mlir::affine::AffineDialect,
+            mlir::scf::SCFDialect>();
+        preTarget.markUnknownOpDynamicallyLegal(
+            [](Operation *) { return true; });
+
+        if (failed(applyPartialConversion(
+                *module, preTarget, std::move(prePatterns))))
+          llvm::errs() << "Affine and SCF to Std conversion failed.\n";
+
         pm.addPass(mlir::createConvertArithToPositFuncPass(n_bits, es_val));
+      }
     }
   }
 

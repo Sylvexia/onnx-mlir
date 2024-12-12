@@ -1,11 +1,16 @@
 #include "src/Conversion/ArithToPositFunc/ArithToPositFunc.hpp"
+#include "mlir/Conversion/AffineToStandard/AffineToStandard.h"
+#include "mlir/Conversion/SCFToControlFlow/SCFToControlFlow.h"
 #include "mlir/Dialect/Affine/IR/AffineOps.h"
 #include "mlir/Dialect/Arith/IR/Arith.h"
 #include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/Dialect/Func/Transforms/FuncConversions.h"
 #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
 #include "mlir/Dialect/MemRef/IR/MemRef.h"
+#include "mlir/Dialect/Vector/Transforms/LoweringPatterns.h"
+#include "mlir/Dialect/Vector/Transforms/VectorRewritePatterns.h"
 #include "mlir/Pass/Pass.h"
+#include "mlir/Transforms/DialectConversion.h"
 #include "src/Dialect/Krnl/KrnlOps.hpp"
 #include "src/Pass/Passes.hpp"
 
@@ -218,6 +223,33 @@ struct ReturnTypeToIntPattern : public OpConversionPattern<Op> {
 
   LogicalResult matchAndRewrite(Op op, typename Op::Adaptor adaptor,
       ConversionPatternRewriter &rewriter) const final;
+};
+
+struct MemRefStoreOpToIntPattern : public OpConversionPattern<memref::StoreOp> {
+  using OpConversionPattern<memref::StoreOp>::OpConversionPattern;
+
+  MemRefStoreOpToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<memref::StoreOp>(typeConverter, context){};
+
+  LogicalResult matchAndRewrite(memref::StoreOp op,
+      typename memref::StoreOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+
+    auto memRefOperand = op.getMemRef();
+    auto memRefType = dyn_cast<MemRefType>(memRefOperand.getType());
+
+    if (!memRefType)
+      return failure();
+
+    if (!isa<Float32Type>(memRefType.getElementType()))
+      return failure();
+
+    rewriter.replaceOpWithNewOp<memref::StoreOp>(
+        op, adaptor.getValue(), adaptor.getMemref(), op.getIndices());
+
+    return success();
+  }
 };
 
 struct MemRefLoadOpToIntPattern : public OpConversionPattern<memref::LoadOp> {
@@ -507,8 +539,8 @@ struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
               convertFloat32ToPosit(floatBits, n_bits, es_val));
         });
 
-    rewriter.replaceOpWithNewOp<KrnlGlobalOp>(op, newMemRefType,
-        op.getShape(), op.getNameAttr(), newDenseAttr, op.getOffsetAttr(),
+    rewriter.replaceOpWithNewOp<KrnlGlobalOp>(op, newMemRefType, op.getShape(),
+        op.getNameAttr(), newDenseAttr, op.getOffsetAttr(),
         op.getAlignmentAttr());
 
     // llvm::errs() << "new op: " << new_op << "\n";
@@ -840,8 +872,28 @@ public:
 
 void ConvertArithToPositFuncPass::runOnOperation() {
   auto module = getOperation();
-  RewritePatternSet patterns(&getContext());
 
+  // vector::populateVectorToVectorCanonicalizationPatterns(patterns);
+  // vector::populateVectorBroadcastLoweringPatterns(patterns);
+  // vector::populateVectorContractLoweringPatterns(
+  //     patterns, vector::VectorTransformsOptions());
+  // vector::populateVectorTransposeLoweringPatterns(
+  //     patterns, vector::VectorTransformsOptions());
+
+  // RewritePatternSet prePatterns(&getContext());
+
+  // populateAffineToStdConversionPatterns(prePatterns);
+  // populateSCFToControlFlowConversionPatterns(prePatterns);
+
+  // ConversionTarget preTarget(getContext());
+  // preTarget.addIllegalDialect<affine::AffineDialect, scf::SCFDialect>();
+  // preTarget.markUnknownOpDynamicallyLegal([](Operation *) { return true; });
+
+  // if (failed(applyPartialConversion(module, preTarget,
+  // std::move(prePatterns))))
+  //   signalPassFailure();
+
+  RewritePatternSet patterns(&getContext());
   FloatToIntTypeConverter typeConverter(_n_bits);
 
   // custom lowering
@@ -869,6 +921,7 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   populateMemRefNoOprandToIntPattern<memref::AllocaOp, memref::AllocOp>(
       patterns, typeConverter); // getType() same builder pattern
   populateMemRefLoadOpToIntPattern(patterns, typeConverter);
+  patterns.add<MemRefLoadOpToIntPattern>(typeConverter, patterns.getContext());
   populateReinterpretCastOpToIntPattern(patterns, typeConverter);
   populateAffineLoadOpToIntPattern(patterns, typeConverter);
   patterns.add<AffineStoreOpToIntPattern>(typeConverter, patterns.getContext());
@@ -901,6 +954,10 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   target.addDynamicallyLegalOp<memref::LoadOp, memref::ReinterpretCastOp>(
       [&](Operation *op) { return typeConverter.isLegal(op); });
+
+  target.addDynamicallyLegalOp<memref::StoreOp>([&](memref::StoreOp op) {
+    return typeConverter.isLegal(cast<MemRefType>(op.getMemref().getType()));
+  });
 
   target.addDynamicallyLegalOp<affine::AffineLoadOp>(
       [&](Operation *op) { return typeConverter.isLegal(op); });
