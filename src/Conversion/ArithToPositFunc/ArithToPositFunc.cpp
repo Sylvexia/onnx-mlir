@@ -7,6 +7,7 @@
 #include "mlir/Dialect/Func/Transforms/FuncConversions.h"
 #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
 #include "mlir/Dialect/MemRef/IR/MemRef.h"
+#include "mlir/Dialect/SCF/Transforms/Patterns.h"
 #include "mlir/Dialect/Vector/Transforms/LoweringPatterns.h"
 #include "mlir/Dialect/Vector/Transforms/VectorRewritePatterns.h"
 #include "mlir/Pass/Pass.h"
@@ -161,21 +162,6 @@ struct FloatToIntTypeConverter : public mlir::TypeConverter {
     });
   }
 };
-
-// todo: can we just use typeConverter.isLegal(op) instead of this?
-// bool isIntType(Type type, uint8_t bitWidth) {
-//   if (auto intType = dyn_cast<IntegerType>(type)) {
-//     return intType.getWidth() == bitWidth && intType.isSignless();
-//   }
-//   return false;
-// }
-
-// bool isIntType(Type type) {
-//   if (auto intType = dyn_cast<IntegerType>(type)) {
-//     return true;
-//   }
-//   return false;
-// }
 
 // to be renamed to alloc Pattern
 template <typename Op>
@@ -921,12 +907,12 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   populateMemRefNoOprandToIntPattern<memref::AllocaOp, memref::AllocOp>(
       patterns, typeConverter); // getType() same builder pattern
   populateMemRefLoadOpToIntPattern(patterns, typeConverter);
-  patterns.add<MemRefLoadOpToIntPattern>(typeConverter, patterns.getContext());
+  patterns.add<MemRefStoreOpToIntPattern>(typeConverter, patterns.getContext());
   populateReinterpretCastOpToIntPattern(patterns, typeConverter);
-  populateAffineLoadOpToIntPattern(patterns, typeConverter);
-  patterns.add<AffineStoreOpToIntPattern>(typeConverter, patterns.getContext());
-  populateAffineForOpToIntPattern(patterns, typeConverter);
-  populateAffineYieldOpToIntPattern(patterns, typeConverter);
+  // populateAffineLoadOpToIntPattern(patterns, typeConverter);
+  // patterns.add<AffineStoreOpToIntPattern>(typeConverter,
+  // patterns.getContext()); populateAffineForOpToIntPattern(patterns,
+  // typeConverter); populateAffineYieldOpToIntPattern(patterns, typeConverter);
 
   // populate standard lowering
   populateFunctionOpInterfaceTypeConversionPattern<func::FuncOp>(
@@ -959,24 +945,24 @@ void ConvertArithToPositFuncPass::runOnOperation() {
     return typeConverter.isLegal(cast<MemRefType>(op.getMemref().getType()));
   });
 
-  target.addDynamicallyLegalOp<affine::AffineLoadOp>(
-      [&](Operation *op) { return typeConverter.isLegal(op); });
+  // target.addDynamicallyLegalOp<affine::AffineLoadOp>(
+  //     [&](Operation *op) { return typeConverter.isLegal(op); });
 
-  target.addDynamicallyLegalOp<affine::AffineStoreOp>(
-      [&](affine::AffineStoreOp op) {
-        return typeConverter.isLegal(
-            cast<MemRefType>(op.getMemref().getType()));
-      });
+  // target.addDynamicallyLegalOp<affine::AffineStoreOp>(
+  //     [&](affine::AffineStoreOp op) {
+  //       return typeConverter.isLegal(
+  //           cast<MemRefType>(op.getMemref().getType()));
+  //     });
 
-  target.addDynamicallyLegalOp<affine::AffineForOp>(
-      [&](affine::AffineForOp op) {
-        return typeConverter.isLegal(op->getResultTypes());
-      });
+  // target.addDynamicallyLegalOp<affine::AffineForOp>(
+  //     [&](affine::AffineForOp op) {
+  //       return typeConverter.isLegal(op->getResultTypes());
+  //     });
 
-  target.addDynamicallyLegalOp<affine::AffineYieldOp>(
-      [&](affine::AffineYieldOp op) {
-        return typeConverter.isLegal(op->getOperandTypes());
-      });
+  // target.addDynamicallyLegalOp<affine::AffineYieldOp>(
+  //     [&](affine::AffineYieldOp op) {
+  //       return typeConverter.isLegal(op->getOperandTypes());
+  //     });
 
   target.addDynamicallyLegalOp<func::FuncOp>([&](func::FuncOp op) {
     bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
@@ -999,6 +985,8 @@ void ConvertArithToPositFuncPass::runOnOperation() {
            isLegalForReturnOpTypeConversionPattern(op, typeConverter);
   });
 
+  scf::populateSCFStructuralTypeConversionsAndLegality(typeConverter, patterns, target);
+
   if (failed(applyPartialConversion(module, target, std::move(patterns))))
     signalPassFailure();
 }
@@ -1010,4 +998,34 @@ std::unique_ptr<mlir::Pass> mlir::createConvertArithToPositFuncPass() {
 std::unique_ptr<mlir::Pass> mlir::createConvertArithToPositFuncPass(
     uint8_t n_bits, uint8_t es_val) {
   return std::make_unique<ConvertArithToPositFuncPass>(n_bits, es_val);
+}
+
+struct LowerToCFPass
+    : public PassWrapper<LowerToCFPass, OperationPass<ModuleOp>> {
+  void runOnOperation() final {
+    auto module = getOperation();
+    RewritePatternSet patterns(&getContext());
+    populateAffineToStdConversionPatterns(patterns);
+    // populateSCFToControlFlowConversionPatterns(patterns);
+
+    ConversionTarget target(getContext());
+    // target.addIllegalDialect<mlir::affine::AffineDialect,
+    //     mlir::scf::SCFDialect>();
+    target.addIllegalDialect<mlir::affine::AffineDialect>();
+    target.markUnknownOpDynamicallyLegal([](Operation *) { return true; });
+    
+    if (failed(applyPartialConversion(module, target, std::move(patterns))))
+      signalPassFailure();
+
+    // llvm::errs() << "module dump; " << "\n";
+    // module->dump();
+  }
+  StringRef getArgument() const override { return "convert-affine-to-cf-func"; }
+  StringRef getDescription() const override {
+    return "Lower the affine dialect to cf dialect.";
+  }
+};
+
+std::unique_ptr<mlir::Pass> mlir::createLowerToCFPass() {
+  return std::make_unique<LowerToCFPass>();
 }
