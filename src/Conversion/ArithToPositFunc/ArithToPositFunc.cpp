@@ -6,6 +6,7 @@
 #include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/Dialect/Func/Transforms/FuncConversions.h"
 #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
+#include "mlir/Dialect/Math/IR/Math.h"
 #include "mlir/Dialect/MemRef/IR/MemRef.h"
 #include "mlir/Dialect/SCF/Transforms/Patterns.h"
 #include "mlir/Dialect/Vector/Transforms/LoweringPatterns.h"
@@ -764,6 +765,65 @@ private:
   std::unordered_map<arith::CmpFPredicate, std::string> get_pred_str;
 };
 
+struct ConvertMathSitofpToPositFuncLowering
+    : public OpConversionPattern<arith::SIToFPOp> {
+  using OpConversionPattern<arith::SIToFPOp>::OpConversionPattern;
+
+public:
+  ConvertMathSitofpToPositFuncLowering(const TypeConverter &typeConverter,
+      MLIRContext *context, uint8_t n_bits, uint8_t es_val)
+      : mlir::OpConversionPattern<arith::SIToFPOp>(typeConverter, context),
+        n_bits(n_bits), es_val(es_val){};
+
+  LogicalResult matchAndRewrite(arith::SIToFPOp op, arith::SIToFPOp::Adaptor,
+      ConversionPatternRewriter &rewriter) const final {
+
+    // this only support scalar, return failure if its vector
+    if (isa<VectorType>(op->getResult(0).getType()))
+      return failure();
+
+    if (!isa<IntegerType>(op.getOperand().getType()))
+      return failure();
+
+    auto name = getPositFuncStr(n_bits, es_val, "sitofp");
+
+    auto returnType =
+        getTypeConverter()->convertType(op->getOpResult(0).getType());
+
+    if (!returnType)
+      return failure();
+
+    auto module = SymbolTable::getNearestSymbolTable(op);
+    auto opFunc = dyn_cast_or_null<SymbolOpInterface>(
+        SymbolTable::lookupSymbolIn(module, name));
+    if (!opFunc) {
+      OpBuilder::InsertionGuard guard(rewriter);
+      rewriter.setInsertionPointToStart(&module->getRegion(0).front());
+
+      // operand is original, so adaptor is not needed
+      auto opFunctionTy = FunctionType::get(
+          rewriter.getContext(), op.getOperand().getType(), returnType);
+      opFunc = rewriter.create<func::FuncOp>(
+          rewriter.getUnknownLoc(), name, opFunctionTy);
+
+      opFunc.setPrivate();
+      opFunc->setAttr(LLVM::LLVMDialect::getReadnoneAttrName(),
+          UnitAttr::get(rewriter.getContext()));
+    }
+    assert(isa<FunctionOpInterface>(SymbolTable::lookupSymbolIn(module, name)));
+
+    rewriter.replaceOpWithNewOp<func::CallOp>(
+        op, name, returnType, op.getOperand());
+
+    return success();
+  }
+
+private:
+  uint8_t n_bits;
+  uint8_t es_val;
+};
+
+// can this be removed?
 struct ConvertArithAddToPositFuncLowering
     : public OpConversionPattern<arith::AddFOp> {
   using OpConversionPattern<arith::AddFOp>::OpConversionPattern;
@@ -894,9 +954,15 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   populateArithBinOpPositPatterns(arith::MulFOp{}, "mul");
   populateArithBinOpPositPatterns(arith::DivFOp{}, "div");
   populateArithBinOpPositPatterns(arith::SelectOp{}, "select");
+  populateArithBinOpPositPatterns(math::ExpOp{}, "exp");
+  populateArithBinOpPositPatterns(math::SqrtOp{}, "sqrt");
+  populateArithBinOpPositPatterns(math::TanhOp{}, "tanh");
+  populateArithBinOpPositPatterns(math::ErfOp{}, "erf");
 
   patterns.add<ConvertArithCmpToPositFuncLowering>(
       typeConverter, patterns.getContext(), _n_bits, _es_val);
+  patterns.add<ConvertMathSitofpToPositFuncLowering>(typeConverter,
+      patterns.getContext(), _n_bits, _es_val);
 
   // populateConvertArithAddToPositFuncPattern(
   //     patterns, typeConverter, "add", _n_bits, _es_val);
@@ -923,7 +989,8 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   ConversionTarget target(getContext());
   target.addDynamicallyLegalOp<arith::ConstantOp, arith::AddFOp, arith::SubFOp,
-      arith::MulFOp, arith::DivFOp, arith::CmpFOp, arith::SelectOp>(
+      arith::MulFOp, arith::DivFOp, arith::CmpFOp, arith::SelectOp, arith::SIToFPOp, math::ExpOp,
+      math::SqrtOp, math::TanhOp, math::ErfOp>(
       [&](Operation *op) { return typeConverter.isLegal(op); });
 
   target.addDynamicallyLegalOp<KrnlGlobalOp>([&](KrnlGlobalOp op) {
@@ -985,7 +1052,8 @@ void ConvertArithToPositFuncPass::runOnOperation() {
            isLegalForReturnOpTypeConversionPattern(op, typeConverter);
   });
 
-  scf::populateSCFStructuralTypeConversionsAndLegality(typeConverter, patterns, target);
+  scf::populateSCFStructuralTypeConversionsAndLegality(
+      typeConverter, patterns, target);
 
   if (failed(applyPartialConversion(module, target, std::move(patterns))))
     signalPassFailure();
@@ -1013,7 +1081,7 @@ struct LowerToCFPass
     //     mlir::scf::SCFDialect>();
     target.addIllegalDialect<mlir::affine::AffineDialect>();
     target.markUnknownOpDynamicallyLegal([](Operation *) { return true; });
-    
+
     if (failed(applyPartialConversion(module, target, std::move(patterns))))
       signalPassFailure();
 

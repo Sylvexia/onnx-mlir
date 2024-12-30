@@ -30,3 +30,15 @@ func.func @test_const_return(%float1: f32, %float2: f32) -> (f32, f32) {
   %1 = arith.constant -6.9 : f32
   return %0, %1 : f32, f32
 }
+
+func.func @test_math_exp(%arg0: f32) {
+  %0 = arith.constant 1.0 : f32
+  %1 = math.exp %arg0 : f32
+  return
+}
+
+func.func @test_arith_sitofp(%arg0: i32) {
+  %0 = arith.constant 1.0 : f32
+  %1 = arith.sitofp %arg0 : i32 to f32
+  return
+}
