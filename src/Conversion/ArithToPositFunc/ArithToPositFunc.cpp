@@ -164,12 +164,11 @@ struct FloatToIntTypeConverter : public mlir::TypeConverter {
   }
 };
 
-// to be renamed to alloc Pattern
 template <typename Op>
-struct MemRefNoOprandToIntPattern : public OpConversionPattern<Op> {
+struct MemrefAllocationToIntPattern : public OpConversionPattern<Op> {
   using OpConversionPattern<Op>::OpConversionPattern;
 
-  MemRefNoOprandToIntPattern(
+  MemrefAllocationToIntPattern(
       const TypeConverter &typeConverter, MLIRContext *context)
       : mlir::OpConversionPattern<Op>(typeConverter, context){};
 
@@ -194,10 +193,10 @@ struct MemRefNoOprandToIntPattern : public OpConversionPattern<Op> {
 };
 
 template <typename... Ops>
-void populateMemRefNoOprandToIntPattern(
+void populateMemrefAllocationToIntPattern(
     RewritePatternSet &patterns, TypeConverter &typeConverter) {
   MLIRContext *ctx = patterns.getContext();
-  (patterns.add<MemRefNoOprandToIntPattern<Ops>>(typeConverter, ctx), ...);
+  (patterns.add<MemrefAllocationToIntPattern<Ops>>(typeConverter, ctx), ...);
 }
 
 template <typename Op>
@@ -306,186 +305,6 @@ void populateReinterpretCastOpToIntPattern(
   patterns.add<MemRefReinterpretCastOpToIntPattern>(typeConverter, ctx);
 }
 
-struct AffineForOpToIntPattern
-    : public OpConversionPattern<affine::AffineForOp> {
-  using OpConversionPattern<affine::AffineForOp>::OpConversionPattern;
-
-  AffineForOpToIntPattern(
-      const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<affine::AffineForOp>(
-            typeConverter, context){};
-
-  LogicalResult matchAndRewrite(affine::AffineForOp op,
-      typename affine::AffineForOp::Adaptor adaptor,
-      ConversionPatternRewriter &rewriter) const override {
-
-    Location loc = op.getLoc();
-
-    auto newForOp =
-        rewriter.create<affine::AffineForOp>(loc, op.getLowerBoundOperands(),
-            op.getLowerBoundMap(), op.getUpperBoundOperands(),
-            op.getUpperBoundMap(), op.getStepAsInt(), adaptor.getInits());
-
-    // the region argument get replaced by the newForOp.getRegion().getArgument
-    rewriter.eraseBlock(newForOp.getBody());
-    rewriter.inlineRegionBefore(
-        adaptor.getRegion(), newForOp.getRegion(), newForOp.getRegion().end());
-
-    auto newIterArgs = newForOp.getRegionIterArgs();
-    for (auto &arg : newIterArgs) {
-      auto newArgType = getTypeConverter()->convertType(arg.getType());
-      if (!newArgType)
-        return failure();
-      arg.setType(newArgType);
-    }
-
-    rewriter.replaceOp(op, newForOp->getResults());
-
-    return success();
-  }
-};
-
-void populateAffineForOpToIntPattern(
-    RewritePatternSet &patterns, TypeConverter &typeConverter) {
-  MLIRContext *ctx = patterns.getContext();
-  patterns.add<AffineForOpToIntPattern>(typeConverter, ctx);
-}
-
-struct AffineYieldOpToIntPattern
-    : public OpConversionPattern<affine::AffineYieldOp> {
-  using OpConversionPattern<affine::AffineYieldOp>::OpConversionPattern;
-
-  AffineYieldOpToIntPattern(
-      const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<affine::AffineYieldOp>(
-            typeConverter, context){};
-
-  LogicalResult matchAndRewrite(affine::AffineYieldOp op,
-      typename affine::AffineYieldOp::Adaptor adaptor,
-      ConversionPatternRewriter &rewriter) const override {
-
-    rewriter.replaceOpWithNewOp<affine::AffineYieldOp>(
-        op, adaptor.getOperands());
-
-    return success();
-  }
-};
-
-void populateAffineYieldOpToIntPattern(
-    RewritePatternSet &patterns, TypeConverter &typeConverter) {
-  MLIRContext *ctx = patterns.getContext();
-  patterns.add<AffineYieldOpToIntPattern>(typeConverter, ctx);
-}
-
-struct AffineLoadOpToIntPattern
-    : public OpConversionPattern<affine::AffineLoadOp> {
-  using OpConversionPattern<affine::AffineLoadOp>::OpConversionPattern;
-
-  AffineLoadOpToIntPattern(
-      const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<affine::AffineLoadOp>(
-            typeConverter, context){};
-
-  LogicalResult matchAndRewrite(affine::AffineLoadOp op,
-      typename affine::AffineLoadOp::Adaptor adaptor,
-      ConversionPatternRewriter &rewriter) const override {
-
-    auto memRefOperand = op.getMemRef();
-    auto memRefType = dyn_cast<MemRefType>(memRefOperand.getType());
-
-    if (!memRefType)
-      return failure();
-
-    if (!isa<Float32Type>(memRefType.getElementType()))
-      return failure();
-
-    Value newMemref = adaptor.getMemref();
-
-    // should we get index instead?
-    // this works
-    rewriter.replaceOpWithNewOp<affine::AffineLoadOp>(
-        op, newMemref, op.getMap(), op.getMapOperands());
-
-    return success();
-  }
-};
-
-void populateAffineLoadOpToIntPattern(
-    RewritePatternSet &patterns, TypeConverter &typeConverter) {
-  MLIRContext *ctx = patterns.getContext();
-  patterns.add<AffineLoadOpToIntPattern>(typeConverter, ctx);
-}
-
-struct AffineStoreOpToIntPattern
-    : public OpConversionPattern<affine::AffineStoreOp> {
-  using OpConversionPattern<affine::AffineStoreOp>::OpConversionPattern;
-
-  AffineStoreOpToIntPattern(
-      const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<affine::AffineStoreOp>(
-            typeConverter, context){};
-
-  LogicalResult matchAndRewrite(affine::AffineStoreOp op,
-      typename affine::AffineStoreOp::Adaptor adaptor,
-      ConversionPatternRewriter &rewriter) const override {
-
-    auto memRefOperand = op.getMemRef();
-    auto memRefType = dyn_cast<MemRefType>(memRefOperand.getType());
-
-    if (!memRefType)
-      return failure();
-
-    if (!isa<Float32Type>(memRefType.getElementType()))
-      return failure();
-
-    // should we use index instead?
-    rewriter.replaceOpWithNewOp<affine::AffineStoreOp>(
-        op, adaptor.getValue(), adaptor.getMemref(), op.getIndices());
-
-    return success();
-  }
-};
-
-void populateAffineStoreOpToIntPattern(
-    RewritePatternSet &patterns, TypeConverter &typeConverter) {
-  MLIRContext *ctx = patterns.getContext();
-  patterns.add<AffineStoreOpToIntPattern>(typeConverter, ctx);
-}
-
-struct MemRefAllocaOpToIntPattern
-    : public OpConversionPattern<memref::AllocaOp> {
-  using OpConversionPattern<memref::AllocaOp>::OpConversionPattern;
-
-  MemRefAllocaOpToIntPattern(
-      const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<memref::AllocaOp>(typeConverter, context){};
-
-  LogicalResult matchAndRewrite(memref::AllocaOp op,
-      typename memref::AllocaOp::Adaptor adaptor,
-      ConversionPatternRewriter &rewriter) const override {
-    auto memRefType = cast<MemRefType>(op.getType());
-    if (!isa<Float32Type>(memRefType.getElementType()))
-      return failure();
-
-    auto newMemRefType =
-        cast<MemRefType>(getTypeConverter()->convertType(memRefType));
-
-    if (!newMemRefType)
-      return failure();
-
-    rewriter.replaceOpWithNewOp<memref::AllocaOp>(
-        op, newMemRefType, op.getAlignmentAttr());
-
-    return success();
-  }
-};
-
-void mlir::populateMemRefAllocaOpToIntPattern(
-    RewritePatternSet &patterns, TypeConverter &typeConverter) {
-  MLIRContext *ctx = patterns.getContext();
-  patterns.add<MemRefAllocaOpToIntPattern>(typeConverter, ctx);
-}
-
 struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
   using OpConversionPattern<KrnlGlobalOp>::OpConversionPattern;
 
@@ -529,34 +348,6 @@ struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
     rewriter.replaceOpWithNewOp<KrnlGlobalOp>(op, newMemRefType, op.getShape(),
         op.getNameAttr(), newDenseAttr, op.getOffsetAttr(),
         op.getAlignmentAttr());
-
-    // llvm::errs() << "new op: " << new_op << "\n";
-    // llvm::errs() << "uwu" << "\n";
-
-    // log out the original value and the new value
-    // for (auto [origValue, newValue] : llvm::zip(
-    //          denseAttr.getValues<APFloat>(),
-    //          newDenseAttr.getValues<APInt>())) {
-    //   llvm::errs() << "original float value: " << origValue.convertToFloat()
-    //   << "\n";
-
-    //   llvm::errs() << "original float raw bit: ";
-    //   uint64_t orig_raw_bit = origValue.bitcastToAPInt().getZExtValue();
-    //   for(int i = 31; i >= 0; i--) {
-    //     if (i == 30 || i == 22) {
-    //       llvm::errs() << " ";
-    //     }
-    //     llvm::errs() << ((orig_raw_bit >> i) & 1);
-    //   }
-    //   llvm::errs() << "\n";
-
-    //   llvm::errs() << "new raw bit: ";
-    //   uint64_t raw_bit = newValue.getZExtValue();
-    //   for (int i = n_bits - 1; i >= 0; i--) {
-    //     llvm::errs() << ((raw_bit >> i) & 1);
-    //   }
-    //   llvm::errs() << "\n";
-    // }
 
     return success();
   }
@@ -823,74 +614,6 @@ private:
   uint8_t es_val;
 };
 
-// can this be removed?
-struct ConvertArithAddToPositFuncLowering
-    : public OpConversionPattern<arith::AddFOp> {
-  using OpConversionPattern<arith::AddFOp>::OpConversionPattern;
-
-public:
-  ConvertArithAddToPositFuncLowering(const TypeConverter &typeConverter,
-      MLIRContext *context, StringRef opString, uint8_t n_bits, uint8_t es_val)
-      : mlir::OpConversionPattern<arith::AddFOp>(typeConverter, context),
-        opString(opString), n_bits(n_bits), es_val(es_val){};
-
-  LogicalResult matchAndRewrite(arith::AddFOp op,
-      typename arith::AddFOp::Adaptor adaptor,
-      ConversionPatternRewriter &rewriter) const final {
-
-    // this only support scalar, return failure if its vector
-    if (isa<VectorType>(op->getResult(0).getType()))
-      return failure();
-
-    if (!isa<Float32Type>(op.getType()))
-      return failure();
-
-    std::string name = getPositFuncStr(n_bits, es_val, opString);
-
-    auto returnType =
-        getTypeConverter()->convertType(op->getOpResult(0).getType());
-
-    if (!returnType)
-      return failure();
-
-    auto module = SymbolTable::getNearestSymbolTable(op);
-    auto opFunc = dyn_cast_or_null<SymbolOpInterface>(
-        SymbolTable::lookupSymbolIn(module, name));
-    if (!opFunc) {
-      OpBuilder::InsertionGuard guard(rewriter);
-      rewriter.setInsertionPointToStart(&module->getRegion(0).front());
-
-      auto opFunctionTy = FunctionType::get(
-          rewriter.getContext(), adaptor.getOperands().getTypes(), returnType);
-      opFunc = rewriter.create<func::FuncOp>(
-          rewriter.getUnknownLoc(), name, opFunctionTy);
-
-      opFunc.setPrivate();
-      opFunc->setAttr(LLVM::LLVMDialect::getReadnoneAttrName(),
-          UnitAttr::get(rewriter.getContext()));
-    }
-    assert(isa<FunctionOpInterface>(SymbolTable::lookupSymbolIn(module, name)));
-
-    rewriter.replaceOpWithNewOp<func::CallOp>(
-        op, name, returnType, adaptor.getOperands());
-
-    return success();
-  }
-
-private:
-  std::string opString;
-  uint8_t n_bits;
-  uint8_t es_val;
-};
-
-void mlir::populateConvertArithAddToPositFuncPattern(
-    RewritePatternSet &patterns, TypeConverter &typeConverter,
-    StringRef opString, uint8_t n_bits, uint8_t es_val) {
-  MLIRContext *context = patterns.getContext();
-  patterns.add<ConvertArithAddToPositFuncLowering>(
-      typeConverter, context, opString, n_bits, es_val);
-}
-
 struct ConvertArithToPositFuncPass
     : public PassWrapper<ConvertArithToPositFuncPass, OperationPass<ModuleOp>> {
   void runOnOperation() final;
@@ -928,57 +651,40 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   // RewritePatternSet prePatterns(&getContext());
 
-  // populateAffineToStdConversionPatterns(prePatterns);
-  // populateSCFToControlFlowConversionPatterns(prePatterns);
-
-  // ConversionTarget preTarget(getContext());
-  // preTarget.addIllegalDialect<affine::AffineDialect, scf::SCFDialect>();
-  // preTarget.markUnknownOpDynamicallyLegal([](Operation *) { return true; });
-
-  // if (failed(applyPartialConversion(module, preTarget,
-  // std::move(prePatterns))))
-  //   signalPassFailure();
-
   RewritePatternSet patterns(&getContext());
   FloatToIntTypeConverter typeConverter(_n_bits);
 
   // custom lowering
-  auto populateArithBinOpPositPatterns = [&](auto opType,
+  auto populateReturnPositOpPatterns = [&](auto opType,
                                              const std::string &opString) {
     populateArithBinOpPositPattern<decltype(opType)>(
         patterns, typeConverter, opString, _n_bits, _es_val);
   };
 
-  populateArithBinOpPositPatterns(arith::AddFOp{}, "add");
-  populateArithBinOpPositPatterns(arith::SubFOp{}, "sub");
-  populateArithBinOpPositPatterns(arith::MulFOp{}, "mul");
-  populateArithBinOpPositPatterns(arith::DivFOp{}, "div");
-  populateArithBinOpPositPatterns(arith::SelectOp{}, "select");
-  populateArithBinOpPositPatterns(math::ExpOp{}, "exp");
-  populateArithBinOpPositPatterns(math::SqrtOp{}, "sqrt");
-  populateArithBinOpPositPatterns(math::TanhOp{}, "tanh");
-  populateArithBinOpPositPatterns(math::ErfOp{}, "erf");
+  populateReturnPositOpPatterns(arith::AddFOp{}, "add");
+  populateReturnPositOpPatterns(arith::SubFOp{}, "sub");
+  populateReturnPositOpPatterns(arith::MulFOp{}, "mul");
+  populateReturnPositOpPatterns(arith::DivFOp{}, "div");
+  populateReturnPositOpPatterns(arith::SelectOp{}, "select");
+  populateReturnPositOpPatterns(math::ExpOp{}, "exp");
+  populateReturnPositOpPatterns(math::SqrtOp{}, "sqrt");
+  populateReturnPositOpPatterns(math::TanhOp{}, "tanh");
+  populateReturnPositOpPatterns(math::ErfOp{}, "erf");
 
   patterns.add<ConvertArithCmpToPositFuncLowering>(
       typeConverter, patterns.getContext(), _n_bits, _es_val);
   patterns.add<ConvertMathSitofpToPositFuncLowering>(typeConverter,
       patterns.getContext(), _n_bits, _es_val);
 
-  // populateConvertArithAddToPositFuncPattern(
-  //     patterns, typeConverter, "add", _n_bits, _es_val);
   populateConvertArithConstantFloatToIntPattern(
       patterns, typeConverter, _n_bits, _es_val);
   populateKrnlGlobalOpToIntPattern(patterns, typeConverter, _n_bits, _es_val);
-  // populateMemRefAllocaOpToIntPattern(patterns, typeConverter);
-  populateMemRefNoOprandToIntPattern<memref::AllocaOp, memref::AllocOp>(
+
+  populateMemrefAllocationToIntPattern<memref::AllocaOp, memref::AllocOp>(
       patterns, typeConverter); // getType() same builder pattern
   populateMemRefLoadOpToIntPattern(patterns, typeConverter);
   patterns.add<MemRefStoreOpToIntPattern>(typeConverter, patterns.getContext());
   populateReinterpretCastOpToIntPattern(patterns, typeConverter);
-  // populateAffineLoadOpToIntPattern(patterns, typeConverter);
-  // patterns.add<AffineStoreOpToIntPattern>(typeConverter,
-  // patterns.getContext()); populateAffineForOpToIntPattern(patterns,
-  // typeConverter); populateAffineYieldOpToIntPattern(patterns, typeConverter);
 
   // populate standard lowering
   populateFunctionOpInterfaceTypeConversionPattern<func::FuncOp>(
@@ -1011,25 +717,6 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   target.addDynamicallyLegalOp<memref::StoreOp>([&](memref::StoreOp op) {
     return typeConverter.isLegal(cast<MemRefType>(op.getMemref().getType()));
   });
-
-  // target.addDynamicallyLegalOp<affine::AffineLoadOp>(
-  //     [&](Operation *op) { return typeConverter.isLegal(op); });
-
-  // target.addDynamicallyLegalOp<affine::AffineStoreOp>(
-  //     [&](affine::AffineStoreOp op) {
-  //       return typeConverter.isLegal(
-  //           cast<MemRefType>(op.getMemref().getType()));
-  //     });
-
-  // target.addDynamicallyLegalOp<affine::AffineForOp>(
-  //     [&](affine::AffineForOp op) {
-  //       return typeConverter.isLegal(op->getResultTypes());
-  //     });
-
-  // target.addDynamicallyLegalOp<affine::AffineYieldOp>(
-  //     [&](affine::AffineYieldOp op) {
-  //       return typeConverter.isLegal(op->getOperandTypes());
-  //     });
 
   target.addDynamicallyLegalOp<func::FuncOp>([&](func::FuncOp op) {
     bool res = typeConverter.isSignatureLegal(op.getFunctionType()) &&
@@ -1068,25 +755,19 @@ std::unique_ptr<mlir::Pass> mlir::createConvertArithToPositFuncPass(
   return std::make_unique<ConvertArithToPositFuncPass>(n_bits, es_val);
 }
 
-struct LowerToCFPass
-    : public PassWrapper<LowerToCFPass, OperationPass<ModuleOp>> {
+struct CustomLowerAffinePass
+    : public PassWrapper<CustomLowerAffinePass, OperationPass<ModuleOp>> {
   void runOnOperation() final {
     auto module = getOperation();
     RewritePatternSet patterns(&getContext());
     populateAffineToStdConversionPatterns(patterns);
-    // populateSCFToControlFlowConversionPatterns(patterns);
 
     ConversionTarget target(getContext());
-    // target.addIllegalDialect<mlir::affine::AffineDialect,
-    //     mlir::scf::SCFDialect>();
     target.addIllegalDialect<mlir::affine::AffineDialect>();
     target.markUnknownOpDynamicallyLegal([](Operation *) { return true; });
 
     if (failed(applyPartialConversion(module, target, std::move(patterns))))
       signalPassFailure();
-
-    // llvm::errs() << "module dump; " << "\n";
-    // module->dump();
   }
   StringRef getArgument() const override { return "convert-affine-to-cf-func"; }
   StringRef getDescription() const override {
@@ -1094,6 +775,6 @@ struct LowerToCFPass
   }
 };
 
-std::unique_ptr<mlir::Pass> mlir::createLowerToCFPass() {
-  return std::make_unique<LowerToCFPass>();
+std::unique_ptr<mlir::Pass> mlir::createCustomLowerAffinePass() {
+  return std::make_unique<CustomLowerAffinePass>();
 }

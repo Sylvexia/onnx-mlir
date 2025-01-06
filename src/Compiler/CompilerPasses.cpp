@@ -208,7 +208,7 @@ void addKrnlToLLVMPasses(
     // TODO: enable this by default when we make sure it works flawlessly.
     pm.addPass(mlir::createCSEPass());
   pm.addNestedPass<func::FuncOp>(mlir::createConvertVectorToSCFPass());
-  pm.addPass(mlir::createLowerAffinePass());
+  pm.addPass(mlir::createCustomLowerAffinePass());
 
   // Early introduction of omp causes problems with bufferization, delay for
   // now. May revise this decision later.
@@ -326,7 +326,7 @@ void addPasses(mlir::OwningOpRef<ModuleOp> &module, mlir::PassManager &pm,
     if (inputIRLevel <= MLIRLevel) {
       addKrnlToAffinePasses(pm);
       if (enablePosit) {
-        pm.addPass(mlir::createLowerToCFPass());
+        pm.addPass(mlir::createCustomLowerAffinePass());
         pm.addPass(mlir::createConvertArithToPositFuncPass(n_bits, es_val));
       }
     }

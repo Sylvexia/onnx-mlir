@@ -153,7 +153,7 @@ void registerMLIRPasses() {
     return mlir::createConvertVectorToSCFPass();
   });
   mlir::registerPass([]() -> std::unique_ptr<mlir::Pass> {
-    return mlir::createLowerAffinePass();
+    return mlir::createCustomLowerAffinePass();
   });
   mlir::registerPass([]() -> std::unique_ptr<mlir::Pass> {
     return mlir::createConvertSCFToCFPass();
