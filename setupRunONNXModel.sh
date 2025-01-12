@@ -8,5 +8,5 @@ pip install -e third_party/onnx
 export ONNX_MLIR_HOME=/home/sylvex/onnx-mlir/build/Debug
 export CUSTOM_POSIT_LIB_DIR=/home/sylvex/custom_posit/lib
 export CUSTOM_POSIT_LIB_NAME=positWrapperC
-pip install /home/sylvex/positWrapper
+pip install /home/sylvex/Posit-Numerical-Library
 python ./utils/RunONNXModelZooPosit.py -c='-O0' -m='mnist-7' -l='debug' --n-bit="16" --es='2'

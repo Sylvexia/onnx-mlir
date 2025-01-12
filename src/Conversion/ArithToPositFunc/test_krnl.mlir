@@ -7,3 +7,13 @@ func.func @test_krnlGlobalReturn(%arg0: f32, %arg1: f32) -> memref<32xf32> {
   %0 = "krnl.global"() {name = "constant_1", shape = [32], value = dense<[-0.0159200802, 0.357616782, 2.3570277E-4, -0.0579947941, -0.0597463287, -0.200254515, 0.366265953, 0.149299875, 0.525393307, 0.127944008, 0.292186141, -0.324999362, -0.0866009816, -0.0858573988, 0.0856663138, 4.738580e-01, -0.0172752272, -0.173174232, -0.195647404, -0.196485177, 0.209723219, 0.0510360524, -0.0659784153, 0.30637297, 0.161217228, -0.214068845, 0.0889915079, -0.0753730908, -0.205599353, 0.322708577, -2.596150e-01, -9.75729664E-4]> : tensor<32xf32>} : () -> memref<32xf32> 
   return %0 : memref<32xf32>
 }
+
+func.func @test_krnlMemcpyStatic(%arg0: memref<2x12x2x64xf32>, %arg1: memref<2x2x12x64xf32>, %arg2: i64, %arg3: index, %arg4: index) {
+  "krnl.memcpy"(%arg0, %arg1, %arg2, %arg3, %arg4) : (memref<2x12x2x64xf32>, memref<2x2x12x64xf32>, i64, index, index) -> ()
+  return
+}
+
+func.func @test_krnlDynamic(%arg0: memref<?x12x?x64xf32>, %arg1: memref<?x?x12x64xf32>, %arg2: i64, %arg3: index, %arg4: index) {
+  "krnl.memcpy"(%arg0, %arg1, %arg2, %arg3, %arg4) : (memref<?x12x?x64xf32>, memref<?x?x12x64xf32>, i64, index, index) -> ()
+  return
+}

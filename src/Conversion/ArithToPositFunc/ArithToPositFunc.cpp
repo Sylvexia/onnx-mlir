@@ -15,6 +15,7 @@
 #include "mlir/Transforms/DialectConversion.h"
 #include "src/Dialect/Krnl/KrnlOps.hpp"
 #include "src/Pass/Passes.hpp"
+#include <set>
 
 #define DEBUG_TYPE "convert-arith-to-posit-func"
 
@@ -186,7 +187,8 @@ struct MemrefAllocationToIntPattern : public OpConversionPattern<Op> {
     if (!newMemRefType)
       return failure();
 
-    rewriter.replaceOpWithNewOp<Op>(op, newMemRefType, op.getAlignmentAttr());
+    rewriter.replaceOpWithNewOp<Op>(op, newMemRefType, op.getDynamicSizes(),
+        op.getSymbolOperands(), op.getAlignmentAttr());
 
     return success();
   }
@@ -199,16 +201,27 @@ void populateMemrefAllocationToIntPattern(
   (patterns.add<MemrefAllocationToIntPattern<Ops>>(typeConverter, ctx), ...);
 }
 
-template <typename Op>
-struct ReturnTypeToIntPattern : public OpConversionPattern<Op> {
-  using OpConversionPattern<Op>::OpConversionPattern;
+struct MemrefAllocToIntPattern : public OpConversionPattern<memref::AllocOp> {
+  using OpConversionPattern<memref::AllocOp>::OpConversionPattern;
 
-  ReturnTypeToIntPattern(
+  MemrefAllocToIntPattern(
       const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<Op>(typeConverter, context){};
+      : mlir::OpConversionPattern<memref::AllocOp>(typeConverter, context){};
 
-  LogicalResult matchAndRewrite(Op op, typename Op::Adaptor adaptor,
-      ConversionPatternRewriter &rewriter) const final;
+  LogicalResult matchAndRewrite(memref::AllocOp op,
+      typename memref::AllocOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+    auto memRefType = cast<MemRefType>(op.getType());
+
+    auto newMemRefResType =
+        cast<MemRefType>(getTypeConverter()->convertType(memRefType));
+
+    rewriter.replaceOpWithNewOp<memref::AllocOp>(op, newMemRefResType,
+        op.getDynamicSizes(), adaptor.getSymbolOperands(),
+        op.getAlignmentAttr());
+
+    return success();
+  }
 };
 
 struct MemRefStoreOpToIntPattern : public OpConversionPattern<memref::StoreOp> {
@@ -304,6 +317,51 @@ void populateReinterpretCastOpToIntPattern(
   MLIRContext *ctx = patterns.getContext();
   patterns.add<MemRefReinterpretCastOpToIntPattern>(typeConverter, ctx);
 }
+
+struct MemrefDimOpToIntPattern : public OpConversionPattern<memref::DimOp> {
+  using OpConversionPattern<memref::DimOp>::OpConversionPattern;
+
+  MemrefDimOpToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<memref::DimOp>(typeConverter, context){};
+
+  LogicalResult matchAndRewrite(memref::DimOp op,
+      typename memref::DimOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+
+    rewriter.replaceOpWithNewOp<memref::DimOp>(
+        op, adaptor.getSource(), op.getIndex());
+
+    return success();
+  }
+};
+
+struct KrnlMemcpyOpToIntPattern : public OpConversionPattern<KrnlMemcpyOp> {
+  using OpConversionPattern<KrnlMemcpyOp>::OpConversionPattern;
+
+  KrnlMemcpyOpToIntPattern(
+      const TypeConverter &typeConverter, MLIRContext *context)
+      : mlir::OpConversionPattern<KrnlMemcpyOp>(typeConverter, context){};
+
+  LogicalResult matchAndRewrite(KrnlMemcpyOp op,
+      typename KrnlMemcpyOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const override {
+
+    auto destElementTy =
+        cast<MemRefType>(op.getDest().getType()).getElementType();
+    auto srcElementTy =
+        cast<MemRefType>(op.getSrc().getType()).getElementType();
+
+    if (!isa<Float32Type>(destElementTy) || !isa<Float32Type>(srcElementTy))
+      return failure();
+
+    rewriter.replaceOpWithNewOp<KrnlMemcpyOp>(op, adaptor.getDest(),
+        adaptor.getSrc(), op.getNumElems(), op.getDestOffset(),
+        op.getSrcOffset());
+
+    return success();
+  }
+};
 
 struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
   using OpConversionPattern<KrnlGlobalOp>::OpConversionPattern;
@@ -640,6 +698,17 @@ public:
 };
 
 void ConvertArithToPositFuncPass::runOnOperation() {
+  {
+    auto module = getOperation();
+    std::set<std::string> operationNames;
+    module.walk([&](Operation *op) {
+      operationNames.insert(op->getName().getStringRef().str());
+    });
+
+    for (const auto &name : operationNames) {
+      llvm::errs() << "Saw operation: " << name << "\n";
+    }
+  }
   auto module = getOperation();
 
   // vector::populateVectorToVectorCanonicalizationPatterns(patterns);
@@ -656,7 +725,7 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   // custom lowering
   auto populateReturnPositOpPatterns = [&](auto opType,
-                                             const std::string &opString) {
+                                           const std::string &opString) {
     populateArithBinOpPositPattern<decltype(opType)>(
         patterns, typeConverter, opString, _n_bits, _es_val);
   };
@@ -673,12 +742,15 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   patterns.add<ConvertArithCmpToPositFuncLowering>(
       typeConverter, patterns.getContext(), _n_bits, _es_val);
-  patterns.add<ConvertMathSitofpToPositFuncLowering>(typeConverter,
-      patterns.getContext(), _n_bits, _es_val);
+  patterns.add<ConvertMathSitofpToPositFuncLowering>(
+      typeConverter, patterns.getContext(), _n_bits, _es_val);
 
   populateConvertArithConstantFloatToIntPattern(
       patterns, typeConverter, _n_bits, _es_val);
+
   populateKrnlGlobalOpToIntPattern(patterns, typeConverter, _n_bits, _es_val);
+  patterns.add<KrnlMemcpyOpToIntPattern>(typeConverter, patterns.getContext());
+  patterns.add<MemrefDimOpToIntPattern>(typeConverter, patterns.getContext());
 
   populateMemrefAllocationToIntPattern<memref::AllocaOp, memref::AllocOp>(
       patterns, typeConverter); // getType() same builder pattern
@@ -695,13 +767,24 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   ConversionTarget target(getContext());
   target.addDynamicallyLegalOp<arith::ConstantOp, arith::AddFOp, arith::SubFOp,
-      arith::MulFOp, arith::DivFOp, arith::CmpFOp, arith::SelectOp, arith::SIToFPOp, math::ExpOp,
-      math::SqrtOp, math::TanhOp, math::ErfOp>(
+      arith::MulFOp, arith::DivFOp, arith::CmpFOp, arith::SelectOp,
+      arith::SIToFPOp, math::ExpOp, math::SqrtOp, math::TanhOp, math::ErfOp>(
       [&](Operation *op) { return typeConverter.isLegal(op); });
 
   target.addDynamicallyLegalOp<KrnlGlobalOp>([&](KrnlGlobalOp op) {
     return typeConverter.isLegal(
         cast<MemRefType>(op->getResult(0).getType()).getElementType());
+  });
+
+  target.addDynamicallyLegalOp<KrnlMemcpyOp>([&](KrnlMemcpyOp op) {
+    auto destElementTy = cast<MemRefType>(op.getDest().getType());
+    auto srcElementTy = cast<MemRefType>(op.getSrc().getType());
+    return typeConverter.isLegal(destElementTy) &&
+           typeConverter.isLegal(srcElementTy);
+  });
+  target.addDynamicallyLegalOp<memref::DimOp>([&](memref::DimOp op) {
+    auto sourceType = cast<MemRefType>(op.getSource().getType());
+    return typeConverter.isLegal(sourceType);
   });
 
   target.addDynamicallyLegalOp<memref::AllocaOp, memref::AllocOp>(
