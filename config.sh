@@ -1,5 +1,5 @@
 conda deactivate
-deactivate
+source deactivate
 python -m venv build/env
 source ./build/env/bin/activate
 MLIR_DIR=/home/sylvex/onnx_llvm/llvm-project/build/lib/cmake/mlir
@@ -10,7 +10,7 @@ cmake -G Ninja -B build \
     -DLLVM_ENABLE_ASSERTIONS=ON \
     -DMLIR_DIR=${MLIR_DIR} \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
-    ..
+    .
 
 ninja -C build -j 4
 

@@ -11,7 +11,7 @@ cmake -G Ninja -B build \
     -DLLVM_ENABLE_ASSERTIONS=ON \
     -DMLIR_DIR=${MLIR_DIR} \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
-    ..
+    .
 
 ninja -C build -j 4
 

@@ -529,7 +529,7 @@ private:
 };
 
 template <typename OpType>
-void populateArithBinOpPositPattern(RewritePatternSet &patterns,
+void populateOpSigToPositPattern(RewritePatternSet &patterns,
     TypeConverter &typeConverter, const std::string &opName, int nBits,
     int esVal) {
   patterns.add<ConvertArithBinOpToPositFuncLowering<OpType>>(
@@ -614,12 +614,12 @@ private:
   std::unordered_map<arith::CmpFPredicate, std::string> get_pred_str;
 };
 
-struct ConvertMathSitofpToPositFuncLowering
+struct ConvertArithSitofpToPositFuncLowering
     : public OpConversionPattern<arith::SIToFPOp> {
   using OpConversionPattern<arith::SIToFPOp>::OpConversionPattern;
 
 public:
-  ConvertMathSitofpToPositFuncLowering(const TypeConverter &typeConverter,
+  ConvertArithSitofpToPositFuncLowering(const TypeConverter &typeConverter,
       MLIRContext *context, uint8_t n_bits, uint8_t es_val)
       : mlir::OpConversionPattern<arith::SIToFPOp>(typeConverter, context),
         n_bits(n_bits), es_val(es_val){};
@@ -663,6 +663,63 @@ public:
 
     rewriter.replaceOpWithNewOp<func::CallOp>(
         op, name, returnType, op.getOperand());
+
+    return success();
+  }
+
+private:
+  uint8_t n_bits;
+  uint8_t es_val;
+};
+
+struct ConvertArithFptosiToPositFuncLowering
+    : public OpConversionPattern<arith::FPToSIOp> {
+  using OpConversionPattern<arith::FPToSIOp>::OpConversionPattern;
+
+public:
+  ConvertArithFptosiToPositFuncLowering(const TypeConverter &typeConverter,
+      MLIRContext *context, uint8_t n_bits, uint8_t es_val)
+      : mlir::OpConversionPattern<arith::FPToSIOp>(typeConverter, context),
+        n_bits(n_bits), es_val(es_val){};
+
+  LogicalResult matchAndRewrite(arith::FPToSIOp op,
+      arith::FPToSIOp::Adaptor adaptor,
+      ConversionPatternRewriter &rewriter) const final {
+    auto resultType = op.getResult().getType();
+
+    if (!isa<IntegerType>(resultType))
+      return failure();
+
+    auto name = getPositFuncStr(n_bits, es_val, "fptosi");
+    auto operandType = op->getOperands();
+
+    bool allFP32 = llvm::all_of(operandType, [](mlir::Value operand) {
+      return isa<Float32Type>(operand.getType());
+    });
+    
+    if (!allFP32)
+      return failure();
+
+    auto module = SymbolTable::getNearestSymbolTable(op);
+    auto opFunc = dyn_cast_or_null<SymbolOpInterface>(
+        SymbolTable::lookupSymbolIn(module, name));
+    if (!opFunc) {
+      OpBuilder::InsertionGuard guard(rewriter);
+      rewriter.setInsertionPointToStart(&module->getRegion(0).front());
+
+      auto opFunctionTy = FunctionType::get(
+          rewriter.getContext(), adaptor.getOperands(), resultType);
+      opFunc = rewriter.create<func::FuncOp>(
+          rewriter.getUnknownLoc(), name, opFunctionTy);
+
+      opFunc.setPrivate();
+      opFunc->setAttr(LLVM::LLVMDialect::getReadnoneAttrName(),
+          UnitAttr::get(rewriter.getContext()));
+    }
+    assert(isa<FunctionOpInterface>(SymbolTable::lookupSymbolIn(module, name)));
+
+    rewriter.replaceOpWithNewOp<func::CallOp>(
+        op, name, resultType, adaptor.getOperands());
 
     return success();
   }
@@ -723,26 +780,46 @@ void ConvertArithToPositFuncPass::runOnOperation() {
   RewritePatternSet patterns(&getContext());
   FloatToIntTypeConverter typeConverter(_n_bits);
 
-  // custom lowering
-  auto populateReturnPositOpPatterns = [&](auto opType,
-                                           const std::string &opString) {
-    populateArithBinOpPositPattern<decltype(opType)>(
+  auto mapOpTypeToOpstring = [&](auto opType, const std::string &opString) {
+    populateOpSigToPositPattern<decltype(opType)>(
         patterns, typeConverter, opString, _n_bits, _es_val);
   };
 
-  populateReturnPositOpPatterns(arith::AddFOp{}, "add");
-  populateReturnPositOpPatterns(arith::SubFOp{}, "sub");
-  populateReturnPositOpPatterns(arith::MulFOp{}, "mul");
-  populateReturnPositOpPatterns(arith::DivFOp{}, "div");
-  populateReturnPositOpPatterns(arith::SelectOp{}, "select");
-  populateReturnPositOpPatterns(math::ExpOp{}, "exp");
-  populateReturnPositOpPatterns(math::SqrtOp{}, "sqrt");
-  populateReturnPositOpPatterns(math::TanhOp{}, "tanh");
-  populateReturnPositOpPatterns(math::ErfOp{}, "erf");
+  mapOpTypeToOpstring(arith::AddFOp{}, "add");
+  mapOpTypeToOpstring(arith::SubFOp{}, "sub");
+  mapOpTypeToOpstring(arith::MulFOp{}, "mul");
+  mapOpTypeToOpstring(arith::DivFOp{}, "div");
+  mapOpTypeToOpstring(arith::NegFOp{}, "neg");
+  mapOpTypeToOpstring(arith::MaxNumFOp{}, "maxnum");
+  mapOpTypeToOpstring(arith::MinNumFOp{}, "minnum");
+  mapOpTypeToOpstring(arith::SelectOp{}, "select");
+  mapOpTypeToOpstring(arith::MaximumFOp{}, "max");
+  mapOpTypeToOpstring(arith::MinimumFOp{}, "min");
+  mapOpTypeToOpstring(math::AbsFOp{}, "abs");
+  mapOpTypeToOpstring(math::SqrtOp{}, "sqrt");
+  mapOpTypeToOpstring(math::RsqrtOp{}, "rsqrt");
+  mapOpTypeToOpstring(math::ExpOp{}, "exp");
+  mapOpTypeToOpstring(math::SinOp{}, "sin");
+  mapOpTypeToOpstring(math::CosOp{}, "cos");
+  mapOpTypeToOpstring(math::TanOp{}, "tan");
+  mapOpTypeToOpstring(math::AsinOp{}, "asin");
+  mapOpTypeToOpstring(math::AcosOp{}, "acos");
+  mapOpTypeToOpstring(math::AtanOp{}, "atan");
+  mapOpTypeToOpstring(math::SinhOp{}, "sinh");
+  mapOpTypeToOpstring(math::CoshOp{}, "cosh");
+  mapOpTypeToOpstring(math::TanhOp{}, "tanh");
+  mapOpTypeToOpstring(math::ErfOp{}, "erf");
+  mapOpTypeToOpstring(math::LogOp{}, "log");
+  mapOpTypeToOpstring(math::FloorOp{}, "floor");
+  mapOpTypeToOpstring(math::CeilOp{}, "ceil");
+  mapOpTypeToOpstring(math::TruncOp{}, "trunc");
+  mapOpTypeToOpstring(math::RoundOp{}, "round");
 
   patterns.add<ConvertArithCmpToPositFuncLowering>(
       typeConverter, patterns.getContext(), _n_bits, _es_val);
-  patterns.add<ConvertMathSitofpToPositFuncLowering>(
+  patterns.add<ConvertArithSitofpToPositFuncLowering>(
+      typeConverter, patterns.getContext(), _n_bits, _es_val);
+  patterns.add<ConvertArithFptosiToPositFuncLowering>(
       typeConverter, patterns.getContext(), _n_bits, _es_val);
 
   populateConvertArithConstantFloatToIntPattern(
@@ -767,8 +844,13 @@ void ConvertArithToPositFuncPass::runOnOperation() {
 
   ConversionTarget target(getContext());
   target.addDynamicallyLegalOp<arith::ConstantOp, arith::AddFOp, arith::SubFOp,
-      arith::MulFOp, arith::DivFOp, arith::CmpFOp, arith::SelectOp,
-      arith::SIToFPOp, math::ExpOp, math::SqrtOp, math::TanhOp, math::ErfOp>(
+      arith::MulFOp, arith::DivFOp, arith::NegFOp, arith::MaxNumFOp,
+      arith::MinNumFOp, arith::CmpFOp, arith::SelectOp, arith::MaximumFOp,
+      arith::MinimumFOp, math::AbsFOp, math::SqrtOp, math::RsqrtOp, math::ExpOp,
+      math::SinOp, math::CosOp, math::TanOp, math::AsinOp, math::AcosOp,
+      math::AtanOp, math::SinhOp, math::CoshOp, math::TanhOp, math::LogOp,
+      math::FloorOp, math::CeilOp, math::TruncOp, math::RoundOp, math::ErfOp,
+      arith::SIToFPOp, arith::FPToSIOp>(
       [&](Operation *op) { return typeConverter.isLegal(op); });
 
   target.addDynamicallyLegalOp<KrnlGlobalOp>([&](KrnlGlobalOp op) {
@@ -782,6 +864,7 @@ void ConvertArithToPositFuncPass::runOnOperation() {
     return typeConverter.isLegal(destElementTy) &&
            typeConverter.isLegal(srcElementTy);
   });
+
   target.addDynamicallyLegalOp<memref::DimOp>([&](memref::DimOp op) {
     auto sourceType = cast<MemRefType>(op.getSource().getType());
     return typeConverter.isLegal(sourceType);
