@@ -2,6 +2,10 @@ conda deactivate
 source deactivate
 python -m venv build/env
 source ./build/env/bin/activate
+pip install joblib
+pip install numpy~=1.22.2
+pip install -e third_party/onnx
+pip install /home/sylvex/Posit-Numerical-Library
 MLIR_DIR=/home/sylvex/onnx_llvm/llvm-project/build/lib/cmake/mlir
 cmake -G Ninja -B build \
     -DCMAKE_C_COMPILER=clang \
@@ -14,11 +18,8 @@ cmake -G Ninja -B build \
 
 ninja -C build -j 4
 
-pip install joblib
-pip install numpy~=1.22.2
-pip install -e third_party/onnx
 export ONNX_MLIR_HOME=/home/sylvex/onnx-mlir/build/Debug
 export CUSTOM_POSIT_LIB_DIR=/home/sylvex/custom_posit/lib
 export CUSTOM_POSIT_LIB_NAME=positWrapperC
-pip install /home/sylvex/Posit-Numerical-Library
+export LD_LIBRARY_PATH=/home/sylvex/custom_posit/lib:$LD_LIBRARY_PATH
 python ./utils/RunONNXModelZooPosit.py -c='-O0' -m='mnist-7' -l='debug' --n-bit="32" --es='2'
