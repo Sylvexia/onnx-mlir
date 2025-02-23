@@ -852,7 +852,9 @@ def main():
                     )
                 )
 
-        posit_inputs = getRawBitArray[func_suffix](inputs)
+        posit_inputs = []
+        for input in inputs:
+            posit_inputs.append(getRawBitArray[func_suffix](input))
 
         # Running inference.
         print("Running inference ...")
@@ -871,8 +873,11 @@ def main():
             elapsed = end - start
             perf_results += [elapsed]
             print("  {} iteration, {}, seconds".format(ordinal(i + 1), elapsed))
-                    
-        outs = getDoubleArray[func_suffix](posit_outs)
+
+        outs = []
+        for posit_out in posit_outs:
+            outs.append(getDoubleArray[func_suffix](posit_out))
+        # outs = getDoubleArray[func_suffix](posit_outs)
 
         # Print statistics info, e.g., min/max/stddev inference time.
         if args.n_iteration > 1:
