@@ -189,5 +189,8 @@ dmypy.json
 .devcontainer
 .vs
 
+mobilenetv2-7
 exp
 models
+*.tar.gz
+*.pb
