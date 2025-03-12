@@ -1,6 +1,29 @@
 import numpy as np
+import argparse
 import onnx
 from onnx import numpy_helper
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--n-bit",
+        type=str,
+        default="8",
+        help="The bit-width for posit data type",
+    )
+    parser.add_argument(
+        "--es",
+        type=str,
+        default="0",
+        help="The exponent size for posit data type",
+    )
+    parser.add_argument(
+        "--n-sample",
+        type=int,
+        default=1,
+        help="Number of samples to run",
+    )
+    return parser.parse_args()
 
 def getMAE(numpyA, numpyB):
     return np.mean(np.abs(numpyA - numpyB))
@@ -21,22 +44,58 @@ def loadref(num_inputs, pbfile):
         inputs.append(input_np)
     return inputs
 
+def getAccuracies(numpyA, numpyB):
+    top1A = getTopKLabelIdx(numpyA, 1)
+    top1B = getTopKLabelIdx(numpyB, 1)
+    top5A = getTopKLabelIdx(numpyA, 5)
+    top5B = getTopKLabelIdx(numpyB, 5)
+
+    top1Acc = len(np.intersect1d(top1A, top1B)) / len(top1A)
+    top5Acc = len(np.intersect1d(top5A, top5B)) / len(top5A)
+
+    return top1Acc, top5Acc
+
 def main():
-    path1 = "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/data/ground-truth-0-output_0.pb"
-    path2 = "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/data/posit8_2-0-output_0.pb"
+    args = get_args()
+    
+    MAEs = []
+    RMSEs = []
+    top1Accuracies = []
+    top5Accuracies = []
 
-    ref1 = loadref(1, path1)
-    ref2 = loadref(1, path2)
+    posit_prefix = f"posit{args.n_bit}_{args.es}"
+    num_iter = args.n_sample
 
-    flatten1 = ref1[0].flatten()
-    flatten2 = ref2[0].flatten()
+    for i in range(num_iter):
+        print(f"=====Running iteration {i}=====")
+        groudPath = f"/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output/{posit_prefix}/ground-truth-{i}-output_0.pb"
+        positPath = f"/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output/{posit_prefix}/posit-{i}-output_0.pb"
 
-    print(f"MAE: {getMAE(flatten1, flatten2)}")
-    print(f"RMSE: {getRMSE(flatten1, flatten2)}")
+        groundRef = loadref(1, groudPath)
+        positRef = loadref(1, positPath)
 
-    topk = 5
-    print(f"Ground Truth Top {topk} label indices: {getTopKLabelIdx(flatten1, topk)}")
-    print(f"Posit8_2 Top {topk} label indices: {getTopKLabelIdx(flatten2, topk)}")
+        flatten1 = groundRef[0].flatten()
+        flatten2 = positRef[0].flatten()
+
+        MAE = getMAE(flatten1, flatten2)
+        RMSE = getRMSE(flatten1, flatten2)
+        MAEs.append(MAE)
+        RMSEs.append(RMSE)
+
+        print(f"MAE: {MAE}")
+        print(f"RMSE: {RMSE}")
+
+        top1Acc, top5Acc = getAccuracies(flatten1, flatten2)
+        top1Accuracies.append(top1Acc)
+        top5Accuracies.append(top5Acc)
+
+        print(f"Top-1 Accuracy: {top1Acc}")
+        print(f"Top-5 Accuracy: {top5Acc}")
+
+    print(f"Average MAE: {np.mean(MAEs)}")
+    print(f"Average RMSE: {np.mean(RMSEs)}")
+    print(f"Average Top-1 Accuracy: {np.mean(top1Accuracies)}")
+    print(f"Average Top-5 Accuracy: {np.mean(top5Accuracies)}")
 
 if __name__ == '__main__':
     main()

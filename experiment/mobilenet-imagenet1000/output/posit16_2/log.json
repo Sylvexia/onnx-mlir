@@ -1,0 +1,32 @@
+{
+    "cmds": [
+        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/classification/mobilenet/model/mobilenetv2-7.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/mobilenetv2-7.tar.gz --output /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/mobilenetv2-7.tar.gz",
+        "find /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000 -type f -name [^.]*.onnx",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/mobilenetv2-7/mobilenetv2-7.onnx -o /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/model/mobilenetv2-7-ground-truth",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/mobilenetv2-7/mobilenetv2-7.onnx --enable-posit --n-bits=16 --es-val=2 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/model/mobilenetv2-7-posit16_2"
+    ],
+    "ground_truth_inference_time": [
+        1.2788817882537842,
+        1.269416332244873,
+        1.2693476676940918,
+        1.2703888416290283,
+        1.2733712196350098,
+        1.2741575241088867,
+        1.2717514038085938,
+        1.2869431972503662,
+        1.3609764575958252,
+        1.3534905910491943
+    ],
+    "posit_inference_time": [
+        418.60540080070496,
+        449.94304180145264,
+        435.66610980033875,
+        412.7924864292145,
+        412.0816605091095,
+        415.4925925731659,
+        414.0724997520447,
+        413.11095786094666,
+        469.52559757232666,
+        464.58471179008484
+    ]
+}

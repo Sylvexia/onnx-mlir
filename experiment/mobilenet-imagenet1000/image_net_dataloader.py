@@ -17,10 +17,23 @@ def preprocess(image):
 
     # Crop centered window 224x224
     def crop_center(image, crop_w, crop_h):
-        h, w, c = image.shape
-        start_x = w//2 - crop_w//2
-        start_y = h//2 - crop_h//2
-        return image[start_y:start_y+crop_h, start_x:start_x+crop_w, :]
+        if len(image.shape) == 3:
+            h, w, c = image.shape
+        else:
+            h, w = image.shape
+            c = 1  # Assuming grayscale image
+        start_x = w//2 - (crop_w//2)
+        start_y = h//2 - (crop_h//2)
+        if len(image.shape) == 3:
+            return image[start_y:start_y+crop_h, start_x:start_x+crop_w, :]
+        return image[start_y:start_y+crop_h, start_x:start_x+crop_w]
+    
+    # def crop_center(image, crop_w, crop_h):
+    #     h, w, c = image.shape
+    #     start_x = w//2 - crop_w//2
+    #     start_y = h//2 - crop_h//2
+    #     return image[start_y:start_y+crop_h, start_x:start_x+crop_w, :]
+
     image = crop_center(image, 224, 224)
 
     # transpose
@@ -71,7 +84,7 @@ DATAPATH = '/home/sylvex/Downloads/imagenet-mini/val'
 
 if __name__ == '__main__':
     np.random.seed(42069)
-    images, labels = get_random_imagenet(DATAPATH, 2)
+    images, labels = get_random_imagenet(DATAPATH, 15)
     print(images)
     print(labels)
     # iterate over images and save them
