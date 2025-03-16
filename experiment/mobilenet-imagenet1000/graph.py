@@ -8,27 +8,27 @@ Average_Top1_Accuracy = [0,0,0,0,0.9,1,1,1,1]
 Average_Top5_Accuracy = [0,0,0,0,0.96,1,1,1,1]
 
 # Plot and save Average MAE
-plt.figure()
+plt.figure(figsize=(12, 8))
 plt.plot(legend, Average_MAE, marker='o', label='Average MAE')
 plt.yscale('log')
 plt.legend()
 plt.savefig('mobilenet-imagenet1000_mae.png')
 
 # Plot and save Average RMSE
-plt.figure()
+plt.figure(figsize=(12, 8))
 plt.plot(legend, Average_RMSE, marker='o', label='Average RMSE')
 plt.yscale('log')
 plt.legend()
 plt.savefig('mobilenet-imagenet1000_rmse.png')
 
 # Plot and save Average Top-1 Accuracy
-plt.figure()
+plt.figure(figsize=(12, 8))
 plt.plot(legend, Average_Top1_Accuracy, marker='o', label='Average Top-1 Accuracy')
 plt.legend()
 plt.savefig('mobilenet-imagenet1000_top1_accuracy.png')
 
 # Plot and save Average Top-5 Accuracy
-plt.figure()
+plt.figure(figsize=(12, 8))
 plt.plot(legend, Average_Top5_Accuracy, marker='o', label='Average Top-5 Accuracy')
 plt.legend()
 plt.savefig('mobilenet-imagenet1000_top5_accuracy.png')
