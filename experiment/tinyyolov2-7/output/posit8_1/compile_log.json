@@ -1,0 +1,10 @@
+{
+    "cmds": [
+        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/tiny-yolov2/model/tinyyolov2-7.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/tinyyolov2-8/tinyyolov2-7.tar.gz --output /home/sylvex/onnx-mlir/experiment/tinyyolov2-8/tinyyolov2-7.tar.gz",
+        "find /home/sylvex/onnx-mlir/experiment/tinyyolov2-8 -type f -name [^.]*.onnx",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/tinyyolov2-8/model/model.onnx -o /home/sylvex/onnx-mlir/experiment/tinyyolov2-8/model/tinyyolov2-7-ground-truth",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/tinyyolov2-8/model/model.onnx --enable-posit --n-bits=8 --es-val=1 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/tinyyolov2-8/model/tinyyolov2-7-posit8_1"
+    ],
+    "ground_truth_compile_time": 5.105435933917761,
+    "posit_compile_time": 3.956317593809217
+}

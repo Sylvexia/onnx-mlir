@@ -7,7 +7,7 @@ pip install numpy~=1.22.2
 pip install -e third_party/onnx
 pip install /home/sylvex/Posit-Numerical-Library
 pip install pillow
-pip install matplotlib
+pip install matplotlib~=3.5.0
 MLIR_DIR=/home/sylvex/onnx_llvm/llvm-project/build/lib/cmake/mlir
 cmake -G Ninja -B build \
     -DCMAKE_C_COMPILER=clang \

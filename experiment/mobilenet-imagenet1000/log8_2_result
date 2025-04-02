@@ -48,7 +48,112 @@ MAE: 3.2390794540457426
 RMSE: 4.051309832983882
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
-Average MAE: 2.613018201362924
-Average RMSE: 3.4328833767783697
-Average Top-1 Accuracy: 0.0
-Average Top-5 Accuracy: 0.0
+=====Running iteration 10=====
+MAE: 2.504176186457975
+RMSE: 3.109839362433216
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 11=====
+MAE: 2.484456018149853
+RMSE: 3.1794807635290154
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 12=====
+MAE: 2.5070479462281803
+RMSE: 3.21205326895163
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 13=====
+MAE: 3.098865176754538
+RMSE: 3.898570188880975
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 14=====
+MAE: 2.594881071396172
+RMSE: 3.5427893165331397
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 15=====
+MAE: 2.655086233722046
+RMSE: 3.4012466557557626
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 16=====
+MAE: 2.616734838913777
+RMSE: 3.388952421710215
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 17=====
+MAE: 2.498717199184233
+RMSE: 3.1588317543074416
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 18=====
+MAE: 2.393981181266252
+RMSE: 3.183676075874609
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 19=====
+MAE: 2.789844055749476
+RMSE: 3.501100145190821
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 20=====
+MAE: 2.571253537141718
+RMSE: 3.5999872696995374
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 21=====
+MAE: 2.759432699974626
+RMSE: 3.543500954144862
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 22=====
+MAE: 2.70869325231947
+RMSE: 3.3207472523410106
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 23=====
+MAE: 2.113836164496839
+RMSE: 2.7438118256056265
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 24=====
+MAE: 2.9657256019143388
+RMSE: 3.78128367589522
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 25=====
+MAE: 3.6134009486579455
+RMSE: 4.602185638989589
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 26=====
+MAE: 2.2539360592309388
+RMSE: 2.8506558053349424
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 27=====
+MAE: 2.6497695811782034
+RMSE: 3.4948570395131524
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 28=====
+MAE: 3.140386779455934
+RMSE: 4.034912770074273
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 29=====
+MAE: 2.1480390590485183
+RMSE: 2.804924376763218
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+=====Running iteration 30=====
+Traceback (most recent call last):
+  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 116, in <module>
+    main()
+  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 75, in main
+    groundRef = loadref(1, groudPath)
+  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 42, in loadref
+    with open(pbfile, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output/posit8_2/ground-truth-30-output_0.pb'

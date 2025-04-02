@@ -48,7 +48,12 @@ MAE: nan
 RMSE: nan
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
-Average MAE: nan
-Average RMSE: nan
-Average Top-1 Accuracy: 0.0
-Average Top-5 Accuracy: 0.0
+=====Running iteration 10=====
+Traceback (most recent call last):
+  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 116, in <module>
+    main()
+  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 75, in main
+    groundRef = loadref(1, groudPath)
+  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 42, in loadref
+    with open(pbfile, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output/posit16_0/ground-truth-10-output_0.pb'

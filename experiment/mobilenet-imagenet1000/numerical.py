@@ -1,5 +1,6 @@
 import numpy as np
 import argparse
+import json
 import onnx
 from onnx import numpy_helper
 
@@ -92,10 +93,24 @@ def main():
         print(f"Top-1 Accuracy: {top1Acc}")
         print(f"Top-5 Accuracy: {top5Acc}")
 
-    print(f"Average MAE: {np.mean(MAEs)}")
-    print(f"Average RMSE: {np.mean(RMSEs)}")
-    print(f"Average Top-1 Accuracy: {np.mean(top1Accuracies)}")
-    print(f"Average Top-5 Accuracy: {np.mean(top5Accuracies)}")
+    averageMAE = np.mean(MAEs)
+    averageRMSE = np.mean(RMSEs)
+    averageTop1Accuracy = np.mean(top1Accuracies)
+    averageTop5Accuracy = np.mean(top5Accuracies)
+
+    print(f"Average MAE: {averageMAE}")
+    print(f"Average RMSE: {averageRMSE}")
+    print(f"Average Top-1 Accuracy: {averageTop1Accuracy}")
+    print(f"Average Top-5 Accuracy: {averageTop5Accuracy}")
+
+    json_data = {
+        "averageMAE": averageMAE,
+        "averageRMSE": averageRMSE,
+        "averageTop1Accuracy": averageTop1Accuracy,
+        "averageTop5Accuracy": averageTop5Accuracy,
+    }
+    with open(f"/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output/{posit_prefix}/evaluation.json", "w") as f:
+        json.dump(json_data, f, indent=4)
 
 if __name__ == '__main__':
     main()

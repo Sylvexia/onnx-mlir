@@ -1,0 +1,10 @@
+{
+    "cmds": [
+        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/classification/mnist/model/mnist-8.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/mnist/mnist-8.tar.gz --output /home/sylvex/onnx-mlir/experiment/mnist/mnist-8.tar.gz",
+        "find /home/sylvex/onnx-mlir/experiment/mnist -type f -name [^.]*.onnx",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/mnist/model/model.onnx -o /home/sylvex/onnx-mlir/experiment/mnist/model/mnist-8-ground-truth",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/mnist/model/model.onnx --enable-posit --n-bits=16 --es-val=3 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/mnist/model/mnist-8-posit16_3"
+    ],
+    "ground_truth_compile_time": 0.304545474704355,
+    "posit_compile_time": 0.2844540271908045
+}

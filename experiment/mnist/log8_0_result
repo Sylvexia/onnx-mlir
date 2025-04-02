@@ -1,0 +1,1254 @@
+=====Running iteration 0=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 1=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 2=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 3=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 4=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 5=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 6=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 7=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 8=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 9=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 10=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 11=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 12=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 13=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 14=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 15=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 16=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 17=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 18=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 19=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 20=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 21=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 22=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 23=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 24=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 25=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 26=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 27=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 28=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 29=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 30=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 31=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 32=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 33=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 34=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 35=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 36=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 37=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 38=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 39=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 40=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 41=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 42=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 43=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 44=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 45=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 46=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 47=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 48=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.6
+=====Running iteration 49=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 50=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 51=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 52=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 53=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 54=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 55=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 56=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 57=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 58=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 59=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 60=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 61=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 62=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 63=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 64=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 65=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 66=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 67=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 68=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 69=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 70=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 71=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 72=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 73=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 74=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 75=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 76=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 77=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 78=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 79=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 80=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 81=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 82=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 83=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 84=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 85=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 86=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 87=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 88=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 89=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 90=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 91=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 92=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 93=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 94=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 95=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 96=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 97=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 98=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 99=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 100=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 101=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 102=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 103=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 104=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 105=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 106=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 107=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.6
+=====Running iteration 108=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 109=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 110=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 111=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 112=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 113=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 114=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 115=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 116=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 117=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.6
+=====Running iteration 118=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 119=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 120=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 121=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 122=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 123=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 124=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 125=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 126=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 127=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 128=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 129=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 130=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 131=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 132=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 133=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 134=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 135=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 136=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 137=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 138=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 139=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 140=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 141=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 142=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 143=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 144=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 145=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 146=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 147=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 148=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 149=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 150=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 151=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 152=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 153=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 154=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 155=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 156=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 157=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 158=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 159=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 160=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 161=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 162=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 163=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 164=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 165=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 166=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 167=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 168=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 169=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 170=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 171=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 172=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 173=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.6
+=====Running iteration 174=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 175=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 176=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.6
+=====Running iteration 177=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 178=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 179=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 180=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 181=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 182=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 183=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 184=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 185=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 186=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 187=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 188=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 189=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 190=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 191=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 192=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 193=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 194=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 195=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 196=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.6
+=====Running iteration 197=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 198=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 199=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 200=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 201=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 202=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 203=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 204=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.4
+=====Running iteration 205=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 206=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 207=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 208=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 209=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 210=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 211=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 212=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 213=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 214=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 215=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 216=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 217=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 218=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 219=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 220=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 221=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 222=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 223=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 224=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 225=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.6
+=====Running iteration 226=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 227=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 228=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 229=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 230=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 231=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 232=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 233=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 234=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 235=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.2
+=====Running iteration 236=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 237=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 238=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 239=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.6
+=====Running iteration 240=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 241=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 242=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 243=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.8
+=====Running iteration 244=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 245=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 246=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.6
+=====Running iteration 247=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 248=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+=====Running iteration 249=====
+MAE: nan
+RMSE: nan
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.4
+Average MAE: nan
+Average RMSE: nan
+Average Top-1 Accuracy: 0.096
+Average Top-5 Accuracy: 0.524

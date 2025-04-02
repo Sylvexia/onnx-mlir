@@ -1,0 +1,44 @@
+{
+    "cmds": [
+        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/classification/resnet/model/resnet18-v1-7.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/resnet18-imagenet1000/resnet18-v1-7.tar.gz --output /home/sylvex/onnx-mlir/experiment/resnet18-imagenet1000/resnet18-v1-7.tar.gz",
+        "find /home/sylvex/onnx-mlir/experiment/resnet18-imagenet1000 -type f -name [^.]*.onnx",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet18-imagenet1000/resnet18-v1-7/resnet18-v1-7.onnx -o /home/sylvex/onnx-mlir/experiment/resnet18-imagenet1000/model/resnet18-v1-7-ground-truth",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet18-imagenet1000/resnet18-v1-7/resnet18-v1-7.onnx --enable-posit --n-bits=16 --es-val=1 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/resnet18-imagenet1000/model/resnet18-v1-7-posit16_1"
+    ],
+    "labels": [
+        369,
+        821,
+        704,
+        961,
+        241,
+        968,
+        650,
+        104,
+        335,
+        477
+    ],
+    "ground_truth_inference_time": [
+        22.023608684539795,
+        21.051740407943726,
+        24.561928033828735,
+        27.476292610168457,
+        27.6629478931427,
+        23.639073133468628,
+        29.469131469726562,
+        31.526427745819092,
+        24.02828621864319,
+        27.957719326019287
+    ],
+    "posit_inference_time": [
+        1910.4805505275726,
+        1571.2225584983826,
+        1731.2897231578827,
+        1507.2400131225586,
+        1442.926655292511,
+        1393.1549923419952,
+        1344.1895999908447,
+        1189.3894562721252,
+        1187.300184249878,
+        1041.8219227790833
+    ]
+}
