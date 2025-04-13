@@ -15,6 +15,8 @@
 #include "mlir/Transforms/DialectConversion.h"
 #include "src/Dialect/Krnl/KrnlOps.hpp"
 #include "src/Pass/Passes.hpp"
+#include <cstdint>
+#include <positWrapperC.h>
 #include <set>
 
 #define DEBUG_TYPE "convert-arith-to-posit-func"
@@ -37,99 +39,154 @@ int bit_length(uint64_t value) {
   return std::numeric_limits<uint64_t>::digits - __builtin_clzl(value);
 }
 
-uint64_t convertFloat32ToPosit(
-    uint64_t raw_bit, uint8_t n_bits, uint8_t es_val) {
-
-  uint64_t result = 0;
-
-  uint8_t n_raw = 32;
-  uint8_t n_frac = 23;
-  uint8_t n_exp = 8;
-  uint bias = 127;
-
-  if ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) == 0) {
-    result = 0;
-    return result;
+uint64_t convertFloat32ToPosit(double val, uint8_t n_bits, uint8_t es_val) {
+  if (n_bits == 8) {
+    if (es_val == 0) {
+      auto raw = getRawBit<8, 0, uint8_t>(val);
+      return raw;
+    }
+    if (es_val == 1) {
+      auto raw = getRawBit<8, 1, uint8_t>(val);
+      return raw;
+    }
+    if (es_val == 2) {
+      auto raw = getRawBit<8, 2, uint8_t>(val);
+      return raw;
+    }
+    if (es_val == 3) {
+      auto raw = getRawBit<8, 3, uint8_t>(val);
+      return raw;
+    }
+  } else if (n_bits == 16) {
+    if (es_val == 0) {
+      auto raw = getRawBit<16, 0, uint16_t>(val);
+      return static_cast<uint64_t>(raw);
+    }
+    if (es_val == 1) {
+      auto raw = getRawBit<16, 1, uint16_t>(val);
+      return raw;
+    }
+    if (es_val == 2) {
+      auto raw = getRawBit<16, 2, uint16_t>(val);
+      return raw;
+    }
+    if (es_val == 3) {
+      auto raw = getRawBit<16, 3, uint16_t>(val);
+      return raw;
+    }
+  } else if (n_bits == 32) {
+    if (es_val == 0) {
+      auto raw = getRawBit<32, 0, uint32_t>(val);
+      return raw;
+    }
+    if (es_val == 1) {
+      auto raw = getRawBit<32, 1, uint32_t>(val);
+      return raw;
+    }
+    if (es_val == 2) {
+      auto raw = getRawBit<32, 2, uint32_t>(val);
+      return static_cast<uint64_t>(raw);
+    }
+    if (es_val == 3) {
+      auto raw = getRawBit<32, 3, uint32_t>(val);
+      return raw;
+    }
   }
-
-  if ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) >=
-      (((1ULL << n_exp) - 1) << n_frac)) {
-    result = (1ULL << n_bits) - 1;
-    return result;
-  }
-
-  bool sign = (raw_bit >> (n_raw - 1)) & 1;
-  int scale = ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) >> n_frac) - bias;
-  uint64_t fraction = (1ULL << n_frac) | (raw_bit & ((1ULL << n_frac) - 1));
-
-  int regime = scale >> es_val;
-  int regime_len = (regime >= 0) ? regime + 2 : -regime + 1;
-
-  // llvm::errs() << "scale: " << (int)scale << "\n";
-  // llvm::errs() << "es_val: " << (int)es_val << "\n";
-  // llvm::errs() << "regime: " << regime << "\n";
-  // llvm::errs() << "regime len: " << regime_len << "\n";
-
-  // this should be long long int for 64-bit
-  long long int exponent = scale & ((1ULL << es_val) - 1);
-
-  // check if regime is out of range
-  if (regime_len >= n_bits + 1) {
-    if (regime >= 0)
-      result = (1ULL << (n_bits - 1)) - 1; // max posit
-    else
-      result = 1; // min posit
-
-    if (sign)
-      result = (1 << (n_bits - 1)) | result;
-    return result;
-  }
-
-  // encode regime
-  result = 0;
-  if (regime >= 0)
-    result |= (((1ULL << (regime_len - 1)) - 1) << (n_bits - regime_len));
-  else if (n_bits - 1 >= regime_len)
-    result |= ((1ULL << (n_bits - 1 - regime_len)));
-
-  fraction = removeTrailZero(fraction);
-  int fraction_len = bit_length(fraction) - 1;
-  fraction &= ((1ULL << fraction_len) - 1);
-  int trailing_len = n_bits - regime_len - 1;
-  uint64_t exp_frac = removeTrailZero((exponent << fraction_len) | fraction);
-
-  // llvm::errs() << "exp_frac: " << exp_frac << "\n";
-
-  int exp_frac_len = 0;
-  if (fraction_len == 0)
-    exp_frac_len = es_val - countTrailZero(exponent);
-  else
-    exp_frac_len = es_val + fraction_len;
-
-  int diff_bit_len = abs(exp_frac_len - trailing_len);
-  if (exp_frac_len > trailing_len) {
-    // the rounding scheme is to be verified
-    bool guard, round, sticky;
-    guard = (exp_frac >> (diff_bit_len - 1)) & 1;
-    round = (exp_frac >> (diff_bit_len - 2)) & 1;
-    sticky = (exp_frac & ((1ULL << (diff_bit_len - 2)) - 1));
-    bool round_up = guard & (round | sticky);
-    result |= (exp_frac >> diff_bit_len);
-    if (round_up)
-      result += 1;
-  } else {
-    result |= exp_frac << (diff_bit_len);
-  }
-
-  if (sign)
-    result |= 1 << (n_bits - 1);
-
-  // log result as binary
-  // for (int i = n_bits - 1; i >= 0; i--) {
-  //   llvm::errs() << ((result >> i) & 1);
-  // }
-  return result;
 }
+
+// uint64_t convertFloat32ToPosit(
+//     uint64_t raw_bit, uint8_t n_bits, uint8_t es_val) {
+
+//   uint64_t result = 0;
+
+//   uint8_t n_raw = 32;
+//   uint8_t n_frac = 23;
+//   uint8_t n_exp = 8;
+//   uint bias = 127;
+
+//   if ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) == 0) {
+//     result = 0;
+//     return result;
+//   }
+
+//   if ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) >=
+//       (((1ULL << n_exp) - 1) << n_frac)) {
+//     result = (1ULL << n_bits) - 1;
+//     return result;
+//   }
+
+//   bool sign = (raw_bit >> (n_raw - 1)) & 1;
+//   int scale = ((raw_bit & ((1ULL << (n_raw - 1)) - 1)) >> n_frac) - bias;
+//   uint64_t fraction = (1ULL << n_frac) | (raw_bit & ((1ULL << n_frac) - 1));
+
+//   int regime = scale >> es_val;
+//   int regime_len = (regime >= 0) ? regime + 2 : -regime + 1;
+
+//   // llvm::errs() << "scale: " << (int)scale << "\n";
+//   // llvm::errs() << "es_val: " << (int)es_val << "\n";
+//   // llvm::errs() << "regime: " << regime << "\n";
+//   // llvm::errs() << "regime len: " << regime_len << "\n";
+
+//   // this should be long long int for 64-bit
+//   long long int exponent = scale & ((1ULL << es_val) - 1);
+
+//   // check if regime is out of range
+//   if (regime_len >= n_bits + 1) {
+//     if (regime >= 0)
+//       result = (1ULL << (n_bits - 1)) - 1; // max posit
+//     else
+//       result = 1; // min posit
+
+//     if (sign)
+//       result = (1 << (n_bits - 1)) | result;
+//     return result;
+//   }
+
+//   // encode regime
+//   result = 0;
+//   if (regime >= 0)
+//     result |= (((1ULL << (regime_len - 1)) - 1) << (n_bits - regime_len));
+//   else if (n_bits - 1 >= regime_len)
+//     result |= ((1ULL << (n_bits - 1 - regime_len)));
+
+//   fraction = removeTrailZero(fraction);
+//   int fraction_len = bit_length(fraction) - 1;
+//   fraction &= ((1ULL << fraction_len) - 1);
+//   int trailing_len = n_bits - regime_len - 1;
+//   uint64_t exp_frac = removeTrailZero((exponent << fraction_len) | fraction);
+
+//   // llvm::errs() << "exp_frac: " << exp_frac << "\n";
+
+//   int exp_frac_len = 0;
+//   if (fraction_len == 0)
+//     exp_frac_len = es_val - countTrailZero(exponent);
+//   else
+//     exp_frac_len = es_val + fraction_len;
+
+//   int diff_bit_len = abs(exp_frac_len - trailing_len);
+//   if (exp_frac_len > trailing_len) {
+//     // the rounding scheme is to be verified
+//     bool guard, round, sticky;
+//     guard = (exp_frac >> (diff_bit_len - 1)) & 1;
+//     round = (exp_frac >> (diff_bit_len - 2)) & 1;
+//     sticky = (exp_frac & ((1ULL << (diff_bit_len - 2)) - 1));
+//     bool round_up = guard & (round | sticky);
+//     result |= (exp_frac >> diff_bit_len);
+//     if (round_up)
+//       result += 1;
+//   } else {
+//     result |= exp_frac << (diff_bit_len);
+//   }
+
+//   if (sign)
+//     result |= 1 << (n_bits - 1);
+
+//   // log result as binary
+//   // for (int i = n_bits - 1; i >= 0; i--) {
+//   //   llvm::errs() << ((result >> i) & 1);
+//   // }
+//   return result;
+// }
 
 // e.g. posit8es0_add
 std::string getPositFuncStr(
@@ -171,7 +228,7 @@ struct MemrefAllocationToIntPattern : public OpConversionPattern<Op> {
 
   MemrefAllocationToIntPattern(
       const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<Op>(typeConverter, context){};
+      : mlir::OpConversionPattern<Op>(typeConverter, context) {};
 
   LogicalResult matchAndRewrite(Op op, typename Op::Adaptor adaptor,
       ConversionPatternRewriter &rewriter) const override {
@@ -206,7 +263,7 @@ struct MemrefAllocToIntPattern : public OpConversionPattern<memref::AllocOp> {
 
   MemrefAllocToIntPattern(
       const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<memref::AllocOp>(typeConverter, context){};
+      : mlir::OpConversionPattern<memref::AllocOp>(typeConverter, context) {};
 
   LogicalResult matchAndRewrite(memref::AllocOp op,
       typename memref::AllocOp::Adaptor adaptor,
@@ -229,7 +286,7 @@ struct MemRefStoreOpToIntPattern : public OpConversionPattern<memref::StoreOp> {
 
   MemRefStoreOpToIntPattern(
       const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<memref::StoreOp>(typeConverter, context){};
+      : mlir::OpConversionPattern<memref::StoreOp>(typeConverter, context) {};
 
   LogicalResult matchAndRewrite(memref::StoreOp op,
       typename memref::StoreOp::Adaptor adaptor,
@@ -256,7 +313,7 @@ struct MemRefLoadOpToIntPattern : public OpConversionPattern<memref::LoadOp> {
 
   MemRefLoadOpToIntPattern(
       const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<memref::LoadOp>(typeConverter, context){};
+      : mlir::OpConversionPattern<memref::LoadOp>(typeConverter, context) {};
 
   LogicalResult matchAndRewrite(memref::LoadOp op,
       typename memref::LoadOp::Adaptor adaptor,
@@ -291,7 +348,7 @@ struct MemRefReinterpretCastOpToIntPattern
   MemRefReinterpretCastOpToIntPattern(
       const TypeConverter &typeConverter, MLIRContext *context)
       : mlir::OpConversionPattern<memref::ReinterpretCastOp>(
-            typeConverter, context){};
+            typeConverter, context) {};
 
   LogicalResult matchAndRewrite(memref::ReinterpretCastOp op,
       typename memref::ReinterpretCastOp::Adaptor adaptor,
@@ -323,7 +380,7 @@ struct MemrefDimOpToIntPattern : public OpConversionPattern<memref::DimOp> {
 
   MemrefDimOpToIntPattern(
       const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<memref::DimOp>(typeConverter, context){};
+      : mlir::OpConversionPattern<memref::DimOp>(typeConverter, context) {};
 
   LogicalResult matchAndRewrite(memref::DimOp op,
       typename memref::DimOp::Adaptor adaptor,
@@ -341,7 +398,7 @@ struct KrnlMemcpyOpToIntPattern : public OpConversionPattern<KrnlMemcpyOp> {
 
   KrnlMemcpyOpToIntPattern(
       const TypeConverter &typeConverter, MLIRContext *context)
-      : mlir::OpConversionPattern<KrnlMemcpyOp>(typeConverter, context){};
+      : mlir::OpConversionPattern<KrnlMemcpyOp>(typeConverter, context) {};
 
   LogicalResult matchAndRewrite(KrnlMemcpyOp op,
       typename KrnlMemcpyOp::Adaptor adaptor,
@@ -369,7 +426,7 @@ struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
   KrnlGlobalOpToIntPattern(const TypeConverter &typeConverter,
       MLIRContext *context, uint8_t n_bits, uint8_t es_val)
       : mlir::OpConversionPattern<KrnlGlobalOp>(typeConverter, context),
-        n_bits(n_bits), es_val(es_val){};
+        n_bits(n_bits), es_val(es_val) {};
 
   LogicalResult matchAndRewrite(KrnlGlobalOp op,
       typename KrnlGlobalOp::Adaptor adaptor,
@@ -398,9 +455,10 @@ struct KrnlGlobalOpToIntPattern : public OpConversionPattern<KrnlGlobalOp> {
 
     auto newDenseAttr = denseAttr.mapValues(
         newDenseElementType, [&](const APFloat &value) -> APInt {
-          uint64_t floatBits = value.bitcastToAPInt().getZExtValue();
+          // uint64_t floatBits = value.bitcastToAPInt().getZExtValue();
+          double doubleVal = value.convertToDouble();
           return APInt(newDenseElementType.getIntOrFloatBitWidth(),
-              convertFloat32ToPosit(floatBits, n_bits, es_val));
+              convertFloat32ToPosit(doubleVal, n_bits, es_val));
         });
 
     rewriter.replaceOpWithNewOp<KrnlGlobalOp>(op, newMemRefType, op.getShape(),
@@ -428,7 +486,7 @@ struct ConvertArithConstantFloatToIntPattern
   ConvertArithConstantFloatToIntPattern(const TypeConverter &typeConverter,
       MLIRContext *context, uint8_t n_bits, uint8_t es_val)
       : mlir::OpConversionPattern<arith::ConstantOp>(typeConverter, context),
-        n_bits(n_bits), es_val(es_val){};
+        n_bits(n_bits), es_val(es_val) {};
 
   LogicalResult matchAndRewrite(arith::ConstantOp op,
       typename arith::ConstantOp::Adaptor adaptor,
@@ -443,7 +501,8 @@ struct ConvertArithConstantFloatToIntPattern
       return failure();
 
     APFloat apFloat = floatAttr.getValue();
-    uint64_t floatBits = apFloat.bitcastToAPInt().getZExtValue();
+    // uint64_t floatBits = apFloat.bitcastToAPInt().getZExtValue();
+    double floatBits = apFloat.convertToDouble();
     // llvm::errs() << "float value: " << apFloat.convertToFloat() << "\n";
 
     auto IntType = getTypeConverter()->convertType(op.getType());
@@ -478,7 +537,7 @@ public:
   ConvertArithBinOpToPositFuncLowering(const TypeConverter &typeConverter,
       MLIRContext *context, StringRef opString, uint8_t n_bits, uint8_t es_val)
       : mlir::OpConversionPattern<Op>(typeConverter, context),
-        opString(opString), n_bits(n_bits), es_val(es_val){};
+        opString(opString), n_bits(n_bits), es_val(es_val) {};
 
   LogicalResult matchAndRewrite(Op op, typename Op::Adaptor adaptor,
       ConversionPatternRewriter &rewriter) const final {
@@ -622,7 +681,7 @@ public:
   ConvertArithSitofpToPositFuncLowering(const TypeConverter &typeConverter,
       MLIRContext *context, uint8_t n_bits, uint8_t es_val)
       : mlir::OpConversionPattern<arith::SIToFPOp>(typeConverter, context),
-        n_bits(n_bits), es_val(es_val){};
+        n_bits(n_bits), es_val(es_val) {};
 
   LogicalResult matchAndRewrite(arith::SIToFPOp op, arith::SIToFPOp::Adaptor,
       ConversionPatternRewriter &rewriter) const final {
@@ -680,7 +739,7 @@ public:
   ConvertArithFptosiToPositFuncLowering(const TypeConverter &typeConverter,
       MLIRContext *context, uint8_t n_bits, uint8_t es_val)
       : mlir::OpConversionPattern<arith::FPToSIOp>(typeConverter, context),
-        n_bits(n_bits), es_val(es_val){};
+        n_bits(n_bits), es_val(es_val) {};
 
   LogicalResult matchAndRewrite(arith::FPToSIOp op,
       arith::FPToSIOp::Adaptor adaptor,
@@ -696,7 +755,7 @@ public:
     bool allFP32 = llvm::all_of(operandType, [](mlir::Value operand) {
       return isa<Float32Type>(operand.getType());
     });
-    
+
     if (!allFP32)
       return failure();
 

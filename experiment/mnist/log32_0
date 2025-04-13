@@ -1004,148 +1004,148 @@ Running Posit Model
 Posit Model Inference 0: Time: 1.72s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 1: Time: 2.25s
+Posit Model Inference 1: Time: 2.26s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 2: Time: 2.26s
+Posit Model Inference 2: Time: 2.29s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 3: Time: 2.24s
+Posit Model Inference 3: Time: 2.27s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 4: Time: 2.31s
+Posit Model Inference 4: Time: 2.33s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 5: Time: 2.33s
+Posit Model Inference 5: Time: 2.37s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 6: Time: 2.57s
+Posit Model Inference 6: Time: 2.42s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 7: Time: 2.89s
+Posit Model Inference 7: Time: 2.70s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
 Posit Model Inference 8: Time: 3.12s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 9: Time: 2.97s
+Posit Model Inference 9: Time: 2.98s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 10: Time: 2.62s
+Posit Model Inference 10: Time: 2.70s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 11: Time: 2.67s
+Posit Model Inference 11: Time: 2.79s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 12: Time: 2.16s
+Posit Model Inference 12: Time: 2.84s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
 Posit Model Inference 13: Time: 2.69s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 14: Time: 3.01s
+Posit Model Inference 14: Time: 2.24s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 15: Time: 2.41s
+Posit Model Inference 15: Time: 1.75s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 16: Time: 1.87s
+Posit Model Inference 16: Time: 1.88s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 17: Time: 1.89s
+Posit Model Inference 17: Time: 1.92s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 18: Time: 1.59s
+Posit Model Inference 18: Time: 1.66s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 19: Time: 2.04s
+Posit Model Inference 19: Time: 2.14s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 20: Time: 1.88s
+Posit Model Inference 20: Time: 2.08s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 21: Time: 1.91s
+Posit Model Inference 21: Time: 2.17s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 22: Time: 1.56s
+Posit Model Inference 22: Time: 1.86s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 23: Time: 1.97s
+Posit Model Inference 23: Time: 2.53s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 24: Time: 2.01s
+Posit Model Inference 24: Time: 3.05s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 25: Time: 1.86s
+Posit Model Inference 25: Time: 2.85s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 26: Time: 2.17s
+Posit Model Inference 26: Time: 3.25s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 27: Time: 2.12s
+Posit Model Inference 27: Time: 3.15s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 28: Time: 2.28s
+Posit Model Inference 28: Time: 3.19s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 29: Time: 1.96s
+Posit Model Inference 29: Time: 2.71s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 30: Time: 2.27s
+Posit Model Inference 30: Time: 2.93s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 31: Time: 2.64s
+Posit Model Inference 31: Time: 3.16s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 32: Time: 3.14s
+Posit Model Inference 32: Time: 3.11s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 33: Time: 2.87s
+Posit Model Inference 33: Time: 2.02s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 34: Time: 2.97s
+Posit Model Inference 34: Time: 1.92s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 35: Time: 3.05s
+Posit Model Inference 35: Time: 2.00s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 36: Time: 3.02s
+Posit Model Inference 36: Time: 2.05s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 37: Time: 2.36s
+Posit Model Inference 37: Time: 1.79s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 38: Time: 2.10s
+Posit Model Inference 38: Time: 2.30s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 39: Time: 1.96s
+Posit Model Inference 39: Time: 2.24s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 40: Time: 1.59s
+Posit Model Inference 40: Time: 1.90s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 41: Time: 2.05s
+Posit Model Inference 41: Time: 2.65s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 42: Time: 2.05s
+Posit Model Inference 42: Time: 2.99s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 43: Time: 2.40s
+Posit Model Inference 43: Time: 3.39s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 44: Time: 2.08s
+Posit Model Inference 44: Time: 2.88s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 45: Time: 2.34s
+Posit Model Inference 45: Time: 3.07s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 46: Time: 2.08s
+Posit Model Inference 46: Time: 2.68s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 47: Time: 2.30s
+Posit Model Inference 47: Time: 2.36s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 48: Time: 2.85s
+Posit Model Inference 48: Time: 2.86s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
 Posit Model Inference 49: Time: 2.97s
@@ -1154,7 +1154,7 @@ Posit Predicted: 3
 Posit Model Inference 50: Time: 2.88s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 51: Time: 2.88s
+Posit Model Inference 51: Time: 2.80s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
 Posit Model Inference 52: Time: 2.88s
@@ -1163,591 +1163,591 @@ Posit Predicted: 5
 Posit Model Inference 53: Time: 3.18s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 54: Time: 3.29s
+Posit Model Inference 54: Time: 3.28s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 55: Time: 2.99s
+Posit Model Inference 55: Time: 3.05s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 56: Time: 1.96s
+Posit Model Inference 56: Time: 1.99s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
 Posit Model Inference 57: Time: 1.87s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 58: Time: 1.64s
+Posit Model Inference 58: Time: 1.63s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 59: Time: 1.86s
+Posit Model Inference 59: Time: 1.87s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 60: Time: 1.93s
+Posit Model Inference 60: Time: 1.92s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 61: Time: 1.78s
+Posit Model Inference 61: Time: 1.79s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 62: Time: 2.24s
+Posit Model Inference 62: Time: 2.22s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 63: Time: 2.09s
+Posit Model Inference 63: Time: 2.13s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 64: Time: 1.98s
+Posit Model Inference 64: Time: 2.09s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 65: Time: 2.13s
+Posit Model Inference 65: Time: 2.32s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 66: Time: 1.94s
+Posit Model Inference 66: Time: 2.03s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 67: Time: 2.51s
+Posit Model Inference 67: Time: 2.70s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 68: Time: 2.71s
+Posit Model Inference 68: Time: 3.02s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 69: Time: 2.80s
+Posit Model Inference 69: Time: 2.98s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 70: Time: 2.62s
+Posit Model Inference 70: Time: 2.69s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 71: Time: 2.37s
+Posit Model Inference 71: Time: 2.46s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 72: Time: 2.98s
+Posit Model Inference 72: Time: 3.09s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 73: Time: 2.46s
+Posit Model Inference 73: Time: 2.64s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 74: Time: 1.85s
+Posit Model Inference 74: Time: 2.64s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 75: Time: 1.43s
+Posit Model Inference 75: Time: 2.10s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 76: Time: 1.70s
+Posit Model Inference 76: Time: 2.50s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 77: Time: 1.61s
+Posit Model Inference 77: Time: 2.36s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 78: Time: 1.80s
+Posit Model Inference 78: Time: 2.62s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 79: Time: 1.55s
+Posit Model Inference 79: Time: 2.22s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 80: Time: 1.56s
+Posit Model Inference 80: Time: 2.21s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 81: Time: 1.95s
+Posit Model Inference 81: Time: 2.58s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 82: Time: 1.81s
+Posit Model Inference 82: Time: 2.41s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 83: Time: 2.01s
+Posit Model Inference 83: Time: 2.62s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 84: Time: 1.95s
+Posit Model Inference 84: Time: 2.15s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 85: Time: 1.97s
+Posit Model Inference 85: Time: 1.62s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 86: Time: 2.66s
+Posit Model Inference 86: Time: 1.86s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 87: Time: 2.47s
+Posit Model Inference 87: Time: 1.63s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 88: Time: 2.39s
+Posit Model Inference 88: Time: 1.63s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 89: Time: 2.76s
+Posit Model Inference 89: Time: 1.88s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 90: Time: 2.65s
+Posit Model Inference 90: Time: 1.89s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 91: Time: 2.41s
+Posit Model Inference 91: Time: 1.76s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 92: Time: 2.54s
+Posit Model Inference 92: Time: 2.01s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 93: Time: 2.28s
+Posit Model Inference 93: Time: 1.76s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 94: Time: 2.66s
+Posit Model Inference 94: Time: 2.31s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 95: Time: 2.23s
+Posit Model Inference 95: Time: 2.32s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 96: Time: 1.75s
+Posit Model Inference 96: Time: 2.40s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 97: Time: 1.54s
+Posit Model Inference 97: Time: 2.26s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 98: Time: 1.73s
+Posit Model Inference 98: Time: 2.56s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 99: Time: 1.29s
+Posit Model Inference 99: Time: 1.90s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 100: Time: 1.82s
+Posit Model Inference 100: Time: 2.63s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 101: Time: 1.76s
+Posit Model Inference 101: Time: 2.54s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 102: Time: 1.93s
+Posit Model Inference 102: Time: 2.71s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 103: Time: 1.89s
+Posit Model Inference 103: Time: 2.56s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 104: Time: 1.95s
+Posit Model Inference 104: Time: 2.57s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 105: Time: 1.87s
+Posit Model Inference 105: Time: 2.37s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 106: Time: 2.05s
+Posit Model Inference 106: Time: 2.47s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 107: Time: 2.27s
+Posit Model Inference 107: Time: 2.36s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 108: Time: 2.55s
+Posit Model Inference 108: Time: 2.52s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 109: Time: 2.57s
+Posit Model Inference 109: Time: 2.52s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 110: Time: 2.17s
+Posit Model Inference 110: Time: 2.12s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 111: Time: 2.08s
+Posit Model Inference 111: Time: 2.05s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 112: Time: 2.47s
+Posit Model Inference 112: Time: 2.43s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 113: Time: 2.78s
+Posit Model Inference 113: Time: 2.87s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 114: Time: 2.35s
+Posit Model Inference 114: Time: 2.32s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 115: Time: 2.34s
+Posit Model Inference 115: Time: 1.74s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 116: Time: 2.59s
+Posit Model Inference 116: Time: 1.79s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 117: Time: 2.30s
+Posit Model Inference 117: Time: 1.56s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 118: Time: 2.25s
+Posit Model Inference 118: Time: 2.06s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 119: Time: 1.59s
+Posit Model Inference 119: Time: 1.63s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 120: Time: 1.68s
+Posit Model Inference 120: Time: 1.75s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 121: Time: 1.82s
+Posit Model Inference 121: Time: 1.97s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 122: Time: 1.50s
+Posit Model Inference 122: Time: 1.62s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 123: Time: 1.79s
+Posit Model Inference 123: Time: 2.02s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 124: Time: 1.63s
+Posit Model Inference 124: Time: 1.81s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 125: Time: 1.41s
+Posit Model Inference 125: Time: 1.81s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 126: Time: 2.07s
+Posit Model Inference 126: Time: 2.74s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 127: Time: 1.82s
+Posit Model Inference 127: Time: 2.42s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 128: Time: 1.44s
+Posit Model Inference 128: Time: 1.83s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 129: Time: 1.91s
+Posit Model Inference 129: Time: 2.23s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 130: Time: 2.41s
+Posit Model Inference 130: Time: 2.49s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 131: Time: 2.28s
+Posit Model Inference 131: Time: 2.23s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 132: Time: 2.51s
+Posit Model Inference 132: Time: 2.46s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 133: Time: 2.67s
+Posit Model Inference 133: Time: 2.62s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 134: Time: 2.31s
+Posit Model Inference 134: Time: 2.26s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 135: Time: 2.62s
+Posit Model Inference 135: Time: 2.59s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 136: Time: 2.56s
+Posit Model Inference 136: Time: 2.52s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 137: Time: 2.36s
+Posit Model Inference 137: Time: 2.32s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 138: Time: 2.72s
+Posit Model Inference 138: Time: 2.67s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 139: Time: 2.54s
+Posit Model Inference 139: Time: 2.50s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 140: Time: 2.35s
+Posit Model Inference 140: Time: 2.36s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 141: Time: 2.43s
+Posit Model Inference 141: Time: 2.39s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 142: Time: 2.48s
+Posit Model Inference 142: Time: 2.72s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 143: Time: 1.77s
+Posit Model Inference 143: Time: 2.55s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 144: Time: 1.53s
+Posit Model Inference 144: Time: 2.25s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 145: Time: 1.64s
+Posit Model Inference 145: Time: 2.41s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 146: Time: 1.62s
+Posit Model Inference 146: Time: 2.37s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 147: Time: 1.61s
+Posit Model Inference 147: Time: 2.34s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 148: Time: 1.80s
+Posit Model Inference 148: Time: 2.56s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 149: Time: 1.43s
+Posit Model Inference 149: Time: 2.04s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 150: Time: 1.89s
+Posit Model Inference 150: Time: 2.48s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 151: Time: 2.00s
+Posit Model Inference 151: Time: 2.47s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 152: Time: 1.99s
+Posit Model Inference 152: Time: 1.84s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 153: Time: 2.14s
+Posit Model Inference 153: Time: 1.85s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 154: Time: 2.18s
+Posit Model Inference 154: Time: 1.62s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 155: Time: 2.44s
+Posit Model Inference 155: Time: 1.75s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 156: Time: 2.38s
+Posit Model Inference 156: Time: 1.63s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 157: Time: 2.37s
+Posit Model Inference 157: Time: 1.66s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 158: Time: 2.99s
+Posit Model Inference 158: Time: 2.12s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 159: Time: 2.28s
+Posit Model Inference 159: Time: 1.63s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 160: Time: 2.53s
+Posit Model Inference 160: Time: 1.85s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 161: Time: 2.56s
+Posit Model Inference 161: Time: 1.97s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 162: Time: 2.23s
+Posit Model Inference 162: Time: 1.72s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 163: Time: 2.65s
+Posit Model Inference 163: Time: 2.22s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 164: Time: 2.62s
+Posit Model Inference 164: Time: 2.32s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 165: Time: 2.34s
+Posit Model Inference 165: Time: 2.41s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 166: Time: 1.96s
+Posit Model Inference 166: Time: 1.94s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 167: Time: 1.94s
+Posit Model Inference 167: Time: 2.14s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 168: Time: 1.72s
+Posit Model Inference 168: Time: 2.46s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 169: Time: 1.72s
+Posit Model Inference 169: Time: 2.53s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 170: Time: 1.92s
+Posit Model Inference 170: Time: 2.82s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 171: Time: 1.50s
+Posit Model Inference 171: Time: 2.20s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 172: Time: 1.89s
+Posit Model Inference 172: Time: 2.68s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 173: Time: 1.93s
+Posit Model Inference 173: Time: 2.74s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 174: Time: 1.71s
+Posit Model Inference 174: Time: 2.34s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 175: Time: 1.58s
+Posit Model Inference 175: Time: 2.15s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 176: Time: 1.86s
+Posit Model Inference 176: Time: 2.44s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 177: Time: 2.07s
+Posit Model Inference 177: Time: 2.63s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 178: Time: 2.52s
+Posit Model Inference 178: Time: 2.68s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 179: Time: 2.65s
+Posit Model Inference 179: Time: 2.63s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 180: Time: 2.37s
+Posit Model Inference 180: Time: 2.32s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 181: Time: 2.03s
+Posit Model Inference 181: Time: 1.97s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 182: Time: 2.17s
+Posit Model Inference 182: Time: 2.11s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 183: Time: 2.38s
+Posit Model Inference 183: Time: 2.34s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 184: Time: 2.22s
+Posit Model Inference 184: Time: 2.19s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 185: Time: 2.78s
+Posit Model Inference 185: Time: 2.72s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 186: Time: 2.34s
+Posit Model Inference 186: Time: 2.29s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 187: Time: 1.88s
+Posit Model Inference 187: Time: 1.85s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 188: Time: 2.50s
+Posit Model Inference 188: Time: 2.45s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 189: Time: 2.14s
+Posit Model Inference 189: Time: 2.16s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 190: Time: 2.49s
+Posit Model Inference 190: Time: 2.47s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 191: Time: 2.09s
+Posit Model Inference 191: Time: 2.43s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 192: Time: 1.64s
+Posit Model Inference 192: Time: 2.26s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 193: Time: 1.63s
+Posit Model Inference 193: Time: 2.37s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 194: Time: 1.70s
+Posit Model Inference 194: Time: 2.42s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 195: Time: 1.76s
+Posit Model Inference 195: Time: 2.52s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 196: Time: 1.72s
+Posit Model Inference 196: Time: 1.93s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 197: Time: 1.55s
+Posit Model Inference 197: Time: 1.49s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 198: Time: 1.65s
+Posit Model Inference 198: Time: 1.52s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 199: Time: 1.88s
+Posit Model Inference 199: Time: 1.75s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 200: Time: 1.77s
+Posit Model Inference 200: Time: 1.57s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 201: Time: 1.91s
+Posit Model Inference 201: Time: 1.70s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 202: Time: 2.55s
+Posit Model Inference 202: Time: 2.03s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 203: Time: 2.33s
+Posit Model Inference 203: Time: 1.77s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 204: Time: 2.27s
+Posit Model Inference 204: Time: 1.72s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 205: Time: 2.47s
+Posit Model Inference 205: Time: 1.89s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 206: Time: 2.58s
+Posit Model Inference 206: Time: 2.26s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 207: Time: 2.39s
+Posit Model Inference 207: Time: 2.23s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 208: Time: 2.02s
+Posit Model Inference 208: Time: 1.99s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 209: Time: 2.51s
+Posit Model Inference 209: Time: 2.47s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 210: Time: 2.35s
+Posit Model Inference 210: Time: 2.31s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 211: Time: 2.43s
+Posit Model Inference 211: Time: 2.40s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 212: Time: 2.91s
+Posit Model Inference 212: Time: 2.87s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 213: Time: 2.52s
+Posit Model Inference 213: Time: 2.53s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 214: Time: 1.84s
+Posit Model Inference 214: Time: 1.93s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 215: Time: 1.72s
+Posit Model Inference 215: Time: 2.39s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 216: Time: 1.61s
+Posit Model Inference 216: Time: 2.37s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 217: Time: 1.66s
+Posit Model Inference 217: Time: 2.43s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 218: Time: 1.77s
+Posit Model Inference 218: Time: 2.58s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 219: Time: 1.72s
+Posit Model Inference 219: Time: 2.46s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 220: Time: 1.73s
+Posit Model Inference 220: Time: 2.47s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 221: Time: 1.97s
+Posit Model Inference 221: Time: 2.67s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 222: Time: 1.99s
+Posit Model Inference 222: Time: 2.71s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 223: Time: 1.98s
+Posit Model Inference 223: Time: 2.55s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 224: Time: 2.02s
+Posit Model Inference 224: Time: 2.56s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 225: Time: 2.28s
+Posit Model Inference 225: Time: 2.43s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 226: Time: 2.48s
+Posit Model Inference 226: Time: 2.55s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 227: Time: 2.37s
+Posit Model Inference 227: Time: 2.32s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 228: Time: 1.97s
+Posit Model Inference 228: Time: 1.92s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 229: Time: 2.65s
+Posit Model Inference 229: Time: 2.60s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 230: Time: 2.39s
+Posit Model Inference 230: Time: 2.34s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 231: Time: 2.73s
+Posit Model Inference 231: Time: 2.68s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 232: Time: 2.24s
+Posit Model Inference 232: Time: 2.20s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 233: Time: 2.38s
+Posit Model Inference 233: Time: 2.34s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 234: Time: 2.41s
+Posit Model Inference 234: Time: 2.35s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 8
-Posit Model Inference 235: Time: 2.55s
+Posit Model Inference 235: Time: 2.46s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 236: Time: 2.15s
+Posit Model Inference 236: Time: 1.99s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 2
-Posit Model Inference 237: Time: 1.62s
+Posit Model Inference 237: Time: 1.41s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 238: Time: 1.72s
+Posit Model Inference 238: Time: 1.51s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 3
-Posit Model Inference 239: Time: 1.58s
+Posit Model Inference 239: Time: 1.55s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 9
-Posit Model Inference 240: Time: 1.42s
+Posit Model Inference 240: Time: 1.46s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 241: Time: 1.31s
+Posit Model Inference 241: Time: 1.35s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 242: Time: 1.53s
+Posit Model Inference 242: Time: 1.56s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
-Posit Model Inference 243: Time: 1.34s
+Posit Model Inference 243: Time: 1.36s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 7
-Posit Model Inference 244: Time: 1.58s
+Posit Model Inference 244: Time: 1.55s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 4
-Posit Model Inference 245: Time: 1.51s
+Posit Model Inference 245: Time: 1.50s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 5
-Posit Model Inference 246: Time: 1.58s
+Posit Model Inference 246: Time: 1.57s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 0
 Posit Model Inference 247: Time: 1.45s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 6
-Posit Model Inference 248: Time: 1.18s
+Posit Model Inference 248: Time: 1.17s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1
-Posit Model Inference 249: Time: 1.22s
+Posit Model Inference 249: Time: 1.21s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mnist/output/posit32_0
 Posit Predicted: 1

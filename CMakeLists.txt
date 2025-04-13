@@ -13,9 +13,11 @@ option(ONNX_MLIR_ENABLE_WERROR "Enable warnings as errors." OFF)
 option(ONNX_MLIR_SUPPRESS_THIRD_PARTY_WARNINGS "Suppress warning in third_party code." ON)
 option(ONNX_MLIR_ENABLE_JAVA "Set to ON for building the Java runtime, tools, and tests" ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+add_subdirectory(third_party/Posit-Numerical-Library)
 
 # On systems that still have legacy lib64 directories (e.g., rhel/fedora,
 # etc.), by default some components (e.g., cmake) install into lib while
@@ -157,7 +159,7 @@ if (ONNX_MLIR_SUPPRESS_THIRD_PARTY_WARNINGS)
 endif()
 
 # Decrease the log level for the inclusion of third party code
-set(CMAKE_MESSAGE_LOG_LEVEL NOTICE)
+# set(CMAKE_MESSAGE_LOG_LEVEL NOTICE)
 
 # Add third party subdirectories and define options appropriate to run their cmakes.
 set(pybind11_FIND_QUIETLY ON)
