@@ -1,59 +1,54 @@
 =====Running iteration 0=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.026449549328535795
+RMSE: 0.03492501782606013
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 1=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.020812445065006614
+RMSE: 0.02664494855616358
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.8
 =====Running iteration 2=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.025628780926577745
+RMSE: 0.03211624024990509
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 3=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.022417784233344718
+RMSE: 0.028145913445113042
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 4=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.021551648819819094
+RMSE: 0.027808398280822235
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 5=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.031818428150843826
+RMSE: 0.04008265240495234
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 6=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.018260518315248192
+RMSE: 0.02296042896758865
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 7=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.02131697048898786
+RMSE: 0.02739756771246887
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 8=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.021881979130674155
+RMSE: 0.027770896745764887
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 9=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
-=====Running iteration 10=====
-Traceback (most recent call last):
-  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 116, in <module>
-    main()
-  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 75, in main
-    groundRef = loadref(1, groudPath)
-  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 42, in loadref
-    with open(pbfile, 'rb') as f:
-FileNotFoundError: [Errno 2] No such file or directory: '/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output/posit16_0/ground-truth-10-output_0.pb'
+MAE: 0.02438637699186802
+RMSE: 0.031378054622079016
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+Average MAE: 0.0234524481450906
+Average RMSE: 0.02992301188109179
+Average Top-1 Accuracy: 1.0
+Average Top-5 Accuracy: 0.9800000000000001

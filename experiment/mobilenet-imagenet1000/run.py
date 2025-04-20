@@ -1,20 +1,9 @@
-
-# curl --insecure --retry 50 
-# --location --silent https://github.com/onnx/models/raw/main/validated/vision/classification/mobilenet/model/mobilenetv2-7.tar.gz 
-# --time-cond /home/sylvex/onnx-mlir/mobilenetv2-7.tar.gz 
-# --output /home/sylvex/onnx-mlir/mobilenetv2-7.tar.gz
-
 import os
 import argparse
 import sys
-import subprocess
-import signal
-import tarfile
 import time
 import numpy as np
 import json
-import copy
-
 import libpositWrapperPy as posit
 import image_net_dataloader
 
@@ -54,16 +43,6 @@ if not os.environ.get("ONNX_MLIR_HOME", None):
         "the HOME directory for onnx-mlir. The HOME directory for onnx-mlir refers to "
         "the parent folder containing the bin, lib, etc sub-folders in which ONNX-MLIR "
         "executables and libraries can be found, typically `onnx-mlir/build/Debug`"
-    )
-
-if not os.environ.get("CUSTOM_POSIT_LIB_DIR", None):
-    raise RuntimeError(
-        "Environment variable CUSTOM_POSIT_LIB_DIR is not set"
-    )
-
-if not os.environ.get("CUSTOM_POSIT_LIB_NAME", None):
-    raise RuntimeError(
-        "Environment variable CUSTOM_POSIT_LIB_NAME is not set"
     )
 
 getDouble = {
@@ -130,48 +109,14 @@ args = get_args()
 func_suffix = args.n_bit + "_" + args.es
 output_dir = os.path.join(args.workdir, "output", f"posit{func_suffix}")
 os.makedirs(output_dir, exist_ok=True)
-json_log_file = os.path.join(output_dir, "log.json")
+json_log_file = os.path.join(output_dir, "run_log.json")
 
 json_data = {
-    "cmds": [],
     "labels": [],
     "ground_truth_inference_time": [],
     "posit_inference_time": [],
 }
 
-def execute_commands(cmds, cwd=None, tmout=None):
-    print("cmd={} cwd={}".format(" ".join(cmds), cwd))
-
-    json_data["cmds"].append(" ".join(cmds))
-
-    out = subprocess.Popen(
-        cmds, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-    )
-    try:
-        stdout, stderr = out.communicate(timeout=tmout)
-    except subprocess.TimeoutExpired:
-        # Kill the child process and finish communication
-        out.kill()
-        stdout, stderr = out.communicate()
-        return (
-            False,
-            (
-                stderr.decode("utf-8")
-                + stdout.decode("utf-8")
-                + "Timeout after {} seconds".format(tmout)
-            ),
-        )
-    msg = stderr.decode("utf-8") + stdout.decode("utf-8")
-    if out.returncode == -signal.SIGSEGV:
-        return (False, msg + "Segfault")
-    if out.returncode != 0:
-        return (False, msg + "Return code {}".format(out.returncode))
-    return (True, stdout.decode("utf-8"))
-
-CURL_CMD = ["curl", "--insecure", "--retry", "50", "--location", "--silent"]
-ONNX_MLIR_EXENAME = "onnx-mlir"
-ONNX_MLIR = os.path.join(
-    os.environ["ONNX_MLIR_HOME"], "bin", ONNX_MLIR_EXENAME)
 # Include runtime directory in python paths, so PyRuntime can be imported.
 RUNTIME_DIR = os.path.join(os.environ["ONNX_MLIR_HOME"], "lib")
 sys.path.append(RUNTIME_DIR)
@@ -196,60 +141,17 @@ def save_ref(prefix, outputs, path):
 
 def main():
     np.random.seed(42069)
-    model_url = "https://github.com/onnx/models/raw/main/validated/vision/classification/mobilenet/model/mobilenetv2-7.tar.gz"
     work_dir = args.workdir
-    model_tar_gz = os.path.join(work_dir, "mobilenetv2-7.tar.gz")
-    
-    ok, _ = execute_commands(
-        CURL_CMD + [model_url, "--time-cond",
-                    model_tar_gz, "--output", model_tar_gz],
-        cwd=work_dir,
-    )
-
-    with tarfile.open(model_tar_gz, "r:gz") as tgz:
-        tgz.extractall(work_dir)
-
-    _, onnx_files = execute_commands(
-            ["find", work_dir, "-type", "f", "-name", "[^.]*.onnx"]
-    )
-
-    onnx_file = onnx_files.split("\n")[0]
-    model_name = "mobilenetv2-7-ground-truth"
-    model_name_posit = f"mobilenetv2-7-posit{func_suffix}"
+    model = "mobilenetv2-7"
     model_dir = os.path.join(work_dir, "model")
+
     if not os.path.exists(model_dir):
         os.mkdir(model_dir)
+
+    model_name = f"{model}-ground-truth"
+    model_name_posit = f"{model}-posit{func_suffix}"
     output_path = os.path.join(model_dir, model_name)
-    output_path_posit = os.path.join(work_dir, "model", model_name_posit)
-    
-    # Compile the model
-    command_str = [ONNX_MLIR]
-    command_str += [onnx_file]
-
-    command_str_posit = copy.deepcopy(command_str)
-    command_str_posit += ["--enable-posit", f"--n-bits={args.n_bit}", f"--es-val={args.es}"]
-    command_str_posit += [f"-L{os.environ['CUSTOM_POSIT_LIB_DIR']}",
-                    f"-l{os.environ['CUSTOM_POSIT_LIB_NAME']}"]
-    
-    command_str += ["-o", output_path]
-    command_str_posit += ["-o", output_path_posit]
-
-    start = time.perf_counter()
-    ok, msg = execute_commands(command_str)
-    if not ok:
-        print(msg)
-        exit(1)
-    end = time.perf_counter()
-    print(f"Normal Compilation time: {end - start:.2f}s")
-
-    start = time.perf_counter()
-    ok, msg = execute_commands(command_str_posit)
-    if not ok:
-        print(msg)
-        exit(1)
-    end = time.perf_counter()
-    print(f"Posit Compilation time: {end - start:.2f}s")
-
+    output_path_posit = os.path.join(model_dir, model_name_posit)
     # Run the Model to Get Ground Truth
     shared_lib_path = output_path + ".so"
     sess = OMExecutionSession(shared_lib_path)
@@ -259,9 +161,7 @@ def main():
 
     num_samples = args.n_sample
     print(f"Running {num_samples} samples")
-    images, labels = image_net_dataloader.get_random_imagenet(
-        image_net_dataloader.DATAPATH, num_samples
-    )
+    images, labels = image_net_dataloader.get_random_imagenet(image_net_dataloader.DATAPATH, num_samples)
 
     print("Running Ground Truth Model")
     for i, image in enumerate(images):
@@ -269,7 +169,6 @@ def main():
         inputs.append(image)
 
         # get run time
-
         time_start = time.time()
         outputs = sess.run(inputs)
         time_end = time.time()
@@ -279,7 +178,7 @@ def main():
 
         save_ref(f"ground-truth-{i}", outputs, output_dir)
         
-        json_data["labels"].append(labels[i])
+        json_data["labels"].append(int(labels[i]))
 
         print(f"Ground Truth: {labels[i]}")
         print(f"FP32 Predicted: {np.argmax(outputs)}")

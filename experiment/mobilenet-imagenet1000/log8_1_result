@@ -1,59 +1,54 @@
 =====Running iteration 0=====
-MAE: nan
-RMSE: nan
+MAE: 2.562376959193498
+RMSE: 3.6618178184353973
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 1=====
-MAE: nan
-RMSE: nan
+MAE: 2.4273135521356015
+RMSE: 3.1720007220725464
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 2=====
-MAE: nan
-RMSE: nan
+MAE: 2.6447595593100415
+RMSE: 3.4024271235889816
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 3=====
-MAE: nan
-RMSE: nan
+MAE: 2.189915067691123
+RMSE: 2.8584862693802617
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 4=====
-MAE: nan
-RMSE: nan
+MAE: 2.656103229435161
+RMSE: 3.5969026335277183
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 5=====
-MAE: nan
-RMSE: nan
+MAE: 3.3603029126902113
+RMSE: 4.197760369851457
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 6=====
-MAE: nan
-RMSE: nan
+MAE: 2.1701047871587797
+RMSE: 2.783950635750477
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 7=====
-MAE: nan
-RMSE: nan
+MAE: 2.3577413751771674
+RMSE: 3.043015842689786
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 8=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.2
-=====Running iteration 9=====
-MAE: nan
-RMSE: nan
+MAE: 2.1170349983307535
+RMSE: 2.7727985000015556
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
-=====Running iteration 10=====
-Traceback (most recent call last):
-  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 116, in <module>
-    main()
-  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 75, in main
-    groundRef = loadref(1, groudPath)
-  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 42, in loadref
-    with open(pbfile, 'rb') as f:
-FileNotFoundError: [Errno 2] No such file or directory: '/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output/posit8_1/ground-truth-10-output_0.pb'
+=====Running iteration 9=====
+MAE: 3.195759600708261
+RMSE: 3.9909151115777104
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 0.0
+Average MAE: 2.56814120418306
+Average RMSE: 3.3480075026875893
+Average Top-1 Accuracy: 0.0
+Average Top-5 Accuracy: 0.0
