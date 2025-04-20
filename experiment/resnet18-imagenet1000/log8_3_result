@@ -9,8 +9,8 @@ RMSE: 2.8750483009926873
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 2=====
-MAE: 2.5631965099601075
-RMSE: 3.176640861188768
+MAE: 2.5831023196456955
+RMSE: 3.201220151289875
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 3=====
@@ -34,8 +34,8 @@ RMSE: 3.0541493600537963
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.2
 =====Running iteration 7=====
-MAE: 2.4763298589484766
-RMSE: 3.16761420537407
+MAE: 2.4672359083937483
+RMSE: 3.156767296691939
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
 =====Running iteration 8=====
@@ -48,7 +48,7 @@ MAE: 2.840488042633049
 RMSE: 3.441691208283288
 Top-1 Accuracy: 0.0
 Top-5 Accuracy: 0.0
-Average MAE: 2.513434352381632
-Average RMSE: 3.182444841226573
+Average MAE: 2.514515538294718
+Average RMSE: 3.1838180793684705
 Average Top-1 Accuracy: 0.0
 Average Top-5 Accuracy: 0.02

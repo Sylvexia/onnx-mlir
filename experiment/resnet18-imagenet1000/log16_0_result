@@ -1,54 +1,54 @@
 =====Running iteration 0=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.04473276488028932
+RMSE: 0.060980959855652946
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 1=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.015430534249171615
+RMSE: 0.019709969567258262
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 2=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.041132011658512053
+RMSE: 0.05515848069976541
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 3=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.016064150113612414
+RMSE: 0.020525687968302304
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 4=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.024876458486542106
+RMSE: 0.03193014718595263
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 5=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.025619469445198776
+RMSE: 0.032515542477699645
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 6=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.018058497826568782
+RMSE: 0.02307100246418137
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 7=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.020553176396526398
+RMSE: 0.026787852108610094
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 8=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
+MAE: 0.03260563973896206
+RMSE: 0.041730960409407436
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
 =====Running iteration 9=====
-MAE: nan
-RMSE: nan
-Top-1 Accuracy: 0.0
-Top-5 Accuracy: 0.0
-Average MAE: nan
-Average RMSE: nan
-Average Top-1 Accuracy: 0.0
-Average Top-5 Accuracy: 0.0
+MAE: 0.02105681695137173
+RMSE: 0.02697628954145175
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+Average MAE: 0.026012951974675524
+Average RMSE: 0.03393868922782818
+Average Top-1 Accuracy: 1.0
+Average Top-5 Accuracy: 1.0

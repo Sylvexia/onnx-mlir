@@ -1,6 +1,6 @@
 {
-    "averageMAE": NaN,
-    "averageRMSE": NaN,
+    "averageMAE": 1.9395873597602242,
+    "averageRMSE": 2.5579155431305893,
     "averageTop1Accuracy": 0.0,
-    "averageTop5Accuracy": 0.0
+    "averageTop5Accuracy": 0.1
 }
