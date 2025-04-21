@@ -1,28 +1,53 @@
-Running 5 samples
+Running 10 samples
 Running Ground Truth Model
-Ground Truth Model Inference 0: Time: 33.44s
+Ground Truth Model Inference 0: Time: 32.96s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
 Ground Truth: [{'label': 'diningtable', 'xmin': 5, 'ymin': 58, 'xmax': 500, 'ymax': 287}, {'label': 'chair', 'xmin': 1, 'ymin': 31, 'xmax': 79, 'ymax': 162}, {'label': 'chair', 'xmin': 1, 'ymin': 201, 'xmax': 140, 'ymax': 287}]
-Ground Truth Model Inference 1: Time: 98.03s
+Ground Truth Model Inference 1: Time: 62.39s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
 Ground Truth: [{'label': 'person', 'xmin': 95, 'ymin': 190, 'xmax': 374, 'ymax': 375}, {'label': 'person', 'xmin': 379, 'ymin': 238, 'xmax': 500, 'ymax': 375}, {'label': 'person', 'xmin': 351, 'ymin': 201, 'xmax': 464, 'ymax': 375}, {'label': 'person', 'xmin': 262, 'ymin': 178, 'xmax': 395, 'ymax': 318}, {'label': 'person', 'xmin': 111, 'ymin': 187, 'xmax': 197, 'ymax': 289}, {'label': 'bottle', 'xmin': 129, 'ymin': 189, 'xmax': 145, 'ymax': 235}, {'label': 'person', 'xmin': 259, 'ymin': 195, 'xmax': 293, 'ymax': 260}, {'label': 'person', 'xmin': 296, 'ymin': 132, 'xmax': 407, 'ymax': 224}, {'label': 'person', 'xmin': 348, 'ymin': 211, 'xmax': 384, 'ymax': 241}, {'label': 'person', 'xmin': 36, 'ymin': 239, 'xmax': 166, 'ymax': 364}]
-Ground Truth Model Inference 2: Time: 130.22s
+Ground Truth Model Inference 2: Time: 53.68s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
 Ground Truth: [{'label': 'pottedplant', 'xmin': 298, 'ymin': 107, 'xmax': 431, 'ymax': 361}, {'label': 'pottedplant', 'xmin': 125, 'ymin': 186, 'xmax': 418, 'ymax': 375}, {'label': 'pottedplant', 'xmin': 52, 'ymin': 94, 'xmax': 218, 'ymax': 375}]
-Ground Truth Model Inference 3: Time: 143.27s
+Ground Truth Model Inference 3: Time: 77.64s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
 Ground Truth: [{'label': 'tvmonitor', 'xmin': 180, 'ymin': 6, 'xmax': 342, 'ymax': 97}]
-Ground Truth Model Inference 4: Time: 138.53s
+Ground Truth Model Inference 4: Time: 65.36s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
 Ground Truth: [{'label': 'person', 'xmin': 111, 'ymin': 126, 'xmax': 264, 'ymax': 500}, {'label': 'bicycle', 'xmin': 91, 'ymin': 267, 'xmax': 245, 'ymax': 500}]
+Ground Truth Model Inference 5: Time: 42.23s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
+Ground Truth: [{'label': 'person', 'xmin': 14, 'ymin': 180, 'xmax': 137, 'ymax': 332}, {'label': 'person', 'xmin': 1, 'ymin': 41, 'xmax': 208, 'ymax': 400}, {'label': 'chair', 'xmin': 63, 'ymin': 85, 'xmax': 258, 'ymax': 400}, {'label': 'sofa', 'xmin': 1, 'ymin': 94, 'xmax': 98, 'ymax': 310}, {'label': 'bottle', 'xmin': 63, 'ymin': 172, 'xmax': 117, 'ymax': 216}]
+Ground Truth Model Inference 6: Time: 42.25s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
+Ground Truth: [{'label': 'train', 'xmin': 1, 'ymin': 259, 'xmax': 365, 'ymax': 500}]
+Ground Truth Model Inference 7: Time: 42.22s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
+Ground Truth: [{'label': 'chair', 'xmin': 94, 'ymin': 263, 'xmax': 224, 'ymax': 375}, {'label': 'chair', 'xmin': 126, 'ymin': 238, 'xmax': 183, 'ymax': 344}, {'label': 'chair', 'xmin': 1, 'ymin': 277, 'xmax': 140, 'ymax': 375}, {'label': 'diningtable', 'xmin': 1, 'ymin': 268, 'xmax': 208, 'ymax': 375}, {'label': 'chair', 'xmin': 1, 'ymin': 241, 'xmax': 32, 'ymax': 280}]
+Ground Truth Model Inference 8: Time: 42.23s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
+Ground Truth: [{'label': 'person', 'xmin': 79, 'ymin': 93, 'xmax': 304, 'ymax': 500}, {'label': 'person', 'xmin': 130, 'ymin': 220, 'xmax': 234, 'ymax': 322}, {'label': 'chair', 'xmin': 38, 'ymin': 125, 'xmax': 285, 'ymax': 461}]
+Ground Truth Model Inference 9: Time: 70.95s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
+Ground Truth: [{'label': 'bicycle', 'xmin': 164, 'ymin': 166, 'xmax': 341, 'ymax': 366}, {'label': 'person', 'xmin': 191, 'ymin': 38, 'xmax': 316, 'ymax': 328}]
 Running Posit Model
-Posit Model Inference 0: Time: 1750.93s
+Posit Model Inference 0: Time: 1371.21s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
-Posit Model Inference 1: Time: 1340.56s
+Posit Model Inference 1: Time: 1291.58s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
-Posit Model Inference 2: Time: 1189.53s
+Posit Model Inference 2: Time: 1307.87s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
-Posit Model Inference 3: Time: 1172.03s
+Posit Model Inference 3: Time: 1429.49s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
-Posit Model Inference 4: Time: 1120.79s
+Posit Model Inference 4: Time: 1334.93s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
+Posit Model Inference 5: Time: 1246.67s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
+Posit Model Inference 6: Time: 2225.13s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
+Posit Model Inference 7: Time: 3221.56s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
+Posit Model Inference 8: Time: 3420.51s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2
+Posit Model Inference 9: Time: 1469.16s
 Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit8_2

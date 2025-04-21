@@ -1,17 +1,32 @@
 =====Running iteration 0=====
-MAE: nan
-RMSE: nan
+MAE: 1.0797839733325303
+RMSE: 1.5800340658309884
 =====Running iteration 1=====
-MAE: nan
-RMSE: nan
+MAE: 1.0776533913650226
+RMSE: 1.5756910322906095
 =====Running iteration 2=====
-MAE: nan
-RMSE: nan
+MAE: 1.0811200887080303
+RMSE: 1.5836966506866605
 =====Running iteration 3=====
-MAE: nan
-RMSE: nan
+MAE: 1.0892205195183227
+RMSE: 1.5964356752468711
 =====Running iteration 4=====
-MAE: nan
-RMSE: nan
-Average MAE: nan
-Average RMSE: nan
+MAE: 1.0953315811171032
+RMSE: 1.5993904813986062
+=====Running iteration 5=====
+MAE: 1.0955281452095196
+RMSE: 1.6027224295585472
+=====Running iteration 6=====
+MAE: 1.090224627381878
+RMSE: 1.5937901928934994
+=====Running iteration 7=====
+MAE: 1.0868522228920865
+RMSE: 1.5895407219428679
+=====Running iteration 8=====
+MAE: 1.0891931586197368
+RMSE: 1.58999233318898
+=====Running iteration 9=====
+MAE: 1.0852940140538905
+RMSE: 1.586599039517805
+Average MAE: 1.0870201722198118
+Average RMSE: 1.5897892622555436
