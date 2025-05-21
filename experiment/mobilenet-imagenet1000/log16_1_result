@@ -48,7 +48,207 @@ MAE: 0.011298209607601166
 RMSE: 0.015071622870903736
 Top-1 Accuracy: 1.0
 Top-5 Accuracy: 1.0
-Average MAE: 0.013219349943636915
-Average RMSE: 0.01706161622095572
-Average Top-1 Accuracy: 0.9
-Average Top-5 Accuracy: 1.0
+=====Running iteration 10=====
+MAE: 0.02222618400421925
+RMSE: 0.027970861746365795
+Top-1 Accuracy: 0.0
+Top-5 Accuracy: 1.0
+=====Running iteration 11=====
+MAE: 0.014384641330689191
+RMSE: 0.01823867930216127
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 0.8
+=====Running iteration 12=====
+MAE: 0.008540635106619447
+RMSE: 0.011517190840252154
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 13=====
+MAE: 0.013768019748385995
+RMSE: 0.017683337870305165
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 14=====
+MAE: 0.013485826034098864
+RMSE: 0.01702673161272923
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 15=====
+MAE: 0.012853383066132665
+RMSE: 0.016450973249403856
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 16=====
+MAE: 0.011359536809730343
+RMSE: 0.01479836652159935
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 17=====
+MAE: 0.009393198444275186
+RMSE: 0.012310453989567196
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 18=====
+MAE: 0.014397262280341237
+RMSE: 0.018675009728381448
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 19=====
+MAE: 0.01085721740871668
+RMSE: 0.014093773767620709
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 20=====
+MAE: 0.00940711233112961
+RMSE: 0.012467356621049924
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 21=====
+MAE: 0.011147025544196366
+RMSE: 0.014899399469938472
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 22=====
+MAE: 0.013665381697937845
+RMSE: 0.017493151147958883
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 23=====
+MAE: 0.01672350044362247
+RMSE: 0.02074986681320779
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 24=====
+MAE: 0.014712659140117466
+RMSE: 0.018594028866887907
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 25=====
+MAE: 0.01780701900058193
+RMSE: 0.022531051729012624
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 26=====
+MAE: 0.017618826968595385
+RMSE: 0.022533749549536842
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 27=====
+MAE: 0.012434810703620314
+RMSE: 0.016009994559413435
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 28=====
+MAE: 0.01154574029846117
+RMSE: 0.015129346609506619
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 29=====
+MAE: 0.0108224125392735
+RMSE: 0.013640323143412285
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 30=====
+MAE: 0.012156168133951723
+RMSE: 0.015377803496033002
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 31=====
+MAE: 0.012921864020638168
+RMSE: 0.01668602023078401
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 32=====
+MAE: 0.01136075992230326
+RMSE: 0.015118529385323255
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 33=====
+MAE: 0.013371076775481924
+RMSE: 0.017226364818005973
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 34=====
+MAE: 0.013688962538726628
+RMSE: 0.017365789827866494
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 35=====
+MAE: 0.010794780928641558
+RMSE: 0.01392312918904981
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 36=====
+MAE: 0.009450041393050924
+RMSE: 0.012146509819329524
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 37=====
+MAE: 0.011188687455025501
+RMSE: 0.014272673631260762
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 38=====
+MAE: 0.013442503075115382
+RMSE: 0.01743079280265553
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 39=====
+MAE: 0.012785855068592355
+RMSE: 0.01620263750695095
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 40=====
+MAE: 0.01685914650093764
+RMSE: 0.021391105608829824
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 41=====
+MAE: 0.01237521042348817
+RMSE: 0.01677318860814619
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 42=====
+MAE: 0.010647787059890106
+RMSE: 0.013622882067459686
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 43=====
+MAE: 0.013684862941503525
+RMSE: 0.017363641975862144
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 44=====
+MAE: 0.012608760081231594
+RMSE: 0.016508583580002786
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 45=====
+MAE: 0.014034279097686522
+RMSE: 0.01757228867567706
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 46=====
+MAE: 0.011867415147833526
+RMSE: 0.015302769537495146
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 47=====
+MAE: 0.01333517493493855
+RMSE: 0.017740713311450527
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 48=====
+MAE: 0.011506190872285516
+RMSE: 0.014609980603449297
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+=====Running iteration 49=====
+MAE: 0.010927335501881316
+RMSE: 0.013878904931226116
+Top-1 Accuracy: 1.0
+Top-5 Accuracy: 1.0
+Average MAE: 0.012967015084206359
+Average RMSE: 0.016678882379094526
+Average Top-1 Accuracy: 0.96
+Average Top-5 Accuracy: 0.996

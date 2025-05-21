@@ -1,9 +1,62 @@
 =====Running iteration 0=====
-Traceback (most recent call last):
-  File "/home/sylvex/onnx-mlir/experiment/tinyyolov2-7/numerical.py", line 116, in <module>
-    main()
-  File "/home/sylvex/onnx-mlir/experiment/tinyyolov2-7/numerical.py", line 75, in main
-    groundRef = loadref(1, groudPath)
-  File "/home/sylvex/onnx-mlir/experiment/tinyyolov2-7/numerical.py", line 42, in loadref
-    with open(pbfile, 'rb') as f:
-FileNotFoundError: [Errno 2] No such file or directory: '/home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output/posit32_0/ground-truth-0-output_0.pb'
+printing ground truth
+Number of boxes before NMS: 2
+Number of boxes after NMS: 2
+printing posit
+Number of boxes before NMS: 0
+Number of boxes after NMS: 0
+mAP: 0.0
+ground truth: -0.01834217458963394
+posit: 0.3264208333566785
+ground truth: 0.20137111842632294
+posit: 0.38228037022054195
+ground truth: 0.029884984716773033
+posit: 0.292466570623219
+ground truth: -0.20655421912670135
+posit: 0.40645149163901806
+ground truth: -0.2856176197528839
+posit: 0.6453289091587067
+ground truth: -0.2338293343782425
+posit: 0.6657490925863385
+ground truth: -0.09077472984790802
+posit: 0.5644446294754744
+ground truth: -0.030753247439861298
+posit: 0.4249600116163492
+ground truth: 0.0011752810096368194
+posit: 0.3181309988722205
+ground truth: -0.15493714809417725
+posit: 0.23808557074517012
+MAE: 1.8832194987650432
+RMSE: 2.702251346261052
+=====Running iteration 1=====
+printing ground truth
+Number of boxes before NMS: 2
+Number of boxes after NMS: 2
+printing posit
+Number of boxes before NMS: 0
+Number of boxes after NMS: 0
+mAP: 0.0
+ground truth: -0.13275384902954102
+posit: 0.13628596253693104
+ground truth: 0.3302178680896759
+posit: 0.4931492693722248
+ground truth: 0.32158970832824707
+posit: 0.5050304783508182
+ground truth: 0.2673793137073517
+posit: 0.49448392167687416
+ground truth: 0.16666217148303986
+posit: 0.534971171990037
+ground truth: 0.1525980681180954
+posit: 0.3018582798540592
+ground truth: 0.16276852786540985
+posit: 0.2547371266409755
+ground truth: 0.2831348180770874
+posit: 0.2622013883665204
+ground truth: 0.3406311273574829
+posit: 0.19973436370491982
+ground truth: 0.22511649131774902
+posit: 0.16804746259003878
+MAE: 1.8809186782738547
+RMSE: 2.692754443944814
+Average MAE: 1.882069088519449
+Average RMSE: 2.697502895102933

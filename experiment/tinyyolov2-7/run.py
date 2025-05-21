@@ -144,7 +144,7 @@ def save_ref(prefix, outputs, path):
 def main():
     np.random.seed(42069)
     work_dir = args.workdir
-    model = "tinyyolov2-7"
+    model = "tinyyolov2-8"
     model_dir = os.path.join(work_dir, "model")
 
     if not os.path.exists(model_dir):

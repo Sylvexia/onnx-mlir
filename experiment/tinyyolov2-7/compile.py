@@ -104,8 +104,8 @@ json_data = {
 def main():
     np.random.seed(42069)
     work_dir = args.workdir
-    model_url = "https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/tiny-yolov2/model/tinyyolov2-7.tar.gz"
-    model = "tinyyolov2-7"
+    model_url = "https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/tiny-yolov2/model/tinyyolov2-8.tar.gz"
+    model = "tinyyolov2-8"
     model_tar_gz = os.path.join(work_dir, f"{model}.tar.gz")
 
     ok, _ = execute_commands(

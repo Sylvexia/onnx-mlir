@@ -1,4 +1,4 @@
-// ./onnx-mlir-opt --convert-onnx-to-krnl /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_gemm.mlir
+// ./onnx-mlir-opt --convert-onnx-to-krnl --convert-krnl-to-affine /home/sylvex/onnx-mlir/src/Conversion/ArithToPositFunc/test_gemm.mlir
 func.func private @test_gemm(%arg0: tensor<1x3136xf32>, %arg1: tensor<128x3136xf32>, %arg2: tensor<128xf32>) -> tensor<1x128xf32> {
     %16 = "onnx.Gemm"(%arg0, %arg1, %arg2) {alpha = 1.000000e+00 : f32, beta = 1.000000e+00 : f32, onnx_node_name = "/fc1/Gemm", transA = 0 : si64, transB = 1 : si64} : (tensor<1x3136xf32>, tensor<128x3136xf32>, tensor<128xf32>) -> tensor<1x128xf32>
     return %16 : tensor<1x128xf32>

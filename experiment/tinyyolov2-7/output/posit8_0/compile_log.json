@@ -1,10 +1,10 @@
 {
     "cmds": [
-        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/tiny-yolov2/model/tinyyolov2-7.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/tinyyolov2-7.tar.gz --output /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/tinyyolov2-7.tar.gz",
+        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/object_detection_segmentation/tiny-yolov2/model/tinyyolov2-8.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/tinyyolov2-8.tar.gz --output /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/tinyyolov2-8.tar.gz",
         "find /home/sylvex/onnx-mlir/experiment/tinyyolov2-7 -type f -name [^.]*.onnx",
-        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/model/model.onnx -o /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/model/tinyyolov2-7-ground-truth",
-        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/model/model.onnx --enable-posit --n-bits=8 --es-val=0 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/model/tinyyolov2-7-posit8_0"
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/Model/Model.onnx -o /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/model/tinyyolov2-8-ground-truth",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/Model/Model.onnx --enable-posit --n-bits=8 --es-val=0 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/model/tinyyolov2-8-posit8_0"
     ],
-    "ground_truth_compile_time": 4.536327741108835,
-    "posit_compile_time": 20.398414022289217
+    "ground_truth_compile_time": 4.589617450721562,
+    "posit_compile_time": 20.2780361357145
 }

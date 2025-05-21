@@ -1,0 +1,335 @@
+{
+    "labels": [
+        [
+            {
+                "label": "diningtable",
+                "xmin": 5,
+                "ymin": 58,
+                "xmax": 500,
+                "ymax": 287
+            },
+            {
+                "label": "chair",
+                "xmin": 1,
+                "ymin": 31,
+                "xmax": 79,
+                "ymax": 162
+            },
+            {
+                "label": "chair",
+                "xmin": 1,
+                "ymin": 201,
+                "xmax": 140,
+                "ymax": 287
+            }
+        ],
+        [
+            {
+                "label": "person",
+                "xmin": 95,
+                "ymin": 190,
+                "xmax": 374,
+                "ymax": 375
+            },
+            {
+                "label": "person",
+                "xmin": 379,
+                "ymin": 238,
+                "xmax": 500,
+                "ymax": 375
+            },
+            {
+                "label": "person",
+                "xmin": 351,
+                "ymin": 201,
+                "xmax": 464,
+                "ymax": 375
+            },
+            {
+                "label": "person",
+                "xmin": 262,
+                "ymin": 178,
+                "xmax": 395,
+                "ymax": 318
+            },
+            {
+                "label": "person",
+                "xmin": 111,
+                "ymin": 187,
+                "xmax": 197,
+                "ymax": 289
+            },
+            {
+                "label": "bottle",
+                "xmin": 129,
+                "ymin": 189,
+                "xmax": 145,
+                "ymax": 235
+            },
+            {
+                "label": "person",
+                "xmin": 259,
+                "ymin": 195,
+                "xmax": 293,
+                "ymax": 260
+            },
+            {
+                "label": "person",
+                "xmin": 296,
+                "ymin": 132,
+                "xmax": 407,
+                "ymax": 224
+            },
+            {
+                "label": "person",
+                "xmin": 348,
+                "ymin": 211,
+                "xmax": 384,
+                "ymax": 241
+            },
+            {
+                "label": "person",
+                "xmin": 36,
+                "ymin": 239,
+                "xmax": 166,
+                "ymax": 364
+            }
+        ],
+        [
+            {
+                "label": "pottedplant",
+                "xmin": 298,
+                "ymin": 107,
+                "xmax": 431,
+                "ymax": 361
+            },
+            {
+                "label": "pottedplant",
+                "xmin": 125,
+                "ymin": 186,
+                "xmax": 418,
+                "ymax": 375
+            },
+            {
+                "label": "pottedplant",
+                "xmin": 52,
+                "ymin": 94,
+                "xmax": 218,
+                "ymax": 375
+            }
+        ],
+        [
+            {
+                "label": "tvmonitor",
+                "xmin": 180,
+                "ymin": 6,
+                "xmax": 342,
+                "ymax": 97
+            }
+        ],
+        [
+            {
+                "label": "person",
+                "xmin": 111,
+                "ymin": 126,
+                "xmax": 264,
+                "ymax": 500
+            },
+            {
+                "label": "bicycle",
+                "xmin": 91,
+                "ymin": 267,
+                "xmax": 245,
+                "ymax": 500
+            }
+        ],
+        [
+            {
+                "label": "person",
+                "xmin": 14,
+                "ymin": 180,
+                "xmax": 137,
+                "ymax": 332
+            },
+            {
+                "label": "person",
+                "xmin": 1,
+                "ymin": 41,
+                "xmax": 208,
+                "ymax": 400
+            },
+            {
+                "label": "chair",
+                "xmin": 63,
+                "ymin": 85,
+                "xmax": 258,
+                "ymax": 400
+            },
+            {
+                "label": "sofa",
+                "xmin": 1,
+                "ymin": 94,
+                "xmax": 98,
+                "ymax": 310
+            },
+            {
+                "label": "bottle",
+                "xmin": 63,
+                "ymin": 172,
+                "xmax": 117,
+                "ymax": 216
+            }
+        ],
+        [
+            {
+                "label": "train",
+                "xmin": 1,
+                "ymin": 259,
+                "xmax": 365,
+                "ymax": 500
+            }
+        ],
+        [
+            {
+                "label": "chair",
+                "xmin": 94,
+                "ymin": 263,
+                "xmax": 224,
+                "ymax": 375
+            },
+            {
+                "label": "chair",
+                "xmin": 126,
+                "ymin": 238,
+                "xmax": 183,
+                "ymax": 344
+            },
+            {
+                "label": "chair",
+                "xmin": 1,
+                "ymin": 277,
+                "xmax": 140,
+                "ymax": 375
+            },
+            {
+                "label": "diningtable",
+                "xmin": 1,
+                "ymin": 268,
+                "xmax": 208,
+                "ymax": 375
+            },
+            {
+                "label": "chair",
+                "xmin": 1,
+                "ymin": 241,
+                "xmax": 32,
+                "ymax": 280
+            }
+        ],
+        [
+            {
+                "label": "person",
+                "xmin": 79,
+                "ymin": 93,
+                "xmax": 304,
+                "ymax": 500
+            },
+            {
+                "label": "person",
+                "xmin": 130,
+                "ymin": 220,
+                "xmax": 234,
+                "ymax": 322
+            },
+            {
+                "label": "chair",
+                "xmin": 38,
+                "ymin": 125,
+                "xmax": 285,
+                "ymax": 461
+            }
+        ],
+        [
+            {
+                "label": "bicycle",
+                "xmin": 164,
+                "ymin": 166,
+                "xmax": 341,
+                "ymax": 366
+            },
+            {
+                "label": "person",
+                "xmin": 191,
+                "ymin": 38,
+                "xmax": 316,
+                "ymax": 328
+            }
+        ]
+    ],
+    "original_sizes": [
+        [
+            500,
+            287
+        ],
+        [
+            500,
+            375
+        ],
+        [
+            500,
+            375
+        ],
+        [
+            500,
+            375
+        ],
+        [
+            333,
+            500
+        ],
+        [
+            258,
+            400
+        ],
+        [
+            375,
+            500
+        ],
+        [
+            500,
+            375
+        ],
+        [
+            338,
+            500
+        ],
+        [
+            500,
+            375
+        ]
+    ],
+    "ground_truth_inference_time": [
+        72.75514459609985,
+        154.6251618862152,
+        42.242587089538574,
+        42.23685002326965,
+        42.398054122924805,
+        42.25120735168457,
+        42.33789682388306,
+        42.24239683151245,
+        42.243123054504395,
+        42.220425844192505
+    ],
+    "posit_inference_time": [
+        45454.660366773605,
+        44972.56954193115,
+        28965.896787643433,
+        26143.56604361534,
+        26136.521868228912,
+        31948.54557943344,
+        26220.931797027588,
+        26162.330490350723,
+        26209.139382123947,
+        25690.032784938812
+    ]
+}

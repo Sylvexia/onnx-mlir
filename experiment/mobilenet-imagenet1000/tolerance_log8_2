@@ -1,0 +1,51 @@
+Running 250 samples
+Running Ground Truth Model
+Ground Truth Model Inference 0: Time: 2.85s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+FP32 Predicted: 369
+Ground Truth Model Inference 1: Time: 2.85s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+FP32 Predicted: 366
+Ground Truth Model Inference 2: Time: 2.85s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+FP32 Predicted: 862
+Ground Truth Model Inference 3: Time: 2.85s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+FP32 Predicted: 862
+Ground Truth Model Inference 4: Time: 2.85s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+FP32 Predicted: 470
+Ground Truth Model Inference 5: Time: 2.90s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+FP32 Predicted: 470
+Ground Truth Model Inference 6: Time: 2.91s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+FP32 Predicted: 470
+Ground Truth Model Inference 7: Time: 3.06s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+FP32 Predicted: 470
+Running Posit Model
+Posit Model Inference 0: Time: 643.11s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+Posit Predicted: 61
+Posit Model Inference 1: Time: 581.09s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+Posit Predicted: 988
+Posit Model Inference 2: Time: 603.63s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+Posit Predicted: 447
+Posit Model Inference 3: Time: 843.74s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+Posit Predicted: 792
+Posit Model Inference 4: Time: 1003.44s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+Posit Predicted: 644
+Posit Model Inference 5: Time: 469.49s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+Posit Predicted: 626
+Posit Model Inference 6: Time: 602.13s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+Posit Predicted: 15
+Posit Model Inference 7: Time: 702.85s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output_tolerance/posit8_2
+Posit Predicted: 626

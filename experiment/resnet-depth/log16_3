@@ -1,0 +1,361 @@
+Running 10 samples
+Running Ground Truth Model
+Ground Truth Model Inference 0: Time: 13.03s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Ground Truth: 369
+FP32 Predicted: 369
+Ground Truth Model Inference 1: Time: 13.86s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Ground Truth: 821
+FP32 Predicted: 821
+Ground Truth Model Inference 2: Time: 16.88s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Ground Truth: 704
+FP32 Predicted: 704
+Ground Truth Model Inference 3: Time: 16.39s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Ground Truth: 961
+FP32 Predicted: 964
+Ground Truth Model Inference 4: Time: 22.21s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Ground Truth: 241
+FP32 Predicted: 241
+Ground Truth Model Inference 5: Time: 36.06s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Ground Truth: 968
+FP32 Predicted: 773
+Ground Truth Model Inference 6: Time: 21.13s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Ground Truth: 650
+FP32 Predicted: 650
+Ground Truth Model Inference 7: Time: 22.23s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Ground Truth: 104
+FP32 Predicted: 104
+Ground Truth Model Inference 8: Time: 21.15s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Ground Truth: 335
+FP32 Predicted: 335
+Ground Truth Model Inference 9: Time: 22.45s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Ground Truth: 477
+FP32 Predicted: 464
+Running Posit Model
+Posit Model Inference 0: Time: 2264.41s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Posit Predicted: 369
+Posit Model Inference 1: Time: 1936.63s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Posit Predicted: 821
+Posit Model Inference 2: Time: 2325.83s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Posit Predicted: 704
+Posit Model Inference 3: Time: 2422.62s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Posit Predicted: 964
+Posit Model Inference 4: Time: 2063.94s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Posit Predicted: 241
+Posit Model Inference 5: Time: 3682.07s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Posit Predicted: 773
+Posit Model Inference 6: Time: 3456.82s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Posit Predicted: 650
+Posit Model Inference 7: Time: 2125.26s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Posit Predicted: 104
+Posit Model Inference 8: Time: 2104.80s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Posit Predicted: 335
+Posit Model Inference 9: Time: 2117.49s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/output/posit16_3
+Posit Predicted: 464
+Running Ground Truth Model
+Ground Truth Model Inference 0: Time: 125.72s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Ground Truth: 369
+FP32 Predicted: 369
+Ground Truth Model Inference 1: Time: 132.93s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Ground Truth: 821
+FP32 Predicted: 821
+Ground Truth Model Inference 2: Time: 151.59s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Ground Truth: 704
+FP32 Predicted: 704
+Ground Truth Model Inference 3: Time: 143.16s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Ground Truth: 961
+FP32 Predicted: 964
+Ground Truth Model Inference 4: Time: 138.18s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Ground Truth: 241
+FP32 Predicted: 241
+Ground Truth Model Inference 5: Time: 133.63s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Ground Truth: 968
+FP32 Predicted: 666
+Ground Truth Model Inference 6: Time: 98.45s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Ground Truth: 650
+FP32 Predicted: 650
+Ground Truth Model Inference 7: Time: 44.73s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Ground Truth: 104
+FP32 Predicted: 104
+Ground Truth Model Inference 8: Time: 73.66s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Ground Truth: 335
+FP32 Predicted: 335
+Ground Truth Model Inference 9: Time: 127.96s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Ground Truth: 477
+FP32 Predicted: 524
+Running Posit Model
+Posit Model Inference 0: Time: 6221.05s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Posit Predicted: 369
+Posit Model Inference 1: Time: 3812.76s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Posit Predicted: 821
+Posit Model Inference 2: Time: 4388.83s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Posit Predicted: 704
+Posit Model Inference 3: Time: 4096.91s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Posit Predicted: 964
+Posit Model Inference 4: Time: 3822.31s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Posit Predicted: 241
+Posit Model Inference 5: Time: 5808.44s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Posit Predicted: 666
+Posit Model Inference 6: Time: 3794.18s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Posit Predicted: 650
+Posit Model Inference 7: Time: 3783.93s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Posit Predicted: 104
+Posit Model Inference 8: Time: 4394.43s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Posit Predicted: 335
+Posit Model Inference 9: Time: 3546.75s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/output/posit16_3
+Posit Predicted: 524
+Running Ground Truth Model
+Ground Truth Model Inference 0: Time: 46.41s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Ground Truth: 369
+FP32 Predicted: 368
+Ground Truth Model Inference 1: Time: 46.40s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Ground Truth: 821
+FP32 Predicted: 821
+Ground Truth Model Inference 2: Time: 46.41s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Ground Truth: 704
+FP32 Predicted: 704
+Ground Truth Model Inference 3: Time: 46.40s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Ground Truth: 961
+FP32 Predicted: 964
+Ground Truth Model Inference 4: Time: 46.40s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Ground Truth: 241
+FP32 Predicted: 241
+Ground Truth Model Inference 5: Time: 46.41s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Ground Truth: 968
+FP32 Predicted: 659
+Ground Truth Model Inference 6: Time: 46.40s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Ground Truth: 650
+FP32 Predicted: 650
+Ground Truth Model Inference 7: Time: 46.41s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Ground Truth: 104
+FP32 Predicted: 104
+Ground Truth Model Inference 8: Time: 46.41s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Ground Truth: 335
+FP32 Predicted: 335
+Ground Truth Model Inference 9: Time: 46.40s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Ground Truth: 477
+FP32 Predicted: 695
+Running Posit Model
+Posit Model Inference 0: Time: 7256.22s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Posit Predicted: 368
+Posit Model Inference 1: Time: 5444.50s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Posit Predicted: 821
+Posit Model Inference 2: Time: 4714.97s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Posit Predicted: 704
+Posit Model Inference 3: Time: 4201.57s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Posit Predicted: 964
+Posit Model Inference 4: Time: 3668.19s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Posit Predicted: 241
+Posit Model Inference 5: Time: 3755.17s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Posit Predicted: 659
+Posit Model Inference 6: Time: 3740.02s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Posit Predicted: 650
+Posit Model Inference 7: Time: 3426.57s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Posit Predicted: 104
+Posit Model Inference 8: Time: 3303.92s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Posit Predicted: 335
+Posit Model Inference 9: Time: 3346.99s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/output/posit16_3
+Posit Predicted: 695
+Running Ground Truth Model
+Ground Truth Model Inference 0: Time: 68.77s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Ground Truth: 369
+FP32 Predicted: 368
+Ground Truth Model Inference 1: Time: 68.67s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Ground Truth: 821
+FP32 Predicted: 821
+Ground Truth Model Inference 2: Time: 68.71s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Ground Truth: 704
+FP32 Predicted: 704
+Ground Truth Model Inference 3: Time: 68.72s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Ground Truth: 961
+FP32 Predicted: 930
+Ground Truth Model Inference 4: Time: 68.69s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Ground Truth: 241
+FP32 Predicted: 241
+Ground Truth Model Inference 5: Time: 68.69s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Ground Truth: 968
+FP32 Predicted: 659
+Ground Truth Model Inference 6: Time: 68.72s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Ground Truth: 650
+FP32 Predicted: 650
+Ground Truth Model Inference 7: Time: 68.77s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Ground Truth: 104
+FP32 Predicted: 104
+Ground Truth Model Inference 8: Time: 68.82s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Ground Truth: 335
+FP32 Predicted: 335
+Ground Truth Model Inference 9: Time: 68.79s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Ground Truth: 477
+FP32 Predicted: 524
+Running Posit Model
+Posit Model Inference 0: Time: 6079.76s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Posit Predicted: 368
+Posit Model Inference 1: Time: 6098.62s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Posit Predicted: 821
+Posit Model Inference 2: Time: 6181.89s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Posit Predicted: 704
+Posit Model Inference 3: Time: 6228.16s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Posit Predicted: 930
+Posit Model Inference 4: Time: 6135.31s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Posit Predicted: 241
+Posit Model Inference 5: Time: 6221.09s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Posit Predicted: 659
+Posit Model Inference 6: Time: 6167.85s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Posit Predicted: 650
+Posit Model Inference 7: Time: 5976.57s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Posit Predicted: 104
+Posit Model Inference 8: Time: 6077.57s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Posit Predicted: 335
+Posit Model Inference 9: Time: 6107.12s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/output/posit16_3
+Posit Predicted: 524
+Running Ground Truth Model
+Ground Truth Model Inference 0: Time: 98.52s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Ground Truth: 369
+FP32 Predicted: 368
+Ground Truth Model Inference 1: Time: 98.25s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Ground Truth: 821
+FP32 Predicted: 821
+Ground Truth Model Inference 2: Time: 98.38s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Ground Truth: 704
+FP32 Predicted: 704
+Ground Truth Model Inference 3: Time: 98.36s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Ground Truth: 961
+FP32 Predicted: 964
+Ground Truth Model Inference 4: Time: 98.26s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Ground Truth: 241
+FP32 Predicted: 241
+Ground Truth Model Inference 5: Time: 98.28s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Ground Truth: 968
+FP32 Predicted: 968
+Ground Truth Model Inference 6: Time: 98.29s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Ground Truth: 650
+FP32 Predicted: 650
+Ground Truth Model Inference 7: Time: 98.26s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Ground Truth: 104
+FP32 Predicted: 104
+Ground Truth Model Inference 8: Time: 98.36s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Ground Truth: 335
+FP32 Predicted: 335
+Ground Truth Model Inference 9: Time: 98.38s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Ground Truth: 477
+FP32 Predicted: 777
+Running Posit Model
+Posit Model Inference 0: Time: 8632.25s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Posit Predicted: 368
+Posit Model Inference 1: Time: 8658.95s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Posit Predicted: 821
+Posit Model Inference 2: Time: 8683.60s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Posit Predicted: 704
+Posit Model Inference 3: Time: 8672.84s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Posit Predicted: 964
+Posit Model Inference 4: Time: 8663.06s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Posit Predicted: 241
+Posit Model Inference 5: Time: 8723.60s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Posit Predicted: 968
+Posit Model Inference 6: Time: 8684.27s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Posit Predicted: 650
+Posit Model Inference 7: Time: 8573.24s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Posit Predicted: 104
+Posit Model Inference 8: Time: 8608.44s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Posit Predicted: 298
+Posit Model Inference 9: Time: 8556.24s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/output/posit16_3
+Posit Predicted: 777

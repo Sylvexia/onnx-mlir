@@ -78,7 +78,7 @@ def get_letterbox_label(label, original_sizes, target_size):
 def save_image_with_boxes(image, labels, original_sizes, output_path="output.png"):
     # image is normalized, so we need to denormalize it
     image = np.transpose(image[0], [1, 2, 0])
-    image = (image * 255).astype(np.uint8)
+    image = (image).astype(np.uint8)
     image = Image.fromarray(image) # 416x416
 
     new_labels = []
@@ -121,7 +121,6 @@ def preprocess(img):
     model_image_size = (416, 416)
     boxed_image = letterbox_image(img, tuple(reversed(model_image_size)))
     image_data = np.array(boxed_image, dtype='float32')
-    image_data /= 255.
     image_data = np.transpose(image_data, [2, 0, 1])
     image_data = np.expand_dims(image_data, 0)
     return image_data

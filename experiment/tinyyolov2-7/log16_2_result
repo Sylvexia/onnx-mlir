@@ -1,32 +1,62 @@
 =====Running iteration 0=====
+printing ground truth
+Number of boxes before NMS: 0
+Number of boxes after NMS: 0
+printing posit
+Number of boxes before NMS: 0
+Number of boxes after NMS: 0
+mAP: 0.0
+ground truth: -0.08560007065534592
+posit: -0.088134765625
+ground truth: 0.18535974621772766
+posit: 0.19952392578125
+ground truth: 0.11390076577663422
+posit: 0.11651611328125
+ground truth: 0.10883799940347672
+posit: 0.11077880859375
+ground truth: 0.07641303539276123
+posit: 0.0718994140625
+ground truth: 0.07596141844987869
+posit: 0.07568359375
+ground truth: 0.07588261365890503
+posit: 0.0784912109375
+ground truth: 0.07413417845964432
+posit: 0.0753173828125
+ground truth: 0.10083960741758347
+posit: 0.1024169921875
+ground truth: 0.07339181005954742
+posit: 0.06951904296875
 MAE: 0.04311612083025266
 RMSE: 0.05930581531672468
 =====Running iteration 1=====
+printing ground truth
+Number of boxes before NMS: 0
+Number of boxes after NMS: 0
+printing posit
+Number of boxes before NMS: 0
+Number of boxes after NMS: 0
+mAP: 0.0
+ground truth: -0.0847921222448349
+posit: -0.0904541015625
+ground truth: 0.1848018765449524
+posit: 0.1923828125
+ground truth: 0.11091188341379166
+posit: 0.1153564453125
+ground truth: 0.10673270374536514
+posit: 0.1060791015625
+ground truth: 0.07087589055299759
+posit: 0.072021484375
+ground truth: 0.07077664136886597
+posit: 0.0712890625
+ground truth: 0.07127723097801208
+posit: 0.07122802734375
+ground truth: 0.07062903046607971
+posit: 0.06707763671875
+ground truth: 0.0991615578532219
+posit: 0.09747314453125
+ground truth: 0.07282264530658722
+posit: 0.0689697265625
 MAE: 0.05607676410042962
 RMSE: 0.07742881996973151
-=====Running iteration 2=====
-MAE: 0.08195209993296386
-RMSE: 0.11600159545691115
-=====Running iteration 3=====
-MAE: 0.06320781705114362
-RMSE: 0.08896414916385052
-=====Running iteration 4=====
-MAE: 0.05598765769030226
-RMSE: 0.07740539505215449
-=====Running iteration 5=====
-MAE: 0.058093325119517945
-RMSE: 0.08095954788990795
-=====Running iteration 6=====
-MAE: 0.049432612629049355
-RMSE: 0.07220634524841318
-=====Running iteration 7=====
-MAE: 0.04329641742434507
-RMSE: 0.06006960339369907
-=====Running iteration 8=====
-MAE: 0.08968560750131391
-RMSE: 0.1278180163256557
-=====Running iteration 9=====
-MAE: 0.04980685215390194
-RMSE: 0.06999971339346768
-Average MAE: 0.05906552744332202
-Average RMSE: 0.08301590012105159
+Average MAE: 0.04959644246534114
+Average RMSE: 0.06836731764322809

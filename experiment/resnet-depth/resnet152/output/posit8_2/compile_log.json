@@ -1,0 +1,26 @@
+{
+    "cmds": [
+        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/classification/resnet/model/resnet18-v1-7.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/resnet18-v1-7.tar.gz --output /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/resnet18-v1-7.tar.gz",
+        "find /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18 -type f -name [^.]*.onnx",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/resnet18-v1-7/resnet18-v1-7.onnx -o /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/model/resnet18-v1-7-ground-truth",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/resnet18-v1-7/resnet18-v1-7.onnx --enable-posit --n-bits=8 --es-val=2 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet18/model/resnet18-v1-7-ground-truth-posit8_2",
+        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/classification/resnet/model/resnet34-v1-7.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/resnet34-v1-7.tar.gz --output /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/resnet34-v1-7.tar.gz",
+        "find /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34 -type f -name [^.]*.onnx",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/resnet34-v1-7/resnet34-v1-7.onnx -o /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/model/resnet34-v1-7-ground-truth",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/resnet34-v1-7/resnet34-v1-7.onnx --enable-posit --n-bits=8 --es-val=2 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet34/model/resnet34-v1-7-ground-truth-posit8_2",
+        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/classification/resnet/model/resnet50-v1-7.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/resnet50-v1-7.tar.gz --output /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/resnet50-v1-7.tar.gz",
+        "find /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50 -type f -name [^.]*.onnx",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/resnet50-v1-7/resnet50-v1-7.onnx -o /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/model/resnet50-v1-7-ground-truth",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/resnet50-v1-7/resnet50-v1-7.onnx --enable-posit --n-bits=8 --es-val=2 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet50/model/resnet50-v1-7-ground-truth-posit8_2",
+        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/classification/resnet/model/resnet101-v1-7.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/resnet101-v1-7.tar.gz --output /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/resnet101-v1-7.tar.gz",
+        "find /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101 -type f -name [^.]*.onnx",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/resnet101-v1-7/resnet101-v1-7.onnx -o /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/model/resnet101-v1-7-ground-truth",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/resnet101-v1-7/resnet101-v1-7.onnx --enable-posit --n-bits=8 --es-val=2 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet101/model/resnet101-v1-7-ground-truth-posit8_2",
+        "curl --insecure --retry 50 --location --silent https://github.com/onnx/models/raw/main/validated/vision/classification/resnet/model/resnet152-v1-7.tar.gz --time-cond /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/resnet152-v1-7.tar.gz --output /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/resnet152-v1-7.tar.gz",
+        "find /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152 -type f -name [^.]*.onnx",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/resnet152-v1-7/resnet152-v1-7.onnx -o /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/model/resnet152-v1-7-ground-truth",
+        "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/resnet152-v1-7/resnet152-v1-7.onnx --enable-posit --n-bits=8 --es-val=2 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/resnet-depth/resnet152/model/resnet152-v1-7-ground-truth-posit8_2"
+    ],
+    "ground_truth_compile_time": 49.48887158278376,
+    "posit_compile_time": 321.25767814926803
+}

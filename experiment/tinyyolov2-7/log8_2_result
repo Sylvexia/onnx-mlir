@@ -1,32 +1,62 @@
 =====Running iteration 0=====
-MAE: 1.137459565945711
-RMSE: 1.7378282768238869
+printing ground truth
+Number of boxes before NMS: 2
+Number of boxes after NMS: 2
+printing posit
+Number of boxes before NMS: 0
+Number of boxes after NMS: 0
+mAP: 0.0
+ground truth: -0.01834217458963394
+posit: 0.0625
+ground truth: 0.20137111842632294
+posit: 0.078125
+ground truth: 0.029884984716773033
+posit: -0.0625
+ground truth: -0.20655421912670135
+posit: -0.00146484375
+ground truth: -0.2856176197528839
+posit: -0.0234375
+ground truth: -0.2338293343782425
+posit: -0.0390625
+ground truth: -0.09077472984790802
+posit: 0.046875
+ground truth: -0.030753247439861298
+posit: 0.0625
+ground truth: 0.0011752810096368194
+posit: -0.0390625
+ground truth: -0.15493714809417725
+posit: 0.046875
+MAE: 1.708635014048816
+RMSE: 2.599743922023565
 =====Running iteration 1=====
-MAE: 1.1430937713973235
-RMSE: 1.7404225919452232
-=====Running iteration 2=====
-MAE: 1.144096556098184
-RMSE: 1.7449153921443807
-=====Running iteration 3=====
-MAE: 1.1404729327932137
-RMSE: 1.7448985020661296
-=====Running iteration 4=====
-MAE: 1.1328028055207842
-RMSE: 1.7348219626309878
-=====Running iteration 5=====
-MAE: 1.1344614643140134
-RMSE: 1.7357499696078913
-=====Running iteration 6=====
-MAE: 1.1358298040482246
-RMSE: 1.7361699167957518
-=====Running iteration 7=====
-MAE: 1.1413084900372237
-RMSE: 1.7471424571066636
-=====Running iteration 8=====
-MAE: 1.137649001667119
-RMSE: 1.7361880932573976
-=====Running iteration 9=====
-MAE: 1.1427554533331346
-RMSE: 1.7447905487578699
-Average MAE: 1.1389929845154931
-Average RMSE: 1.7402927711136182
+printing ground truth
+Number of boxes before NMS: 2
+Number of boxes after NMS: 2
+printing posit
+Number of boxes before NMS: 0
+Number of boxes after NMS: 0
+mAP: 0.0
+ground truth: -0.13275384902954102
+posit: 0.125
+ground truth: 0.3302178680896759
+posit: 0.09375
+ground truth: 0.32158970832824707
+posit: 0.1015625
+ground truth: 0.2673793137073517
+posit: -0.203125
+ground truth: 0.16666217148303986
+posit: -0.171875
+ground truth: 0.1525980681180954
+posit: -0.140625
+ground truth: 0.16276852786540985
+posit: 0.078125
+ground truth: 0.2831348180770874
+posit: 0.0703125
+ground truth: 0.3406311273574829
+posit: 0.01171875
+ground truth: 0.22511649131774902
+posit: -0.0625
+MAE: 1.7186796117735057
+RMSE: 2.435654677503985
+Average MAE: 1.713657312911161
+Average RMSE: 2.517699299763775

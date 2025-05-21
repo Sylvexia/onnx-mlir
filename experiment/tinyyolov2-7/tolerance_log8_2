@@ -1,0 +1,51 @@
+Running 1 samples
+Running Ground Truth Model
+Ground Truth Model Inference 0: Time: 75.10s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+FP32 Predicted: 19546
+Ground Truth Model Inference 1: Time: 196.41s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+FP32 Predicted: 19533
+Ground Truth Model Inference 2: Time: 186.89s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+FP32 Predicted: 19520
+Ground Truth Model Inference 3: Time: 180.14s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+FP32 Predicted: 6562
+Ground Truth Model Inference 4: Time: 181.27s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+FP32 Predicted: 6562
+Ground Truth Model Inference 5: Time: 178.79s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+FP32 Predicted: 10689
+Ground Truth Model Inference 6: Time: 76.78s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+FP32 Predicted: 10760
+Ground Truth Model Inference 7: Time: 42.26s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+FP32 Predicted: 21016
+Running Posit Model
+Posit Model Inference 0: Time: 1256.58s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+Posit Predicted: 3342
+Posit Model Inference 1: Time: 1311.66s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+Posit Predicted: 3351
+Posit Model Inference 2: Time: 1219.77s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+Posit Predicted: 5458
+Posit Model Inference 3: Time: 1210.81s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+Posit Predicted: 7531
+Posit Model Inference 4: Time: 1201.71s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+Posit Predicted: 7453
+Posit Model Inference 5: Time: 2255.65s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+Posit Predicted: 7524
+Posit Model Inference 6: Time: 1835.25s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+Posit Predicted: 7543
+Posit Model Inference 7: Time: 1542.55s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/output_tolerance/posit8_2
+Posit Predicted: 7477

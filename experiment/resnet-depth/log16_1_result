@@ -1,0 +1,25 @@
+=====Running ResNet-18=====
+Average MAE: 0.005570757871482056
+Average RMSE: 0.007642930161986044
+Average Top-1 Accuracy: 1.0
+Average Top-5 Accuracy: 1.0
+=====Running ResNet-34=====
+Average MAE: 0.005429237676959018
+Average RMSE: 0.007026967063775968
+Average Top-1 Accuracy: 1.0
+Average Top-5 Accuracy: 1.0
+=====Running ResNet-50=====
+Average MAE: 0.005294435654953121
+Average RMSE: 0.009791518220813795
+Average Top-1 Accuracy: 1.0
+Average Top-5 Accuracy: 1.0
+=====Running ResNet-101=====
+Average MAE: 0.005186778865987436
+Average RMSE: 0.00806630160206074
+Average Top-1 Accuracy: 0.9
+Average Top-5 Accuracy: 1.0
+=====Running ResNet-152=====
+Average MAE: 0.0049718246607808395
+Average RMSE: 0.007793015362074368
+Average Top-1 Accuracy: 1.0
+Average Top-5 Accuracy: 1.0

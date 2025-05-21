@@ -1,0 +1,6 @@
+{
+    "averageMAE": 1.8994441983343566,
+    "averageRMSE": 2.4283404167827487,
+    "averageTop1Accuracy": 0.2,
+    "averageTop5Accuracy": 0.08
+}

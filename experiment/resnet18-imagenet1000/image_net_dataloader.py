@@ -75,6 +75,7 @@ def get_random_imagenet(dataset_path, num_samples=1):
     images = []
     for image_file in image_files:
         image = Image.open(os.path.join(dataset_path, label_map[image_file], image_file))
+        image = image.convert('RGB')
         image = np.array(image)
         images.append(preprocess(image))
 
