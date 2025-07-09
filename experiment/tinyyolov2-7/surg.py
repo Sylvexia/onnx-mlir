@@ -42,8 +42,14 @@ def remove_node_and_downstream(model_path, target_node_name, output_path):
     removed_tensor_names = {t.name for n in nodes_to_remove for t in n.outputs}
     graph.outputs = [o for o in graph.outputs if o.name not in removed_tensor_names]
 
-    # Now it's safe to clean up
-    graph.cleanup().toposort()
+    if graph.nodes:
+        last_node = graph.nodes[-1]
+        if last_node.outputs:
+            output_tensor = last_node.outputs[0]
+            if output_tensor.dtype is None:
+                output_tensor.dtype = np.float32  # or correct dtype
+            graph.outputs.append(output_tensor)
+
     # Finalize and export
     # graph.cleanup().toposort()
     onnx.save(gs.export_onnx(graph), output_path)

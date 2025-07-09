@@ -2,7 +2,7 @@
 
 for n_bit in 8 16; do
     for es in 0 1 2 3; do
-        python run.py --n-bit=$n_bit --es=$es --n-sample=50 > log${n_bit}_${es} 2>&1 &
+        python run.py --n-bit=$n_bit --es=$es --n-sample=250 > log${n_bit}_${es} 2>&1 &
     done
 done
 

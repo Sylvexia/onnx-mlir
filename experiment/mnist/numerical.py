@@ -63,14 +63,23 @@ def main():
     RMSEs = []
     top1Accuracies = []
     top5Accuracies = []
+    matchesLabels = []
 
     posit_prefix = f"posit{args.n_bit}_{args.es}"
     num_iter = args.n_sample
+    
+    dir = f"/home/sylvex/onnx-mlir/experiment/mnist/output/{posit_prefix}"
+    json_path = f"{dir}/run_log.json"
+    real_label = []
+
+    with open(json_path, "r") as f:
+        json_data = json.load(f)
+        real_label = json_data["labels"]
 
     for i in range(num_iter):
         print(f"=====Running iteration {i}=====")
-        groudPath = f"/home/sylvex/onnx-mlir/experiment/mnist/output/{posit_prefix}/ground-truth-{i}-output_0.pb"
-        positPath = f"/home/sylvex/onnx-mlir/experiment/mnist/output/{posit_prefix}/posit-{i}-output_0.pb"
+        groudPath = f"{dir}/ground-truth-{i}-output_0.pb"
+        positPath = f"{dir}/posit-{i}-output_0.pb"
 
         groundRef = loadref(1, groudPath)
         positRef = loadref(1, positPath)
@@ -89,6 +98,7 @@ def main():
         top1Acc, top5Acc = getAccuracies(flatten1, flatten2)
         top1Accuracies.append(top1Acc)
         top5Accuracies.append(top5Acc)
+        matchesLabels.append(real_label[i] == np.argmax(flatten1))
 
         print(f"Top-1 Accuracy: {top1Acc}")
         print(f"Top-5 Accuracy: {top5Acc}")
@@ -97,19 +107,22 @@ def main():
     averageRMSE = np.mean(RMSEs)
     averageTop1Accuracy = np.mean(top1Accuracies)
     averageTop5Accuracy = np.mean(top5Accuracies)
+    fp32Accuracy = np.mean(matchesLabels)
 
     print(f"Average MAE: {averageMAE}")
     print(f"Average RMSE: {averageRMSE}")
     print(f"Average Top-1 Accuracy: {averageTop1Accuracy}")
     print(f"Average Top-5 Accuracy: {averageTop5Accuracy}")
+    print(f"fp32Accuracy: {fp32Accuracy}")
 
     json_data = {
         "averageMAE": averageMAE,
         "averageRMSE": averageRMSE,
         "averageTop1Accuracy": averageTop1Accuracy,
         "averageTop5Accuracy": averageTop5Accuracy,
+        "fp32Accuracy": fp32Accuracy,
     }
-    with open(f"/home/sylvex/onnx-mlir/experiment/mnist/output/{posit_prefix}/evaluation.json", "w") as f:
+    with open(f"{dir}/evaluation.json", "w") as f:
         json.dump(json_data, f, indent=4)
 
 if __name__ == '__main__':

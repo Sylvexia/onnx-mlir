@@ -1,59 +1,6 @@
-=====Running iteration 0=====
-MAE: 4.001627676188946e-06
-RMSE: 5.23631147140458e-06
-Top-1 Accuracy: 1.0
-Top-5 Accuracy: 1.0
-=====Running iteration 1=====
-MAE: 4.2497869580984115e-06
-RMSE: 5.356630450718951e-06
-Top-1 Accuracy: 1.0
-Top-5 Accuracy: 1.0
-=====Running iteration 2=====
-MAE: 3.71652003377676e-06
-RMSE: 4.760204537745233e-06
-Top-1 Accuracy: 1.0
-Top-5 Accuracy: 1.0
-=====Running iteration 3=====
-MAE: 3.6107844207435844e-06
-RMSE: 4.569465850177475e-06
-Top-1 Accuracy: 1.0
-Top-5 Accuracy: 1.0
-=====Running iteration 4=====
-MAE: 3.354688175022602e-06
-RMSE: 4.241515890610671e-06
-Top-1 Accuracy: 1.0
-Top-5 Accuracy: 1.0
-=====Running iteration 5=====
-MAE: 4.631997551769018e-06
-RMSE: 5.883082808681491e-06
-Top-1 Accuracy: 1.0
-Top-5 Accuracy: 1.0
-=====Running iteration 6=====
-MAE: 4.286887124180794e-06
-RMSE: 5.428021652377963e-06
-Top-1 Accuracy: 1.0
-Top-5 Accuracy: 1.0
-=====Running iteration 7=====
-MAE: 3.753725439310074e-06
-RMSE: 4.7546990500458255e-06
-Top-1 Accuracy: 1.0
-Top-5 Accuracy: 1.0
-=====Running iteration 8=====
-MAE: 3.7249247543513776e-06
-RMSE: 4.721134048209737e-06
-Top-1 Accuracy: 1.0
-Top-5 Accuracy: 1.0
-=====Running iteration 9=====
-MAE: 3.0917376279830933e-06
-RMSE: 3.980567980555261e-06
-Top-1 Accuracy: 1.0
-Top-5 Accuracy: 1.0
-=====Running iteration 10=====
 Traceback (most recent call last):
-  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 116, in <module>
+  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 127, in <module>
     main()
-  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 75, in main
-    groundRef = loadref(1, groudPath)
-  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 42, in loadref
-    with open(pbfile, 'rb') as f:
-FileNotFoundError: [Errno 2] No such file or directory: '/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output/posit32_0/ground-truth-10-output_0.pb'
+  File "/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/numerical.py", line 73, in main
+    with open(json_path, "r") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/sylvex/onnx-mlir/experiment/mobilenet-imagenet1000/output/posit32_0/run_log.json'

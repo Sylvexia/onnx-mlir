@@ -1,6 +1,7 @@
 {
-    "averageMAE": 0.022485471193074487,
-    "averageRMSE": 0.028742273633617876,
-    "averageTop1Accuracy": 0.98,
-    "averageTop5Accuracy": 0.9840000000000001
+    "averageMAE": 0.02163836849404067,
+    "averageRMSE": 0.027686113013218397,
+    "averageTop1Accuracy": 0.988,
+    "averageTop5Accuracy": 0.9816,
+    "fp32Accuracy": 0.696
 }

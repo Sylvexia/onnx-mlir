@@ -1252,3 +1252,4 @@ Average MAE: 0.007388917246460915
 Average RMSE: 0.01036983302210303
 Average Top-1 Accuracy: 1.0
 Average Top-5 Accuracy: 1.0
+fp32Accuracy: 0.992
