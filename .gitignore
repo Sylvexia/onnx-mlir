@@ -194,3 +194,4 @@ exp
 models
 *.tar.gz
 *.pb
+.onnx
