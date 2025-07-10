@@ -15,4 +15,4 @@
 	url = https://github.com/openxla/stablehlo.git
 [submodule "third_party/Posit-Numerical-Library"]
 	path = third_party/Posit-Numerical-Library
-	url = git@github.com:CCU-HPCLAB/Posit-Numerical-Library.git
+	url = https://github.com/CCU-HPCLAB/Posit-Numerical-Library.git
