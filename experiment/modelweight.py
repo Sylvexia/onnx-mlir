@@ -27,9 +27,21 @@ def printInfo(arr):
 
     printHistogram(binExpArr, -16, 16)
 
+def genHistoPlot(arr, name):
+    import matplotlib.pyplot as plt
+
+    binExpArr = np.log2(np.abs(arr) + 1e-20)  # Avoid log2(0) by adding a small constant
+    plt.hist(binExpArr, bins=np.arange(-16, 17), edgecolor='black', alpha=0.7)
+    plt.title(f"Histogram of Binary Exponents for {name}")
+    plt.xlabel("Binary Exponent")
+    plt.ylabel("Frequency")
+    plt.grid(axis='y', alpha=0.75)
+    plt.savefig(f"{name}_histogram.png")
+    plt.close()
 
 parser = argparse.ArgumentParser(description="Extract and analyze model weights from an ONNX model.")
 parser.add_argument("-m", type=str, required=True, help="Path to the ONNX model file.")
+parser.add_argument("--name", type=str, default="Model", help="Name of the model for output files.")
 args = parser.parse_args()
 
 model_path = args.m
@@ -49,3 +61,4 @@ for tensor in initializers:
 
 print("Full Array Statistics:")
 printInfo(fullArray)
+genHistoPlot(fullArray, args.name)

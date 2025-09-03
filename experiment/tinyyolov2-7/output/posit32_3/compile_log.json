@@ -5,6 +5,6 @@
         "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/Model/Model.onnx -o /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/model/tinyyolov2-8-ground-truth",
         "/home/sylvex/onnx-mlir/build/Debug/bin/onnx-mlir /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/Model/Model.onnx --enable-posit --n-bits=32 --es-val=3 -L/home/sylvex/custom_posit/lib -lpositWrapperC -o /home/sylvex/onnx-mlir/experiment/tinyyolov2-7/model/tinyyolov2-8-posit32_3"
     ],
-    "ground_truth_compile_time": 4.76228107791394,
-    "posit_compile_time": 60.964131858199835
+    "ground_truth_compile_time": 5.348778364015743,
+    "posit_compile_time": 72.23303916992154
 }

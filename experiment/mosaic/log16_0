@@ -1,0 +1,13 @@
+Running 2 samples
+Running Ground Truth Model
+Ground Truth Model Inference 0: Time: 145.63s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mosaic/output/posit16_0
+FP32 Predicted: 139187
+Ground Truth Model Inference 1: Time: 102.03s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mosaic/output/posit16_0
+FP32 Predicted: 139013
+Running Posit Model
+Posit Model Inference 0: Time: 7670.42s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mosaic/output/posit16_0
+Posit Model Inference 1: Time: 6938.40s
+Saved 1 outputs to /home/sylvex/onnx-mlir/experiment/mosaic/output/posit16_0
